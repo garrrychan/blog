@@ -4,7 +4,7 @@
 &lt;p&gt;In programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. &lt;/p&gt;
 &lt;p&gt;For me, I choose to write a Lambda function over a named function, if it's a simple function that will only be used a few times, passed as an argument. 
 &lt;br&gt;&lt;/p&gt;
-&lt;h2&gt;Lambda functions in Python&lt;/h2&gt;
+&lt;h3&gt;Lambda functions in Python&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;Here's a simple function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;hello&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -30,12 +30,12 @@
 &lt;br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2&gt;Syntax&lt;/h2&gt;
+&lt;h3&gt;Syntax&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;code&gt;lambda&lt;/code&gt;   &lt;code&gt;arguments:&lt;/code&gt; &lt;code&gt;expression&lt;/code&gt; &lt;/p&gt;
 &lt;p&gt;Lambda functions can be used wherever function objects are required. A lambda function can take any number of arguments, but can only have one expression.  They can also be used anywhere ordinary functions can! 
 &lt;br&gt;&lt;/p&gt;
-&lt;h2&gt;Example 1&lt;/h2&gt;
+&lt;h3&gt;Example 1&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;code&gt;lambda&lt;/code&gt; is powerful when used in conjunction with a pandas data frame and &lt;code&gt;apply&lt;/code&gt;.  Given that we're in the Sweet Sixteen of March madness, let's use NCAA data.
 &lt;br&gt;&lt;/p&gt;
@@ -169,7 +169,7 @@
 &lt;/table&gt;
 &lt;/div&gt;
 
-&lt;h2&gt;Example 2&lt;/h2&gt;
+&lt;h3&gt;Example 2&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;Here's a sorting example.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;prospects&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
