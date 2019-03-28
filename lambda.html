@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>What is a Lambda function?</title>
+ <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+ <div class="container">
+  <h1><a href="https://garrrychan.github.io/blog">Blog</a></h1>
+ </div>
+</head>
+<body>
+ <div class="container">
+<div class="row">
+ <div class="col-md-8">
+  <h3>What is a Lambda function?</h3>
+  <label>2019-03-28</label>
+  <p>Coming from a math background, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!</p>
+<p>In programming, by definition, Lambda is is an <em>anonymous</em> function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. </p>
+<p>For me, I choose to write a Lambda function over a named function, if it's a simple function that will only be used a few times, passed as an argument. 
+<br></p>
+<h2>Lambda functions in Python</h2>
+<hr>
+<p>Here's a simple function:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s1">&#39; Hello, my name is {name}&#39;</span>
+</pre></div>
+
+
+<p>And here is its <code>lambda</code> equivalent:</p>
+<div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39; Hello, my name is. {name}&#39;</span>
+</pre></div>
+
+
+<p>The primary differences between named and lambda functions are:</p>
+<ol>
+<li>
+<p><code>lambda</code> functions don't have a name</p>
+</li>
+<li>
+<p><code>lambda</code> functions are written on one line</p>
+</li>
+<li>
+<p><code>lambda</code> functions don't require a <code>return</code>. It's implied.
+<br></p>
+</li>
+</ol>
+<h2>Syntax</h2>
+<hr>
+<p><code>lambda</code>   <code>arguments:</code> <code>expression</code> </p>
+<p>Lambda functions can be used wherever function objects are required. A lambda function can take any number of arguments, but can only have one expression.  They can also be used anywhere ordinary functions can! 
+<br></p>
+<h2>Example 1</h2>
+<hr>
+<p><code>lambda</code> is powerful when used in conjunction with a pandas data frame and <code>apply</code>.  Given that we're in the Sweet Sixteen of March madness, let's use NCAA data.
+<br></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;college&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Duke&#39;</span><span class="p">,</span> <span class="s1">&#39;North Carolina&#39;</span><span class="p">,</span> <span class="s1">&#39;Virginia&#39;</span><span class="p">,</span> <span class="s1">&#39;Oregon&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+    <span class="s1">&#39;final_four_%&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="p">})</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Let's add a new column, <em>upset</em>, identifying whether or not a college is the favourite or underdog, using a <code>lambda</code> function.</p>
+<p>With <code>lambda</code> , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
+<br></p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;upset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">lookup</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Favourite&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;Underdog&quot;</span><span class="p">}</span> <span class="p">:</span> <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Sort by probability of reaching final four</span>
+<span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Example 2</h2>
+<hr>
+<p>Here's a sorting example.</p>
+<div class="highlight"><pre><span></span><span class="n">prospects</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Zion Williamson&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">280</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> 
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ja Morant&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">175</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;RJ Barrett&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">210</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Bol Bol&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">235</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">18</span><span class="p">}]</span>
+</pre></div>
+
+
+<p>Let's figure out who the lightest prospect is, using <code>sorted</code> a Python method.</p>
+<div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">prospects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+
+<span class="n">lightest_prospect</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prospects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">lightest_prospect</span><span class="p">)</span>
+</pre></div>
+
+
+<p>With <code>lambda</code> in our toolbelt, we'll have a function to to write elegant and beautiful code for data wrangling. 
+<br></p>
+ </div>
+</div>
+ </div>
+</body>
+</html>
