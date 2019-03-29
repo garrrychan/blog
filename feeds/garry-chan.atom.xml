@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog - Garry Chan</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/garry-chan.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-03-28T03:00:00-04:00</updated><entry><title>What is a Lambda function?</title><link href="https://garrrychan.github.io/blog/lambda.html" rel="alternate"></link><published>2019-03-28T03:00:00-04:00</published><updated>2019-03-28T03:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-03-28:/blog/lambda.html</id><summary type="html">&lt;p&gt;Coming from a math background, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
-&lt;p&gt;In programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas do not have …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Coming from a math background, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
-&lt;p&gt;In programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog - Garry Chan</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/garry-chan.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-03-28T03:00:00-04:00</updated><entry><title>Lambda Function for Data Wrangling</title><link href="https://garrrychan.github.io/blog/lambda.html" rel="alternate"></link><published>2019-03-28T03:00:00-04:00</published><updated>2019-03-28T03:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-03-28:/blog/lambda.html</id><summary type="html">&lt;p&gt;Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
+&lt;p&gt;Whereas in programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
+&lt;p&gt;Whereas in programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. &lt;/p&gt;
 &lt;p&gt;For me, I choose to write a Lambda function over a named function, if it's a simple function that will only be used a few times, passed as an argument. 
 &lt;br&gt;&lt;/p&gt;
 &lt;h3&gt;Lambda functions in Python&lt;/h3&gt;
@@ -74,7 +74,6 @@
       &lt;th&gt;college&lt;/th&gt;
       &lt;th&gt;seed&lt;/th&gt;
       &lt;th&gt;final_four_%&lt;/th&gt;
-      &lt;th&gt;upset&lt;/th&gt;
     &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
@@ -83,28 +82,24 @@
       &lt;td&gt;Duke&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
       &lt;td&gt;55&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;1&lt;/th&gt;
       &lt;td&gt;North Carolina&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
       &lt;td&gt;38&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;2&lt;/th&gt;
       &lt;td&gt;Virginia&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
       &lt;td&gt;53&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;3&lt;/th&gt;
       &lt;td&gt;Oregon&lt;/td&gt;
       &lt;td&gt;12&lt;/td&gt;
       &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;Underdog&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
