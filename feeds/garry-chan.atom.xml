@@ -33,7 +33,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;linear_model&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;LinearRegression&lt;/span&gt;
 
-&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;figure.dpi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;figure.dpi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;
 &lt;span class="c1"&gt;# %config InlineBackend.figure_format = &amp;#39;retina&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -259,11 +259,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# reset record to beginning with list comphrension&lt;/span&gt;
 &lt;span class="n"&gt;record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;team&lt;/span&gt;&lt;span class="p"&gt;:{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;G&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;W&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;L&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;team&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;teams&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="n"&gt;record&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;team&amp;#39;: {&amp;#39;G&amp;#39;: 0, &amp;#39;W&amp;#39;: 0, &amp;#39;L&amp;#39;: 0}}
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -299,36 +294,36 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;Bucks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 93, &amp;#39;L&amp;#39;: 71},
- &amp;#39;Bulls&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99},
- &amp;#39;Cavaliers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 83, &amp;#39;L&amp;#39;: 81},
- &amp;#39;Celtics&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 76, &amp;#39;L&amp;#39;: 88},
- &amp;#39;Clippers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 87, &amp;#39;L&amp;#39;: 77},
- &amp;#39;Grizzlies&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 78, &amp;#39;L&amp;#39;: 86},
- &amp;#39;Hawks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 85, &amp;#39;L&amp;#39;: 79},
- &amp;#39;Heat&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 87, &amp;#39;L&amp;#39;: 77},
- &amp;#39;Hornets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 33, &amp;#39;L&amp;#39;: 49},
- &amp;#39;Jazz&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 91, &amp;#39;L&amp;#39;: 73},
- &amp;#39;Kings&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 84, &amp;#39;L&amp;#39;: 80},
- &amp;#39;Knicks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99},
- &amp;#39;Lakers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 77, &amp;#39;L&amp;#39;: 87},
- &amp;#39;Magic&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 68, &amp;#39;L&amp;#39;: 96},
- &amp;#39;Mavericks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 103, &amp;#39;L&amp;#39;: 61},
- &amp;#39;Nets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 64, &amp;#39;L&amp;#39;: 100},
- &amp;#39;Nuggets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 70, &amp;#39;L&amp;#39;: 94},
- &amp;#39;Pacers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 79, &amp;#39;L&amp;#39;: 85},
- &amp;#39;Pelicans&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 91, &amp;#39;L&amp;#39;: 73},
- &amp;#39;Pistons&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 64, &amp;#39;L&amp;#39;: 100},
- &amp;#39;Raptors&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 96, &amp;#39;L&amp;#39;: 68},
- &amp;#39;Rockets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 101, &amp;#39;L&amp;#39;: 63},
- &amp;#39;Sixers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 74, &amp;#39;L&amp;#39;: 90},
- &amp;#39;Spurs&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 113, &amp;#39;L&amp;#39;: 51},
- &amp;#39;Suns&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 90, &amp;#39;L&amp;#39;: 74},
- &amp;#39;Thunder&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 89, &amp;#39;L&amp;#39;: 75},
- &amp;#39;Timberwolves&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 63, &amp;#39;L&amp;#39;: 101},
- &amp;#39;Trailblazers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 101, &amp;#39;L&amp;#39;: 63},
- &amp;#39;Warriors&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 84, &amp;#39;L&amp;#39;: 80},
- &amp;#39;Wizards&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99}}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;Bucks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 52, &amp;#39;L&amp;#39;: 30},
+ &amp;#39;Bulls&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 15, &amp;#39;L&amp;#39;: 67},
+ &amp;#39;Cavaliers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 30, &amp;#39;L&amp;#39;: 52},
+ &amp;#39;Celtics&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 36, &amp;#39;L&amp;#39;: 46},
+ &amp;#39;Clippers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 31, &amp;#39;L&amp;#39;: 51},
+ &amp;#39;Grizzlies&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 23, &amp;#39;L&amp;#39;: 59},
+ &amp;#39;Hawks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 25, &amp;#39;L&amp;#39;: 57},
+ &amp;#39;Heat&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 50, &amp;#39;L&amp;#39;: 32},
+ &amp;#39;Hornets&amp;#39;: {&amp;#39;G&amp;#39;: 0, &amp;#39;W&amp;#39;: 0, &amp;#39;L&amp;#39;: 0},
+ &amp;#39;Jazz&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 53, &amp;#39;L&amp;#39;: 29},
+ &amp;#39;Kings&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 55, &amp;#39;L&amp;#39;: 27},
+ &amp;#39;Knicks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 48, &amp;#39;L&amp;#39;: 34},
+ &amp;#39;Lakers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 56, &amp;#39;L&amp;#39;: 26},
+ &amp;#39;Magic&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 43, &amp;#39;L&amp;#39;: 39},
+ &amp;#39;Mavericks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 53, &amp;#39;L&amp;#39;: 29},
+ &amp;#39;Nets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 26, &amp;#39;L&amp;#39;: 56},
+ &amp;#39;Nuggets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 40, &amp;#39;L&amp;#39;: 42},
+ &amp;#39;Pacers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 41, &amp;#39;L&amp;#39;: 41},
+ &amp;#39;Pelicans&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 46, &amp;#39;L&amp;#39;: 36},
+ &amp;#39;Pistons&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 32, &amp;#39;L&amp;#39;: 50},
+ &amp;#39;Raptors&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 47, &amp;#39;L&amp;#39;: 35},
+ &amp;#39;Rockets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 45, &amp;#39;L&amp;#39;: 37},
+ &amp;#39;Sixers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 56, &amp;#39;L&amp;#39;: 26},
+ &amp;#39;Spurs&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 58, &amp;#39;L&amp;#39;: 24},
+ &amp;#39;Suns&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 51, &amp;#39;L&amp;#39;: 31},
+ &amp;#39;Thunder&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 44, &amp;#39;L&amp;#39;: 38},
+ &amp;#39;Timberwolves&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 47, &amp;#39;L&amp;#39;: 35},
+ &amp;#39;Trailblazers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 50, &amp;#39;L&amp;#39;: 32},
+ &amp;#39;Warriors&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 17, &amp;#39;L&amp;#39;: 65},
+ &amp;#39;Wizards&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 19, &amp;#39;L&amp;#39;: 63}}
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -500,7 +495,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;raptors&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z_salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;raptors&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;win_%&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#CE1141&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Toronto Raptors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fontsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Standardized Salaries&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Winning Percentage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Win %&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# add linear regression line&lt;/span&gt;
 &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;team&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Raptors&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;z_salary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -540,7 +535,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="n"&gt;scatter_league&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z_salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;win_%&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#000000&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
                   &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;NBA League&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fontsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
                   &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Standardized Salaries&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;left&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-                  &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Winning Percentage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                  &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Win %&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;ha&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;right&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="c1"&gt;# add linear regression line&lt;/span&gt;
 &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;z_salary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;

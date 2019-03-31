@@ -47,7 +47,7 @@ https://hoopshype.com/salaries/</p>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="c1"># %config InlineBackend.figure_format = &#39;retina&#39;</span>
 </pre></div>
 
@@ -273,11 +273,6 @@ https://hoopshype.com/salaries/</p>
 
 <div class="highlight"><pre><span></span><span class="c1"># reset record to beginning with list comphrension</span>
 <span class="n">record</span> <span class="o">=</span> <span class="p">{</span><span class="n">team</span><span class="p">:{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;W&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;L&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">}</span>
-<span class="n">record</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>{&#39;team&#39;: {&#39;G&#39;: 0, &#39;W&#39;: 0, &#39;L&#39;: 0}}
 </pre></div>
 
 
@@ -313,36 +308,36 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>{&#39;Bucks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 93, &#39;L&#39;: 71},
- &#39;Bulls&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99},
- &#39;Cavaliers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 83, &#39;L&#39;: 81},
- &#39;Celtics&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 76, &#39;L&#39;: 88},
- &#39;Clippers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 87, &#39;L&#39;: 77},
- &#39;Grizzlies&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 78, &#39;L&#39;: 86},
- &#39;Hawks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 85, &#39;L&#39;: 79},
- &#39;Heat&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 87, &#39;L&#39;: 77},
- &#39;Hornets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 33, &#39;L&#39;: 49},
- &#39;Jazz&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 91, &#39;L&#39;: 73},
- &#39;Kings&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 84, &#39;L&#39;: 80},
- &#39;Knicks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99},
- &#39;Lakers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 77, &#39;L&#39;: 87},
- &#39;Magic&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 68, &#39;L&#39;: 96},
- &#39;Mavericks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 103, &#39;L&#39;: 61},
- &#39;Nets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 64, &#39;L&#39;: 100},
- &#39;Nuggets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 70, &#39;L&#39;: 94},
- &#39;Pacers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 79, &#39;L&#39;: 85},
- &#39;Pelicans&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 91, &#39;L&#39;: 73},
- &#39;Pistons&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 64, &#39;L&#39;: 100},
- &#39;Raptors&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 96, &#39;L&#39;: 68},
- &#39;Rockets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 101, &#39;L&#39;: 63},
- &#39;Sixers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 74, &#39;L&#39;: 90},
- &#39;Spurs&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 113, &#39;L&#39;: 51},
- &#39;Suns&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 90, &#39;L&#39;: 74},
- &#39;Thunder&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 89, &#39;L&#39;: 75},
- &#39;Timberwolves&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 63, &#39;L&#39;: 101},
- &#39;Trailblazers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 101, &#39;L&#39;: 63},
- &#39;Warriors&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 84, &#39;L&#39;: 80},
- &#39;Wizards&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99}}
+<div class="highlight"><pre><span></span>{&#39;Bucks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 52, &#39;L&#39;: 30},
+ &#39;Bulls&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 15, &#39;L&#39;: 67},
+ &#39;Cavaliers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 30, &#39;L&#39;: 52},
+ &#39;Celtics&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 36, &#39;L&#39;: 46},
+ &#39;Clippers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 31, &#39;L&#39;: 51},
+ &#39;Grizzlies&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 23, &#39;L&#39;: 59},
+ &#39;Hawks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 25, &#39;L&#39;: 57},
+ &#39;Heat&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 50, &#39;L&#39;: 32},
+ &#39;Hornets&#39;: {&#39;G&#39;: 0, &#39;W&#39;: 0, &#39;L&#39;: 0},
+ &#39;Jazz&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 53, &#39;L&#39;: 29},
+ &#39;Kings&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 55, &#39;L&#39;: 27},
+ &#39;Knicks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 48, &#39;L&#39;: 34},
+ &#39;Lakers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 56, &#39;L&#39;: 26},
+ &#39;Magic&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 43, &#39;L&#39;: 39},
+ &#39;Mavericks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 53, &#39;L&#39;: 29},
+ &#39;Nets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 26, &#39;L&#39;: 56},
+ &#39;Nuggets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 40, &#39;L&#39;: 42},
+ &#39;Pacers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 41, &#39;L&#39;: 41},
+ &#39;Pelicans&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 46, &#39;L&#39;: 36},
+ &#39;Pistons&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 32, &#39;L&#39;: 50},
+ &#39;Raptors&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 47, &#39;L&#39;: 35},
+ &#39;Rockets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 45, &#39;L&#39;: 37},
+ &#39;Sixers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 56, &#39;L&#39;: 26},
+ &#39;Spurs&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 58, &#39;L&#39;: 24},
+ &#39;Suns&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 51, &#39;L&#39;: 31},
+ &#39;Thunder&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 44, &#39;L&#39;: 38},
+ &#39;Timberwolves&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 47, &#39;L&#39;: 35},
+ &#39;Trailblazers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 50, &#39;L&#39;: 32},
+ &#39;Warriors&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 17, &#39;L&#39;: 65},
+ &#39;Wizards&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 19, &#39;L&#39;: 63}}
 </pre></div>
 
 
@@ -514,7 +509,7 @@ https://hoopshype.com/salaries/</p>
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">raptors</span><span class="p">[</span><span class="s1">&#39;z_salary&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">raptors</span><span class="p">[</span><span class="s1">&#39;win_%&#39;</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;#CE1141&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Toronto Raptors&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Standardized Salaries&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Winning Percentage&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Win %&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
 
 <span class="c1"># add linear regression line</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="p">[</span><span class="s2">&quot;team&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Raptors&quot;</span><span class="p">][</span><span class="s2">&quot;z_salary&quot;</span><span class="p">])</span>
@@ -554,7 +549,7 @@ https://hoopshype.com/salaries/</p>
 <span class="n">scatter_league</span> <span class="o">=</span> <span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">final</span><span class="p">[</span><span class="s1">&#39;z_salary&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">final</span><span class="p">[</span><span class="s1">&#39;win_%&#39;</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">),</span>
                   <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;NBA League&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">),</span>
                   <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Standardized Salaries&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">),</span>
-                  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Winning Percentage&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">))</span>
+                  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Win %&#39;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">))</span>
 
 <span class="c1"># add linear regression line</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">final</span><span class="p">[</span><span class="s2">&quot;z_salary&quot;</span><span class="p">])</span>
