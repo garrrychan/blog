@@ -3,7 +3,6 @@
 &lt;p&gt;This was incredible practice with Matplotlib …&lt;/p&gt;</summary><content type="html">&lt;p&gt;FiveThirtyEight is one of my favourite places to read thoughtful analysis, and see data visualizations. I was inspired by one of their posts on &lt;a href="https://fivethirtyeight.com/features/how-your-favorite-baseball-team-blows-its-money/"&gt;'how your favourite baseball team blows its money'&lt;/a&gt;. As an avid basketball fan, I recreated this graphic with NBA data. &lt;/p&gt;
 &lt;p&gt;This was incredible practice with Matplotlib. Thank you to Amy Gordon for her &lt;a href="https://github.com/ag2816/"&gt;Github&lt;/a&gt; for the style guide.&lt;/p&gt;
 &lt;h3&gt;Background&lt;/h3&gt;
-&lt;hr&gt;
 &lt;p&gt;&lt;img alt="nba svg" src="images/nba_team_salary_blog_39_1.svg"&gt;&lt;/p&gt;
 &lt;p&gt;This chart illustrates the relationship between team spending and win percentage for each basketball season from 2001 - 2015. Essentially, the steeper the curve, the better the team was maximizing value. &lt;/p&gt;
 &lt;ul&gt;
@@ -21,9 +20,10 @@
 https://www.kaggle.com/fivethirtyeight/fivethirtyeight-nba-elo-dataset&lt;/p&gt;
 &lt;p&gt;Salary data (exported to CSV):
 https://hoopshype.com/salaries/&lt;/p&gt;
-&lt;p&gt;For those interested, keep reading for data wrangling and snippets of code.&lt;/p&gt;
-&lt;h4&gt;1. Load &amp;amp; prepare data&lt;/h4&gt;
+&lt;p&gt;For those interested, keep reading for data wrangling and snippets of code.
+&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
+&lt;h3&gt;1. Load &amp;amp; prepare data&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
 &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fivethirtyeight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -479,8 +479,8 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;2. Create plot for one team&lt;/h4&gt;
 &lt;hr&gt;
+&lt;h3&gt;2. Create plot for one team&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Use matplotlib, a Python 2D plotting library&lt;/li&gt;
 &lt;li&gt;Create a scatterplot for the Raptors&lt;/li&gt;
@@ -527,7 +527,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_29_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_30_0.svg"&gt;&lt;/p&gt;
 &lt;p&gt;Compare this with the plot for the league &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# change way we invoke plot so can manipulate the axis&lt;/span&gt;
 &lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -566,8 +566,9 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_31_0.svg"&gt;&lt;/p&gt;
-&lt;h4&gt;3. Generate plots for all the teams in a division, in a row&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_32_0.svg"&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;3. Generate plots for all the teams in a division, in a row&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create a dictionary with the team names, and team plot colour. I&amp;#39;ll do this with Atlantic, &lt;/span&gt;
 &lt;span class="c1"&gt;# then loop through each division on each row&lt;/span&gt;
 
@@ -649,8 +650,9 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_36_0.svg"&gt;&lt;/p&gt;
-&lt;h4&gt;7. Create the full chart for the entire NBA&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_37_0.svg"&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;4. Create the full chart for the entire NBA&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# team colours source: https://teamcolorcodes.com/&lt;/span&gt;
 
 &lt;span class="n"&gt;atlantic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Celtics&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#007A33&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -746,14 +748,11 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.425&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Northwest&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fontsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;grey&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.275&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Pacific&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fontsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;grey&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figtext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.125&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Southwest&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fontsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;grey&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Text(1, 0.125, &amp;#39;Southwest&amp;#39;)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_39_1.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_40_0.svg"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nba_team_salary.pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
