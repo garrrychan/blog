@@ -47,8 +47,9 @@ https://hoopshype.com/salaries/</p>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># plt.rcParams[&#39;figure.dpi&#39;] = 50</span>
 <span class="c1"># %config InlineBackend.figure_format = &#39;retina&#39;</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s1">&#39;svg&#39;</span>
 </pre></div>
 
 
@@ -540,7 +541,7 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<p><img alt="png" src="images/nba_team_salary_blog_29_0.png"></p>
+<p><img alt="svg" src="images/nba_team_salary_blog_29_0.svg"></p>
 <p>Compare this with the plot for the league </p>
 <div class="highlight"><pre><span></span><span class="c1"># change way we invoke plot so can manipulate the axis</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -579,7 +580,7 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<p><img alt="png" src="images/nba_team_salary_blog_31_0.png"></p>
+<p><img alt="svg" src="images/nba_team_salary_blog_31_0.svg"></p>
 <h4>3. Generate plots for all the teams in a division, in a row</h4>
 <div class="highlight"><pre><span></span><span class="c1"># Create a dictionary with the team names, and team plot colour. I&#39;ll do this with Atlantic, </span>
 <span class="c1"># then loop through each division on each row</span>
@@ -662,7 +663,7 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<p><img alt="png" src="images/nba_team_salary_blog_36_0.png"></p>
+<p><img alt="svg" src="images/nba_team_salary_blog_36_0.svg"></p>
 <h4>7. Create the full chart for the entire NBA</h4>
 <div class="highlight"><pre><span></span><span class="c1"># team colours source: https://teamcolorcodes.com/</span>
 
@@ -766,7 +767,7 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<p><img alt="png" src="images/nba_team_salary_blog_39_1.png"></p>
+<p><img alt="svg" src="images/nba_team_salary_blog_39_1.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;nba_team_salary.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 

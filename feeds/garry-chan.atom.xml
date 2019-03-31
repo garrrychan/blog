@@ -33,8 +33,9 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;linear_model&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;LinearRegression&lt;/span&gt;
 
-&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rcParams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;figure.dpi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;
+&lt;span class="c1"&gt;# plt.rcParams[&amp;#39;figure.dpi&amp;#39;] = 50&lt;/span&gt;
 &lt;span class="c1"&gt;# %config InlineBackend.figure_format = &amp;#39;retina&amp;#39;&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;InlineBackend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure_format&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;svg&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -526,7 +527,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/nba_team_salary_blog_29_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_29_0.svg"&gt;&lt;/p&gt;
 &lt;p&gt;Compare this with the plot for the league &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# change way we invoke plot so can manipulate the axis&lt;/span&gt;
 &lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -565,7 +566,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/nba_team_salary_blog_31_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_31_0.svg"&gt;&lt;/p&gt;
 &lt;h4&gt;3. Generate plots for all the teams in a division, in a row&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create a dictionary with the team names, and team plot colour. I&amp;#39;ll do this with Atlantic, &lt;/span&gt;
 &lt;span class="c1"&gt;# then loop through each division on each row&lt;/span&gt;
@@ -648,7 +649,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/nba_team_salary_blog_36_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_36_0.svg"&gt;&lt;/p&gt;
 &lt;h4&gt;7. Create the full chart for the entire NBA&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# team colours source: https://teamcolorcodes.com/&lt;/span&gt;
 
@@ -752,7 +753,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="images/nba_team_salary_blog_39_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_39_1.svg"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nba_team_salary.pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
