@@ -754,6 +754,10 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="png" src="images/nba_team_salary_blog_39_1.png"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nba_team_salary.pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;Figure size 300x200 with 0 Axes&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category></entry><entry><title>Lambda function for data wrangling</title><link href="https://garrrychan.github.io/blog/lambda.html" rel="alternate"></link><published>2019-03-28T03:00:00-04:00</published><updated>2019-03-28T03:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-03-28:/blog/lambda.html</id><summary type="html">&lt;p&gt;Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
 &lt;p&gt;Whereas in programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!&lt;/p&gt;
 &lt;p&gt;Whereas in programming, by definition, Lambda is is an &lt;em&gt;anonymous&lt;/em&gt; function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. &lt;/p&gt;
