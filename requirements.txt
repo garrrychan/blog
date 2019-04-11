@@ -1,0 +1,6 @@
+pelican
+Markdown
+fire
+jupyter
+ghp-import
+jupyter_contrib_nbextensions
