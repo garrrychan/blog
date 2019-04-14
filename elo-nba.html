@@ -248,11 +248,11 @@ and define another function, <code>update</code>, to update the elo after the ou
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-hover&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-hover&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-hover">
+<table border="1" class="dataframe table table-striped table-hover">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -515,11 +515,11 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 <p><img alt="svg" src="images/elo_nba_52_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">margin_of_safety</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="o">&gt;</span> <span class="mf">0.70</span><span class="p">]</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">margin_of_safety</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">margin_of_safety</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-hover&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-borderless table-dark">
+<table border="1" class="dataframe table table-striped table-hover">
   <thead>
     <tr style="text-align: right;">
       <th></th>
