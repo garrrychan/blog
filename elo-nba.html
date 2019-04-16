@@ -264,10 +264,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <th>pts_visitor</th>
       <th>visitor_elo</th>
       <th>winner</th>
-      <th>y</th>
-      <th>predict_home_win</th>
-      <th>predict_home_elo_win</th>
-      <th>predict_elo</th>
     </tr>
   </thead>
   <tbody>
@@ -281,10 +277,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <td>108</td>
       <td>1596.46</td>
       <td>Rockets</td>
-      <td>0</td>
-      <td>1.00</td>
-      <td>0.27</td>
-      <td>Rockets</td>
     </tr>
     <tr>
       <th>1</th>
@@ -295,10 +287,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <td>Magic</td>
       <td>84</td>
       <td>1359.43</td>
-      <td>Pelicans</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.64</td>
       <td>Pelicans</td>
     </tr>
     <tr>
@@ -311,10 +299,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <td>100</td>
       <td>1592.01</td>
       <td>Spurs</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.65</td>
-      <td>Spurs</td>
     </tr>
     <tr>
       <th>3</th>
@@ -326,10 +310,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <td>105</td>
       <td>1518.27</td>
       <td>Celtics</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.31</td>
-      <td>Nets</td>
     </tr>
     <tr>
       <th>4</th>
@@ -340,10 +320,6 @@ and define another function, <code>update</code>, to update the elo after the ou
       <td>Bucks</td>
       <td>106</td>
       <td>1317.85</td>
-      <td>Hornets</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.75</td>
       <td>Hornets</td>
     </tr>
   </tbody>
@@ -629,7 +605,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 
 <p>As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! </p>
-<p>Let's plot this relationship, accuracy vs margin of safety)</p>
+<p>Let's plot this relationship, accuracy vs margin of safety.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">my_plot</span><span class="p">():</span> 

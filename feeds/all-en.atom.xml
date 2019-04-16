@@ -253,10 +253,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;th&gt;pts_visitor&lt;/th&gt;
       &lt;th&gt;visitor_elo&lt;/th&gt;
       &lt;th&gt;winner&lt;/th&gt;
-      &lt;th&gt;y&lt;/th&gt;
-      &lt;th&gt;predict_home_win&lt;/th&gt;
-      &lt;th&gt;predict_home_elo_win&lt;/th&gt;
-      &lt;th&gt;predict_elo&lt;/th&gt;
     &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
@@ -270,10 +266,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;td&gt;108&lt;/td&gt;
       &lt;td&gt;1596.46&lt;/td&gt;
       &lt;td&gt;Rockets&lt;/td&gt;
-      &lt;td&gt;0&lt;/td&gt;
-      &lt;td&gt;1.00&lt;/td&gt;
-      &lt;td&gt;0.27&lt;/td&gt;
-      &lt;td&gt;Rockets&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;1&lt;/th&gt;
@@ -284,10 +276,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;td&gt;Magic&lt;/td&gt;
       &lt;td&gt;84&lt;/td&gt;
       &lt;td&gt;1359.43&lt;/td&gt;
-      &lt;td&gt;Pelicans&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;1.00&lt;/td&gt;
-      &lt;td&gt;0.64&lt;/td&gt;
       &lt;td&gt;Pelicans&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
@@ -300,10 +288,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;td&gt;100&lt;/td&gt;
       &lt;td&gt;1592.01&lt;/td&gt;
       &lt;td&gt;Spurs&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;1.00&lt;/td&gt;
-      &lt;td&gt;0.65&lt;/td&gt;
-      &lt;td&gt;Spurs&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;3&lt;/th&gt;
@@ -315,10 +299,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;td&gt;105&lt;/td&gt;
       &lt;td&gt;1518.27&lt;/td&gt;
       &lt;td&gt;Celtics&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;1.00&lt;/td&gt;
-      &lt;td&gt;0.31&lt;/td&gt;
-      &lt;td&gt;Nets&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;4&lt;/th&gt;
@@ -329,10 +309,6 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
       &lt;td&gt;Bucks&lt;/td&gt;
       &lt;td&gt;106&lt;/td&gt;
       &lt;td&gt;1317.85&lt;/td&gt;
-      &lt;td&gt;Hornets&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;1.00&lt;/td&gt;
-      &lt;td&gt;0.75&lt;/td&gt;
       &lt;td&gt;Hornets&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
@@ -618,7 +594,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 
 &lt;p&gt;As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! &lt;/p&gt;
-&lt;p&gt;Let's plot this relationship, accuracy vs margin of safety)&lt;/p&gt;
+&lt;p&gt;Let's plot this relationship, accuracy vs margin of safety.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;my_plot&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt; 
