@@ -300,7 +300,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/candytree.svg" alt="candytree" height="956" width="842"></p>
+<p><img src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
 <p>First, the tree is split on fruit favour. If it's fruity, it's probably not chocolate. Makes sense. </p>
 <p>And, if the snack is singular ('pluribus'), contains peanuts, is high in sugar %, and has nougats, then it's probably chocolate.</p>
 <hr>
@@ -605,17 +605,17 @@ Name: chocolate, dtype: int64
   </thead>
   <tbody>
     <tr>
-      <th>15</th>
+      <th>17</th>
+      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>1</td>
       <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0.313</td>
-      <td>0.767</td>
+      <td>0.965</td>
+      <td>0.86</td>
     </tr>
   </tbody>
 </table>
@@ -820,223 +820,7 @@ Name: chocolate, dtype: int64
 
 
 <p><img alt="svg" src="images/chocolate_56_0.svg"></p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-
-<span class="n">source</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
-      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">}</span>
-    <span class="p">])</span>
-
-
-<span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;x:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;animal:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s1">&#39;country:N&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Header</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;emoji:N&#39;</span><span class="p">)</span>
-<span class="p">)</span><span class="o">.</span><span class="n">transform_calculate</span><span class="p">(</span>
-    <span class="n">emoji</span><span class="o">=</span><span class="s2">&quot;{&#39;cattle&#39;: &#39;🐄&#39;, &#39;pigs&#39;: &#39;🐖&#39;, &#39;sheep&#39;: &#39;🐏&#39;}[datum.animal]&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">transform_window</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rank()&#39;</span><span class="p">,</span>
-    <span class="n">groupby</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x12dddbe48&gt;
-</pre></div>
-
-
-<p><img alt="png" src="images/chocolate_57_2.png"></p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;sugarpercent&#39;</span><span class="p">,</span>
-                      <span class="n">y</span><span class="o">=</span><span class="s1">&#39;pricepercent&#39;</span><span class="p">,</span>
-                      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;emoji:N&#39;</span><span class="p">,</span>
-                      <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sugarpercent&#39;</span><span class="p">,</span><span class="s1">&#39;pricepercent&#39;</span><span class="p">,</span><span class="s2">&quot;competitorname&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">())</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x12dddbe48&gt;
-</pre></div>
-
-
-<p><img alt="png" src="images/chocolate_58_2.png"></p>
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span> <span class="o">=</span><span class="p">[{</span><span class="s1">&#39;#007AC1&#39;</span><span class="p">:</span> <span class="s1">&#39;🍫&#39;</span><span class="p">,</span> <span class="s1">&#39;#CE1141&#39;</span><span class="p">:</span> <span class="s1">&#39;🍬&#39;</span><span class="p">}[</span><span class="n">snack</span><span class="p">]</span> <span class="k">for</span> <span class="n">snack</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;colour_truth&#39;</span><span class="p">]</span> <span class="p">]</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>competitorname</th>
-      <th>chocolate</th>
-      <th>fruity</th>
-      <th>caramel</th>
-      <th>peanutyalmondy</th>
-      <th>nougat</th>
-      <th>crispedricewafer</th>
-      <th>hard</th>
-      <th>bar</th>
-      <th>pluribus</th>
-      <th>sugarpercent</th>
-      <th>pricepercent</th>
-      <th>colour_truth</th>
-      <th>cluster_label</th>
-      <th>emoji</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Reeses Peanut Butter cup</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.720</td>
-      <td>0.651</td>
-      <td>#007AC1</td>
-      <td>#007AC1</td>
-      <td>🍫</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Reeses Miniatures</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.034</td>
-      <td>0.279</td>
-      <td>#007AC1</td>
-      <td>#007AC1</td>
-      <td>🍫</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Twix</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0.546</td>
-      <td>0.906</td>
-      <td>#007AC1</td>
-      <td>#007AC1</td>
-      <td>🍫</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Kit Kat</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0.313</td>
-      <td>0.511</td>
-      <td>#007AC1</td>
-      <td>#007AC1</td>
-      <td>🍫</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Snickers</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0.546</td>
-      <td>0.651</td>
-      <td>#007AC1</td>
-      <td>#007AC1</td>
-      <td>🍫</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<div class="highlight"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;col:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;animal:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s1">&#39;country:N&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Header</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)),</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">SizeValue</span><span class="p">(</span><span class="mi">60</span><span class="p">),</span>
-    <span class="n">text</span><span class="o">=</span><span class="s1">&#39;emoji&#39;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>
 </pre></div>
  </div>
 </div>
