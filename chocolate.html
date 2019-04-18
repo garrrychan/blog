@@ -99,10 +99,6 @@
 <span class="n">alt</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
-<span class="c1"># preprocessing</span>
-<span class="kn">from</span> <span class="nn">sklearn_pandas</span> <span class="kn">import</span> <span class="n">DataFrameMapper</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelBinarizer</span>
-
 <span class="c1"># tree visualization</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>  
 <span class="kn">import</span> <span class="nn">pydotplus</span>
@@ -115,8 +111,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span> 
 
 <span class="c1"># unsupervised learning</span>
-<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">DBSCAN</span><span class="p">,</span> <span class="n">KMeans</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
 
 <span class="c1"># model selection and evaluation</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">cross_val_score</span>
@@ -447,13 +442,10 @@ Name: chocolate, dtype: int64
 <h4>Boosting</h4>
 <p>Let's introduce another ensemble method. </p>
 <p>Boosting works in a similar way, except that the trees are grown sequentially. Each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set. Similarly, the final prediction is constructed by a weighted vote: Weights for each base model depend on their training errors or misclassification rates.</p>
-<p>This method focuses on reduce bias by taking weak learners to start, and the algorithm is penalize wrong predictions in an iterative nature. Note, the number of trees is important here, as boosting can overfit, unlike in bagging and random forests. We can use cross validation to choose it. Boosting focuses on reducing bias, but can also reduce variance.</p>
+<p>This method focuses on reduce bias by taking weak learners to start, and the algorithm is penalize wrong predictions in an iterative nature. Note, the number of trees is important here, as boosting can overfit, unlike in bagging and random forests. We can use cross validation to choose it. Boosting focuses on reducing bias, but can also reduce variance.<br></p>
 <h5>CatBoost  🐱</h5>
 <p>Do cats like chocolate? I don't know. Let's see if this boosting model can really purr, by implementing Cat Boost. </p>
-<p><a href="https://github.com/catboost/catboost">CatBoost</a> is a flavour (are you sick of my food puns yet), of boosting.</p>
-<blockquote>
-<p>CatBoost is a fast, scalable, high performance gradient boosting on decision trees library, used for ranking, classification, regression and other machine learning tasks.</p>
-</blockquote>
+<p><a href="https://github.com/catboost/catboost">CatBoost</a> is a flavour (are you sick of my food puns yet), of boosting. It is a fast, scalable, high performance gradient boosting on decision trees library, used for ranking, classification, regression and other machine learning tasks.</p>
 <p>This is a pretty small data set, so we won't really see it shine like with large data sets, but it does come with some neat graphics for model evaluation metrics, which I did want to highlight.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Instantiate</span>
 <span class="n">cat_model</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="n">CatBoostClassifier</span><span class="p">(</span>
@@ -490,7 +482,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/catboost.png" alt="catboost" height="455" width="979"></p>
+<p><img src="images/catboost.png" alt="catboost" height="364" width="783"></p>
 <div class="highlight"><pre><span></span><span class="n">best_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">])</span>
 <span class="n">best_iter</span> <span class="o">=</span> <span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
 
@@ -605,17 +597,17 @@ Name: chocolate, dtype: int64
   </thead>
   <tbody>
     <tr>
-      <th>17</th>
-      <td>0</td>
+      <th>30</th>
       <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
       <td>0</td>
-      <td>0.965</td>
-      <td>0.86</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.941</td>
+      <td>0.22</td>
     </tr>
   </tbody>
 </table>
@@ -820,8 +812,6 @@ Name: chocolate, dtype: int64
 
 
 <p><img alt="svg" src="images/chocolate_56_0.svg"></p>
-<div class="highlight"><pre><span></span>
-</pre></div>
  </div>
 </div>
  </div>
