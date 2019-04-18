@@ -21,10 +21,10 @@
   <label>19 April 2019</label>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
   <p>Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel <em>happy</em>?</p>
-<p>So, given some attributes of a snack, can I classify this as a chocolate, or not chocolate (i.e. candy)? What's the difference anyways? </p>
-<p>Anyways, for example, if something contains peanuts, and is not in a bar shape, can I classify this as chocolate (Reese Pieces!)</p>
+<p>Given some attributes of a snack, can I classify this as a chocolate, or not chocolate (i.e. candy)? </p>
+<p>For example, if something contains peanuts, and is not in a bar shape, can I classify this as chocolate (Reese Pieces!)</p>
 <p>This is a classification problem, so let's spin up decision trees and sprinkle in some ensemble methods
-(bagging &amp; boosting) to improve prediction performance, and add a kick of flavour. This is a fun exercise to explore a variety of algorithms, and general statistical methods!</p>
+(bagging &amp; boosting) to improve prediction performance, and add a kick of flavour. This is a fun exercise to explore a variety of algorithms!</p>
 <hr>
 <h3>Data</h3>
 <p>Data is from <a href="https://github.com/fivethirtyeight/data/tree/master/candy-power-ranking">The Ultimate Halloween Candy Power Ranking</a>.</p>
@@ -343,15 +343,13 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">tree_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">reeses</span><span class="p">))</span>
-<span class="c1"># It&#39;s chocolate!</span>
-<span class="k">print</span><span class="p">(</span><span class="n">tree_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fuzzy_peach</span><span class="p">))</span>
-<span class="c1"># It&#39;s candy!</span>
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; It</span><span class="se">\&#39;</span><span class="s1">s chocolate! {tree_model.predict(reeses)}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; It</span><span class="se">\&#39;</span><span class="s1">s candy! {tree_model.predict(fuzzy_peach)}&#39;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="k">[1]</span>
-<span class="k">[0]</span>
+<div class="highlight"><pre><span></span> It&#39;s chocolate! [1]
+ It&#39;s candy! [0]
 </pre></div>
 
 
@@ -492,7 +490,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/catboost.png" alt="catboost" height="252" width="490"></p>
+<p><img src="images/catboost.png" alt="catboost" height="455" width="979"></p>
 <div class="highlight"><pre><span></span><span class="n">best_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">])</span>
 <span class="n">best_iter</span> <span class="o">=</span> <span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
 
@@ -518,7 +516,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p>Aside: By default, CatBoost optimizes for minimizing logloss, and with cross validation we selects the model at 45 iterations. Basically, log loss increases as the predicted probability diverges from the actual label. </p>
+<p>Aside: By default, CatBoost optimizes for minimizing logloss, and with cross validation we select the model at 45 iterations. Basically, logloss increases as the predicted probability diverges from the actual label.</p>
 <table class="table">
 <thead class="table-striped">
 <tr>
@@ -565,7 +563,7 @@ Name: chocolate, dtype: int64
 <p>For a taste of what's to come in future posts, let's apply unsupervised learning to a problem to identify targets labels (y). No labels are given to the learning algorithm, it's left to find structure in its input. Unsupervised learning can be a goal in itself (discovering hidden patterns in data), or a means towards an end (feature learning). This is the latter application.</p>
 <p>Suppose you're a manager at Cadbury, and you want to create a new confectionery product for the masses. However, all you know is certain attributes of your snacks, and want to identify if there structure in your inventory. If there are patterns, then you might be able to create a new product with attributes that people will enjoy!</p>
 <hr>
-<h4>Life is like a 'cluster' of chocolates - Forest Gump</h4>
+<h4>Life is like a 'cluster' of chocolates - Forrest Gump</h4>
 <p><img src="images/gump.png" alt="gump" height="486" width="864"></p>
 <p>Okay, let's pretend we only have X. Our previous supervised learning model wouldn't be able to learn, and predict if something was chocolate or candy.</p>
 <p>How might we cluster these snacks into different categories? </p>
@@ -822,6 +820,224 @@ Name: chocolate, dtype: int64
 
 
 <p><img alt="svg" src="images/chocolate_56_0.svg"></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;cattle&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;pigs&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;sheep&#39;</span><span class="p">}</span>
+    <span class="p">])</span>
+
+
+<span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;x:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;animal:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s1">&#39;country:N&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Header</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s1">&#39;emoji:N&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">transform_calculate</span><span class="p">(</span>
+    <span class="n">emoji</span><span class="o">=</span><span class="s2">&quot;{&#39;cattle&#39;: &#39;🐄&#39;, &#39;pigs&#39;: &#39;🐖&#39;, &#39;sheep&#39;: &#39;🐏&#39;}[datum.animal]&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">transform_window</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rank()&#39;</span><span class="p">,</span>
+    <span class="n">groupby</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x12dddbe48&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/chocolate_57_2.png"></p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;sugarpercent&#39;</span><span class="p">,</span>
+                      <span class="n">y</span><span class="o">=</span><span class="s1">&#39;pricepercent&#39;</span><span class="p">,</span>
+                      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;emoji:N&#39;</span><span class="p">,</span>
+                      <span class="n">tooltip</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sugarpercent&#39;</span><span class="p">,</span><span class="s1">&#39;pricepercent&#39;</span><span class="p">,</span><span class="s2">&quot;competitorname&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">())</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&lt;vega.vegalite.VegaLite at 0x12dddbe48&gt;
+</pre></div>
+
+
+<p><img alt="png" src="images/chocolate_58_2.png"></p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span> <span class="o">=</span><span class="p">[{</span><span class="s1">&#39;#007AC1&#39;</span><span class="p">:</span> <span class="s1">&#39;🍫&#39;</span><span class="p">,</span> <span class="s1">&#39;#CE1141&#39;</span><span class="p">:</span> <span class="s1">&#39;🍬&#39;</span><span class="p">}[</span><span class="n">snack</span><span class="p">]</span> <span class="k">for</span> <span class="n">snack</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;colour_truth&#39;</span><span class="p">]</span> <span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>competitorname</th>
+      <th>chocolate</th>
+      <th>fruity</th>
+      <th>caramel</th>
+      <th>peanutyalmondy</th>
+      <th>nougat</th>
+      <th>crispedricewafer</th>
+      <th>hard</th>
+      <th>bar</th>
+      <th>pluribus</th>
+      <th>sugarpercent</th>
+      <th>pricepercent</th>
+      <th>colour_truth</th>
+      <th>cluster_label</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Reeses Peanut Butter cup</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.720</td>
+      <td>0.651</td>
+      <td>#007AC1</td>
+      <td>#007AC1</td>
+      <td>🍫</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Reeses Miniatures</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.034</td>
+      <td>0.279</td>
+      <td>#007AC1</td>
+      <td>#007AC1</td>
+      <td>🍫</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Twix</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.546</td>
+      <td>0.906</td>
+      <td>#007AC1</td>
+      <td>#007AC1</td>
+      <td>🍫</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Kit Kat</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.313</td>
+      <td>0.511</td>
+      <td>#007AC1</td>
+      <td>#007AC1</td>
+      <td>🍫</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Snickers</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.546</td>
+      <td>0.651</td>
+      <td>#007AC1</td>
+      <td>#007AC1</td>
+      <td>🍫</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s1">&#39;col:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s1">&#39;animal:O&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="s1">&#39;country:N&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Header</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)),</span>
+    <span class="n">alt</span><span class="o">.</span><span class="n">SizeValue</span><span class="p">(</span><span class="mi">60</span><span class="p">),</span>
+    <span class="n">text</span><span class="o">=</span><span class="s1">&#39;emoji&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
  </div>
 </div>
  </div>
