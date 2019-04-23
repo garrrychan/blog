@@ -1,5 +1,889 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>github.com/garrrychan - misc</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/misc.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-04-13T12:00:00-04:00</updated><entry><title>Elo &amp; Brier scores in classification problems</title><link href="https://garrrychan.github.io/blog/elo-nba.html" rel="alternate"></link><published>2019-04-13T12:00:00-04:00</published><updated>2019-04-13T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-13:/blog/elo-nba.html</id><summary type="html">&lt;p&gt;The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>github.com/garrrychan - misc</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/misc.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-04-19T12:00:00-04:00</updated><entry><title>Life is like a box of chocolates</title><link href="https://garrrychan.github.io/blog/chocolate.html" rel="alternate"></link><published>2019-04-19T12:00:00-04:00</published><updated>2019-04-19T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-19:/blog/chocolate.html</id><summary type="html">&lt;p&gt;Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel &lt;em&gt;happy&lt;/em&gt;? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? &lt;/p&gt;
+&lt;p&gt;For example, if you told me that your favourite snack …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel &lt;em&gt;happy&lt;/em&gt;? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? &lt;/p&gt;
+&lt;p&gt;For example, if you told me that your favourite snack contains peanuts, and is not in a bar shape, my model should guess that this is chocolate (Reese Pieces)!&lt;/p&gt;
+&lt;p&gt;This is a classification problem, so let's spin up decision trees and sprinkle in some ensemble methods
+(bagging &amp;amp; boosting) to improve prediction performance, and add a kick of flavour. This is a fun exercise to explore a variety of algorithms!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Data&lt;/h3&gt;
+&lt;p&gt;Data is from &lt;a href="https://github.com/fivethirtyeight/data/tree/master/candy-power-ranking"&gt;The Ultimate Halloween Candy Power Ranking&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;candy-data.csv&lt;/code&gt; includes attributes for each snack. For binary variables, 1 means yes, 0 means no.&lt;/p&gt;
+&lt;p&gt;The data contains the following fields:&lt;/p&gt;
+&lt;table class="table table-striped table-bordered"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Feature&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;chocolate&lt;/td&gt;
+&lt;td&gt;Does it contain chocolate?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fruity&lt;/td&gt;
+&lt;td&gt;Is it fruit flavored?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;caramel&lt;/td&gt;
+&lt;td&gt;Is there caramel in the candy?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;peanutalmondy&lt;/td&gt;
+&lt;td&gt;Does it contain peanuts, peanut butter or almonds?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nougat&lt;/td&gt;
+&lt;td&gt;Does it contain nougat?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;crispedricewafer&lt;/td&gt;
+&lt;td&gt;Does it contain crisped rice, wafers, or a cookie component?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hard&lt;/td&gt;
+&lt;td&gt;Is it a hard candy?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bar&lt;/td&gt;
+&lt;td&gt;Is it a candy bar?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pluribus&lt;/td&gt;
+&lt;td&gt;Is it one of many candies in a bag or box?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;sugarpercent&lt;/td&gt;
+&lt;td&gt;The percentile of sugar it falls under within the data set.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pricepercent&lt;/td&gt;
+&lt;td&gt;The unit price percentile compared to the rest of the set.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4&gt;Import libraries&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# data wrangling&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="c1"&gt;# plotting &amp;amp; viz&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;InlineBackend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure_format&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;svg&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fivethirtyeight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;altair&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;alt&lt;/span&gt; 
+&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;renderers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;enable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;notebook&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;
+
+&lt;span class="c1"&gt;# tree visualization&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;  
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pydotplus&lt;/span&gt;
+
+&lt;span class="c1"&gt;# supervised learning - modelling&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.tree&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;DecisionTreeClassifier&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;catboost&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;cb&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;catboost&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;CatBoostClassifier&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.model_selection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;GridSearchCV&lt;/span&gt; 
+
+&lt;span class="c1"&gt;# unsupervised learning&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.cluster&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;KMeans&lt;/span&gt;
+
+&lt;span class="c1"&gt;# model selection and evaluation&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.model_selection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;GridSearchCV&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cross_val_score&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.metrics&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;roc_auc_score&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;accuracy_score&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;make_scorer&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ensemble methods&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.ensemble&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BaggingClassifier&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;RandomForestClassifier&lt;/span&gt;
+
+&lt;span class="c1"&gt;# support warnings&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;warnings&lt;/span&gt;
+&lt;span class="n"&gt;warnings&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filterwarnings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ignore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ne"&gt;DeprecationWarning&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./data/candy_data.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# remove fake candies, One Dime, One Quarter&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;competitorname&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;One dime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;competitorname&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;One quarter&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt; &lt;span class="c1"&gt;#index 47,77&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;47&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;77&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset_index&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;drop&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;winpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# drop win_%, focus on the snack attributes&lt;/span&gt;
+&lt;span class="c1"&gt;# great, now we have 83 observations to practice models on&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;competitorname&lt;/th&gt;
+      &lt;th&gt;chocolate&lt;/th&gt;
+      &lt;th&gt;fruity&lt;/th&gt;
+      &lt;th&gt;caramel&lt;/th&gt;
+      &lt;th&gt;peanutyalmondy&lt;/th&gt;
+      &lt;th&gt;nougat&lt;/th&gt;
+      &lt;th&gt;crispedricewafer&lt;/th&gt;
+      &lt;th&gt;hard&lt;/th&gt;
+      &lt;th&gt;bar&lt;/th&gt;
+      &lt;th&gt;pluribus&lt;/th&gt;
+      &lt;th&gt;sugarpercent&lt;/th&gt;
+      &lt;th&gt;pricepercent&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;Reeses Peanut Butter cup&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.720&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;Reeses Miniatures&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.034&lt;/td&gt;
+      &lt;td&gt;0.279&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;Twix&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.906&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;Kit Kat&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.313&lt;/td&gt;
+      &lt;td&gt;0.511&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;Snickers&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;chocolate&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;# we have a pretty balanced class, between signal (#37 chocolates) and noise, and no missing values&lt;/span&gt;
+&lt;span class="c1"&gt;# great, no imbalanced classes procedure, or imputation required&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;0    46
+1    37
+Name: chocolate, dtype: int64
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# target&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;chocolate&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# design matrix&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;fruity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# train, test, split&lt;/span&gt;
+&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# baseline&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;0.5542168674698795
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let's establish a 'naive model'. If we predicted everything as 100% chocolate, then we would be 55% accurate. This is our bench accuracy to beat.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Trees 🌲&lt;/h3&gt;
+&lt;h4&gt;Vanilla decision tree&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Instantiate &lt;/span&gt;
+&lt;span class="n"&gt;tree_model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DecisionTreeClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Fit &lt;/span&gt;
+&lt;span class="n"&gt;tree_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Seeing is believing&lt;/h4&gt;
+&lt;p&gt;While trees are non parametric, one key benefit of decisions trees is that it's simple and interpretable with printouts. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;dot_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;export_graphviz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;tree_model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;out_file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;feature_names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;class_names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;chocolate&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;candy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;#1 -&amp;gt; chocolate, 0 -&amp;gt; candy&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;graph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pydotplus&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;graph_from_dot_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dot_data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="c1"&gt;# Image(graph.create_png())&lt;/span&gt;
+&lt;span class="c1"&gt;# graph.write_svg(&amp;quot;candytree.svg&amp;quot;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img src="images/candytree.svg" alt="candytree" height="860" width="758"&gt;&lt;/p&gt;
+&lt;p&gt;First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. &lt;/p&gt;
+&lt;p&gt;And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.&lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;By default, the tree is split at each node based on Gini impurity. Gini is a measure of variance across the K classes; the smaller the Gini index, the better.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Remember, for a binary class, gini = 0 is a 'pure' split representing perfect equality, whereas gini = 0.5 is not pure.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You may see some splits where the nodes are both predicted to be chocolate. Well, why is a split event performed? Well, the split occurred because it increased node purity. That is the left split has 2/2 observations with a response value of chocolate, where as the right split is 1/2. If we have a new observation that belongs to the region in the left leaf, we can be sure its response value is chocolate, in contrast, if it goes into the right leaf, than it is probably yes, but we are much less certain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, let's use our model to predict if Reese's and Fuzzy Peaches are chocolate or not.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# X.iloc[0:1,:].to_dict(orient=&amp;quot;list&amp;quot;)&lt;/span&gt;
+
+&lt;span class="n"&gt;reeses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fruity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;caramel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;peanutyalmondy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;nougat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;crispedricewafer&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;hard&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;pluribus&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;sugarpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.72000003&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.65100002&lt;/span&gt;&lt;span class="p"&gt;]}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# new observation &lt;/span&gt;
+&lt;span class="n"&gt;fuzzy_peach&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;fruity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;caramel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;peanutyalmondy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;nougat&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;crispedricewafer&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;hard&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;pluribus&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;sugarpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.75&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;]}&lt;/span&gt;
+
+&lt;span class="n"&gt;reeses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;reeses&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fuzzy_peach&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fuzzy_peach&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; It&lt;/span&gt;&lt;span class="se"&gt;\&amp;#39;&lt;/span&gt;&lt;span class="s1"&gt;s chocolate! {tree_model.predict(reeses)}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; It&lt;/span&gt;&lt;span class="se"&gt;\&amp;#39;&lt;/span&gt;&lt;span class="s1"&gt;s candy! {tree_model.predict(fuzzy_peach)}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; It&amp;#39;s chocolate! [1]
+ It&amp;#39;s candy! [0]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Score: By default, cross_val_score calculates accuracy for trees&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; tree_model train accuracy: {cross_val_score(tree_model, X_train, y_train, cv=5, scoring=make_scorer(accuracy_score)).mean()}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; tree_model test accuracy: {cross_val_score(tree_model, X_test, y_test, cv=5).mean()}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; tree_model train accuracy: 0.7931235431235432
+ tree_model test accuracy: 0.7366666666666667
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A vanilla tree performs okay, as it's able to classify 74% of our test observations correctly, but there is some overfitting. &lt;/p&gt;
+&lt;p&gt;It is significantly better than a naive model, so it is picking up signal. This is our new benchmark to beat. By applying bagging, let's see if we can cut down the variance.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Ensemble methods&lt;/h3&gt;
+&lt;h4&gt;Bagging&lt;/h4&gt;
+&lt;p&gt;Bagging stands for bootstrap aggregating. &lt;/p&gt;
+&lt;p&gt;By definition, it's an averaging method and the idea is to build several bootstrapped estimators (i.e. trees) independently and then to average their predictions. The combined estimator is usually better than any of the single base estimator because its variance should be reduced.&lt;/p&gt;
+&lt;p&gt;Usually, bagging mitigates overfitting by exposing different trees to different sub-samples of the training set.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Set of bagged decision trees&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Instantiate&lt;/span&gt;
+&lt;span class="n"&gt;bag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BaggingClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_estimators&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_samples&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;#39;n_estimators=10&amp;#39;, -&amp;gt; 10 trees in the ensemble to be averaged&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;#39;max_samples=1.0&amp;#39;, -&amp;gt; 1 samples to draw from X to train each tree&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Fit&lt;/span&gt;
+&lt;span class="n"&gt;bag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Predict&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; bagged decision tree train accuracy {cross_val_score(bag, X_train, y_train, cv=5).mean()}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; bagged decision tree test accuracy {cross_val_score(bag, X_test, y_test, cv=5).mean()}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; bagged decision tree train accuracy 0.8367132867132867
+ bagged decision tree test accuracy 0.7366666666666667
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As we increased the &lt;code&gt;n_estimators&lt;/code&gt;, the test accuracy improved, but it's capped at about 74%. This did not improve over our vanilla tree on the test set. Perhaps, we are still averaging highly correlated trees, therefore we are not enjoying the benefits of bagging.&lt;/p&gt;
+&lt;p&gt;Suppose that there is one very strong predictor, along with a number of other moderately strong predictors. Then in the collection of bagged trees, most or all of the trees will use this strong predictor in the top split (i.e. fruity). Consequently, all of the bagged trees will look quite similar to each other. &lt;/p&gt;
+&lt;p&gt;Hence, the predictions from the bagged trees will be highly correlated -&amp;gt; averaging many highly correlated quantities does not lead to as large of a reduction in variance -&amp;gt; bagging will not lead to a substantial reduction in variance over a single tree in this setting.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Random Forest 🌳🌳🌳&lt;/h4&gt;
+&lt;p&gt;Let's not be so greedy and gluttonous.&lt;/p&gt;
+&lt;p&gt;Vanilla decisions trees and bagging uses a top-down, greedy approach. It is greedy because at each step of the tree-building process, the best split is made at that particular step, rather than looking ahead and picking a split that will lead to a better tree in some future step.&lt;/p&gt;
+&lt;p&gt;Random forests provide an improvement over bagged trees by way of a random small tweak that decorrelates the trees. Each time a split in a tree is considered, a random sample of m&amp;lt;p predictors is chosen as split candidates from the full set of p predictors. &lt;/p&gt;
+&lt;p&gt;The split is allowed to use only one of those m predictors, and this ultimately helps decorrelates the trees and generally leads to more accurate predictions. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#  random forest&lt;/span&gt;
+&lt;span class="n"&gt;random_forest_model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;RandomForestClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_estimators&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cross_val_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_forest_model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cross_val_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_forest_model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;0.8564102564102564
+0.8033333333333333
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Random forests further improved the accuracy on the test set to 80%, and there is less overfitting now compared to bagging. The randomness introduced, also decreased the variance.&lt;/p&gt;
+&lt;p&gt;Let's fine tune our hyperparameters to optimize the performance.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Grid Search over n estimators, max samples&lt;/span&gt;
+&lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;n_estimators&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+    &lt;span class="s1"&gt;&amp;#39;max_depth&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+    &lt;span class="s1"&gt;&amp;#39;min_samples_split&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# instantiate &lt;/span&gt;
+&lt;span class="n"&gt;rf_grid_search&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;GridSearchCV&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_forest_model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;param_grid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;rf_grid_search&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# up to 90% on train, increased with more trees but not too many&lt;/span&gt;
+&lt;span class="c1"&gt;# but doesn&amp;#39;t really matter as larger number of trees do not overfit as you are averaging&lt;/span&gt;
+&lt;span class="c1"&gt;# 86% accuracy on test!&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rf_grid_search&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;best_score_&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rf_grid_search&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;best_params_&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rf_grid_search&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;0.9032258064516129
+{&amp;#39;max_depth&amp;#39;: None, &amp;#39;min_samples_split&amp;#39;: 4, &amp;#39;n_estimators&amp;#39;: 10}
+0.8571428571428571
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;h4&gt;Boosting&lt;/h4&gt;
+&lt;p&gt;Let's introduce another ensemble method. &lt;/p&gt;
+&lt;p&gt;With boosting methods, trees are grown sequentially. Each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set. Similarly, the final prediction is constructed by a weighted vote: Weights for each base model depend on their training errors or misclassification rates.&lt;/p&gt;
+&lt;p&gt;This method focuses on reduce bias by taking weak learners to start, and the algorithm is penalize wrong predictions in an iterative nature. Note, the number of trees is important here, as boosting can overfit, unlike in bagging and random forests. We can use cross validation to choose &lt;code&gt;n_estimators&lt;/code&gt;. Boosting focuses on reducing bias, but can also reduce variance.&lt;br&gt;&lt;/p&gt;
+&lt;h5&gt;CatBoost  🐱&lt;/h5&gt;
+&lt;p&gt;Do cats like chocolate? I don't know. Let's see if this boosting model can really purr, by implementing Cat Boost. &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/catboost/catboost"&gt;CatBoost&lt;/a&gt; is a flavour (are you sick of my food puns yet), of boosting. It is a fast, scalable, high performance gradient boosting on decision trees library, used for ranking, classification, regression and other machine learning tasks.&lt;/p&gt;
+&lt;p&gt;This is a pretty small data set, so we won't really see it shine like with large data sets, but it does come with some neat graphics for model evaluation metrics, which I did want to highlight.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Instantiate&lt;/span&gt;
+&lt;span class="n"&gt;cat_model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CatBoostClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;iterations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+    &lt;span class="n"&gt;early_stopping_rounds&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# stop after 10 rounds if no improvement&lt;/span&gt;
+    &lt;span class="n"&gt;custom_loss&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;AUC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Accuracy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;random_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="c1"&gt;# captures logloss, auc and accuracy&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# fit&lt;/span&gt;
+&lt;span class="n"&gt;cat_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;eval_set&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# categorical data&lt;/span&gt;
+&lt;span class="c1"&gt;# indices 0 to 7 &lt;/span&gt;
+&lt;span class="n"&gt;categorical_features_indices&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;cv_params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;early_stopping_rounds&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;random_state&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;custom_loss&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;AUC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Accuracy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;loss_function&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Logloss&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+ &lt;span class="s1"&gt;&amp;#39;iterations&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;cv_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cat_features&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;categorical_features_indices&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;cv_params&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;fold_count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;#    plot=True&lt;/span&gt;
+&lt;span class="c1"&gt;# 55 iterations for it to stabilize, 5 folds cv&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img src="images/catboost.png" alt="catboost" height="364" width="783"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;best_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cv_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;test-Logloss-mean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;best_iter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;test-Logloss-mean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;idxmin&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Best validation Logloss score, {:.4f}±{:.4f} on step {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;best_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;cv_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;test-Logloss-std&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;best_iter&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;best_iter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Best validation Logloss score, 0.3301±0.1217 on step 45
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Validation accuracy score, {:.4f} on step {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;cv_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;cv_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;iterations&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;test-Accuracy-mean&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_numpy&lt;/span&gt;&lt;span class="p"&gt;()[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;best_iter&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Validation accuracy score, 0.8779 on step 45
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aside: By default, CatBoost optimizes for minimizing logloss, and with cross validation we select the model at 45 iterations. Basically, logloss increases as the predicted probability diverges from the actual label.&lt;/p&gt;
+&lt;table class="table"&gt;
+&lt;thead class="table-striped"&gt;
+&lt;tr&gt;
+&lt;th&gt;Test scores&lt;/th&gt;
+&lt;th&gt;Naive&lt;/th&gt;
+&lt;th&gt;Vanilla Decision Tree&lt;/th&gt;
+&lt;th&gt;Bagging&lt;/th&gt;
+&lt;th&gt;Random Forest&lt;/th&gt;    
+&lt;th&gt;CatBoost&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Accuracy&lt;/td&gt;
+&lt;td&gt;55.4%&lt;/td&gt;
+&lt;td&gt;73.7%&lt;/td&gt;
+&lt;td&gt;73.7%&lt;/td&gt;
+&lt;td&gt;85.7%&lt;/td&gt;
+&lt;td&gt;87.8%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As a caveat, with ensemble methods it is not always apparent which variables are most important to the procedure. Generally, boosting and bagging methods improves prediction accuracy at the expense of interpretability. Luckily, CatBoost has a&lt;code&gt;feature_importances&lt;/code&gt; method to understand which feature made the greatest contribution to the final result. &lt;/p&gt;
+&lt;p&gt;This shows that features &lt;code&gt;fruity&lt;/code&gt; and &lt;code&gt;pricepercent&lt;/code&gt; had the biggest influence on classifying if something was a chocolate or a candy. The same as our vanilla tree print out.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;cat_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_feature_importance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prettified&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[(&amp;#39;fruity&amp;#39;, 62.812208418548465),
+ (&amp;#39;pricepercent&amp;#39;, 21.388700907444946),
+ (&amp;#39;pluribus&amp;#39;, 4.915296243219509),
+ (&amp;#39;sugarpercent&amp;#39;, 3.809671603132506),
+ (&amp;#39;caramel&amp;#39;, 2.8654253284742484),
+ (&amp;#39;nougat&amp;#39;, 1.620219841699855),
+ (&amp;#39;bar&amp;#39;, 1.4484940632542251),
+ (&amp;#39;hard&amp;#39;, 1.0595256574622567),
+ (&amp;#39;peanutyalmondy&amp;#39;, 0.06755089925898686),
+ (&amp;#39;crispedricewafer&amp;#39;, 0.012907037505001707)]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr&gt;
+&lt;h3&gt;Bonus: Unsupervised learning&lt;/h3&gt;
+&lt;p&gt;For a taste of what's to come in future posts, let's apply unsupervised learning to a problem to identify targets labels, y. No labels are given to the learning algorithm; it's left to find structure in its input. Unsupervised learning can be a goal in itself (discovering hidden patterns in data), or a means towards an end (feature learning). This is the latter application.&lt;/p&gt;
+&lt;p&gt;Suppose you're a manager at Cadbury, and you want to create a new confectionery product for the masses. However, all you know is certain attributes of your snacks, and want to identify if there structure in your inventory. If there are patterns, then you might be able to create a new product with attributes that people will enjoy!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Life is like a 'cluster' of chocolates - Forrest Gump&lt;/h4&gt;
+&lt;p&gt;&lt;img src="images/gump.png" alt="gump" height="486" width="864"&gt;&lt;/p&gt;
+&lt;p&gt;Okay, let's pretend we only have X. Our previous supervised learning model wouldn't be able to learn, and predict if something was chocolate or candy.&lt;/p&gt;
+&lt;p&gt;How might we cluster these snacks into different categories? &lt;/p&gt;
+&lt;p&gt;We can use K-means clustering to solve this, it's one of the most common methods. Again, we are NOT classifying explicitly, but rather exploring if there are common characteristics in k groups.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;fruity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;fruity&lt;/th&gt;
+      &lt;th&gt;caramel&lt;/th&gt;
+      &lt;th&gt;peanutyalmondy&lt;/th&gt;
+      &lt;th&gt;nougat&lt;/th&gt;
+      &lt;th&gt;crispedricewafer&lt;/th&gt;
+      &lt;th&gt;hard&lt;/th&gt;
+      &lt;th&gt;bar&lt;/th&gt;
+      &lt;th&gt;pluribus&lt;/th&gt;
+      &lt;th&gt;sugarpercent&lt;/th&gt;
+      &lt;th&gt;pricepercent&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;58&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0.604&lt;/td&gt;
+      &lt;td&gt;0.837&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;First, let's look at the ground truth. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;emoji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;🍫&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;🍬&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}[&lt;/span&gt;&lt;span class="n"&gt;snack&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;snack&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;chocolate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;competitorname&lt;/th&gt;
+      &lt;th&gt;chocolate&lt;/th&gt;
+      &lt;th&gt;fruity&lt;/th&gt;
+      &lt;th&gt;caramel&lt;/th&gt;
+      &lt;th&gt;peanutyalmondy&lt;/th&gt;
+      &lt;th&gt;nougat&lt;/th&gt;
+      &lt;th&gt;crispedricewafer&lt;/th&gt;
+      &lt;th&gt;hard&lt;/th&gt;
+      &lt;th&gt;bar&lt;/th&gt;
+      &lt;th&gt;pluribus&lt;/th&gt;
+      &lt;th&gt;sugarpercent&lt;/th&gt;
+      &lt;th&gt;pricepercent&lt;/th&gt;
+      &lt;th&gt;emoji&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;Reeses Peanut Butter cup&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.720&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;Reeses Miniatures&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.034&lt;/td&gt;
+      &lt;td&gt;0.279&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;Twix&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.906&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;Kit Kat&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.313&lt;/td&gt;
+      &lt;td&gt;0.511&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;Snickers&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ground_truth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ground Truth&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filled&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugarpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugar percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;price percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;emoji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="c1"&gt;#.save(&amp;#39;../content/images/ground_truth.svg&amp;#39;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="ground_truth.svg" src="images/ground_truth.svg"&gt;&lt;/p&gt;
+&lt;p&gt;While it's not a very strong cluster, you can see that chocolates (black) tend to cost more relative to candies (red). The spread of the sugar amount varies, you have very sweet and less sweet snacks.&lt;/p&gt;
+&lt;p&gt;Let's use k-means clustering, with k=2 clusters to see if we can categorize these snacks into two groups. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# instantiate&lt;/span&gt;
+&lt;span class="n"&gt;kmeans_model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;KMeans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_clusters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# fit on X, don&amp;#39;t need train and test as there&amp;#39;s no &amp;#39;accuracy&amp;#39; to measure&lt;/span&gt;
+&lt;span class="c1"&gt;# there is inertia, and silhouette, for comparing clustering methods, out of scope for this post&lt;/span&gt;
+&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# predict labels, group everything into 1 or 0&lt;/span&gt;
+&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;labels_&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# add the learned cluster labels back to df&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cluster_label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;labels_&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, each snack has a label of 1 or 0. From these 10 dimensions (fruity, caramel ... price percentile), the model was able to group these into two clusters that are the most similar to each other, by minimizing the within-cluster sum of squares.&lt;/p&gt;
+&lt;p&gt;Since labels are arbitrary when clustering, we can rename the cluster labels to chocolate and candy emojis so we can compare to ground truth (since we have it, generally we wouldn't).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kmeans_emoji&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cluster_label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;🍫&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;🍬&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;competitorname&lt;/th&gt;
+      &lt;th&gt;chocolate&lt;/th&gt;
+      &lt;th&gt;fruity&lt;/th&gt;
+      &lt;th&gt;caramel&lt;/th&gt;
+      &lt;th&gt;peanutyalmondy&lt;/th&gt;
+      &lt;th&gt;nougat&lt;/th&gt;
+      &lt;th&gt;crispedricewafer&lt;/th&gt;
+      &lt;th&gt;hard&lt;/th&gt;
+      &lt;th&gt;bar&lt;/th&gt;
+      &lt;th&gt;pluribus&lt;/th&gt;
+      &lt;th&gt;sugarpercent&lt;/th&gt;
+      &lt;th&gt;pricepercent&lt;/th&gt;
+      &lt;th&gt;emoji&lt;/th&gt;
+      &lt;th&gt;cluster_label&lt;/th&gt;
+      &lt;th&gt;kmeans_emoji&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;Reeses Peanut Butter cup&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.720&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;Reeses Miniatures&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.034&lt;/td&gt;
+      &lt;td&gt;0.279&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;Twix&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.906&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;Kit Kat&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.313&lt;/td&gt;
+      &lt;td&gt;0.511&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;Snickers&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.546&lt;/td&gt;
+      &lt;td&gt;0.651&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;🍫&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;accuracy_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;emoji&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kmeans_emoji&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;0.8072289156626506
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;By grouping observations into two sets, one group looks like chocolate, and the other group looks like candy, when compared on the two dimensions of price and sugar percentile.&lt;/p&gt;
+&lt;p&gt;16 out of 83 observations were mismatched, but hey, that's pretty good! &lt;/p&gt;
+&lt;p&gt;Now, let's plot this with the centroids.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cluster_centers_&lt;/span&gt; &lt;span class="c1"&gt;#2 clusters in 11 dimensions&lt;/span&gt;
+&lt;span class="c1"&gt;# take the elements for sugar and price&lt;/span&gt;
+&lt;span class="c1"&gt;# index 9 and 10&lt;/span&gt;
+&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cluster_centers_&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array([[0.48074999, 0.38033928],
+       [0.50892592, 0.66403704]])
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# plot centroids&lt;/span&gt;
+&lt;span class="n"&gt;centroids&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cluster_centers_&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
+&lt;span class="n"&gt;centroids&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sugarpercent&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pricepercent&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;centroids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;kmeans_emoji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kmeans_emoji&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;🍬&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;🍫&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]})&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;kmeans&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;K-means, with 2 Clusters&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filled&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugarpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugar percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;price percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;kmeans_emoji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;centroid_plot&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;centroids&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filled&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugarpercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sugar percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pricepercent&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;price percentile&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])),&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;kmeans_emoji&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;alt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hconcat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kmeans&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;centroid_plot&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ground_truth&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;configure_axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gridOpacity&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.25&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="c1"&gt;#.save(&amp;#39;../content/images/compare.svg&amp;#39;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="compare.svg" src="images/compare.svg"&gt;&lt;/p&gt;
+&lt;p&gt;Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>Elo &amp; Brier scores in classification problems</title><link href="https://garrrychan.github.io/blog/elo-nba.html" rel="alternate"></link><published>2019-04-13T12:00:00-04:00</published><updated>2019-04-13T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-13:/blog/elo-nba.html</id><summary type="html">&lt;p&gt;The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).&lt;/p&gt;
 &lt;p&gt;Thanks @MaxHumber for inspiring this post.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Elo&lt;/h3&gt;
@@ -66,8 +950,8 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 &lt;/table&gt;
 
 &lt;p&gt;&lt;strong&gt;Equation to update a team's elo score after outcome of a game:&lt;/strong&gt;&lt;/p&gt;
-&lt;h4&gt;$$\begin{align}{R'_A = R_A + K(S_A-E_A))}\end{align}$$&lt;/h4&gt;
-&lt;p&gt;$$S_A$$ is 1 if the team won, else 0 if the team lost.&lt;/p&gt;
+&lt;h4&gt;$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$&lt;/h4&gt;
+&lt;p&gt;The Score of A is 1 if the team won, else 0 if the team lost.&lt;/p&gt;
 &lt;h4&gt;Import Libraries&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# data wrangling&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
@@ -104,7 +988,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 &lt;li&gt;&lt;a href="https://github.com/fivethirtyeight/data/tree/master/nba-elo"&gt;FiveThirtyEight NBA Elo Csv&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Let's create a class to define a function, &lt;code&gt;prob&lt;/code&gt;, to calculate the probability of a team winning based on elo,
-and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo after the outcome of the game.&lt;/p&gt;
+and define another function, &lt;code&gt;update&lt;/code&gt;, to update the Elo after the outcome of the game.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;EloTracker&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1500&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -202,9 +1086,9 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
 
 &lt;hr&gt;
 &lt;h3&gt;Graphs&lt;/h3&gt;
-&lt;p&gt;Let's create some elo graphs using NBA data to demonstrate this over a season. &lt;/p&gt;
-&lt;p&gt;Note, at the beginning of the 2014 season, elos do not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.&lt;/p&gt;
-&lt;p&gt;In NBA elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:&lt;/p&gt;
+&lt;p&gt;Let's create some Elo graphs using NBA data to demonstrate this over a season. &lt;/p&gt;
+&lt;p&gt;Note, at the beginning of the 2014 season, Elo does not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.&lt;/p&gt;
+&lt;p&gt;In NBA Elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:&lt;/p&gt;
 &lt;p&gt;$$0.75 \times 1700 + 0.25 \times 1500 = 1650$$&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# data for 2014-2015 NBA season&lt;/span&gt;
 &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./data/nba_elo.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -339,9 +1223,9 @@ and define another function, &lt;code&gt;update&lt;/code&gt;, to update the elo 
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_31_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_30_0.svg"&gt;&lt;/p&gt;
 &lt;p&gt;Ratings are established on a game-by-game rather than a season-by-season basis. So you can see changes in a team's performance over the course of the year: The Toronto Raptors had a much higher rating early in the 2014-15 season than at the end of it, while the reverse has been true for the Boston Celtics, who gained momentum going into the playoffs.&lt;/p&gt;
-&lt;p&gt;Remember teams are average with 1500 elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an elo of 1750+, the Warriors are a true title contender!&lt;/p&gt;
+&lt;p&gt;Remember teams are average with 1500 Elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an Elo of 1750+, the Warriors are a true title contender!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Establish Baseline&lt;/h3&gt;
 &lt;h4&gt;Naive Model&lt;/h4&gt;
@@ -391,7 +1275,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 &lt;hr&gt;
 &lt;h3&gt;Elo Model&lt;/h3&gt;
-&lt;p&gt;What if we tried to be smarter? Are we able to create a model with elo that is more accurate?&lt;/p&gt;
+&lt;p&gt;What if we tried to be smarter? Are we able to create a model with Elo that is more accurate?&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# calculate the probability of winning for the home team using elo&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;prob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;home_elo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;away_elo&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;expected_home&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;away_elo&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;home_elo&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;400&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
@@ -478,7 +1362,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_52_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_51_0.svg"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;margin_of_safety&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict_home_elo_win&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;0.70&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;margin_of_safety&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-hover&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -594,7 +1478,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 
 &lt;p&gt;As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! &lt;/p&gt;
-&lt;p&gt;Let's plot this relationship, accuracy vs margin of safety.&lt;/p&gt;
+&lt;p&gt;Let's plot this relationship, accuracy vs. margin of safety.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;my_plot&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt; 
@@ -619,10 +1503,10 @@ Let's create naive model, by predicting that the home team always wins. How accu
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_56_0.svg"&gt;&lt;/p&gt;
-&lt;p&gt;As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games which are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)&lt;/p&gt;
-&lt;p&gt;Also, the trend is pretty smooth, so the occurrences of upsets from the elo model are not clustered around any specific threshold, which is desired.&lt;/p&gt;
-&lt;p&gt;In summary, elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/elo_nba_55_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games that are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)&lt;/p&gt;
+&lt;p&gt;Also, the trend is pretty smooth, so the occurrences of upsets from the Elo model are not clustered around any specific threshold, which is desired.&lt;/p&gt;
+&lt;p&gt;In summary, Elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!&lt;/p&gt;
 &lt;p&gt;I highly recommend you to explore both, to see how you could incorporate them into your workflow.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Reference and Further Reading&lt;/h3&gt;
@@ -1159,7 +2043,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_30_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_30_0.svg"&gt;&lt;/p&gt;
 &lt;p&gt;Compare this with the plot for the league &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# change way we invoke plot so can manipulate the axis&lt;/span&gt;
 &lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;subplots&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -1198,7 +2082,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_32_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_32_0.svg"&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;3. Generate plots for all the teams in a division, in a row&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create a dictionary with the team names, and team plot colour. I&amp;#39;ll do this with Atlantic, &lt;/span&gt;
@@ -1282,7 +2166,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_37_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_37_0.svg"&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;4. Create the full chart for the entire NBA&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# team colours source: https://teamcolorcodes.com/&lt;/span&gt;
@@ -1373,7 +2257,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_blog_40_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="svg" src="images/nba_team_salary_40_0.svg"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;nba_team_salary.pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1492,26 +2376,15 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Sort by probability of reaching final four&lt;/span&gt;
-&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort_values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;final_four_%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ascending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# blog html visualization &lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Sort by probability of reaching final four&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort_values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;final_four_%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ascending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div&gt;
-&lt;style scoped&gt;
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-&lt;/style&gt;
-&lt;table border="1" class="dataframe"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1552,7 +2425,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
 
 &lt;h3&gt;Example 2&lt;/h3&gt;
 &lt;hr&gt;
@@ -1578,5 +2450,5 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;With &lt;code&gt;lambda&lt;/code&gt; in our toolbelt, we'll have a function to to write elegant and beautiful code for data wrangling. 
+&lt;p&gt;With &lt;code&gt;lambda&lt;/code&gt; in our toolbelt, we'll have a function to write elegant and beautiful code for data wrangling. 
 &lt;br&gt;&lt;/p&gt;</content><category term="python"></category></entry></feed>

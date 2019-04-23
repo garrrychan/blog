@@ -82,8 +82,8 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 </table>
 
 <p><strong>Equation to update a team's elo score after outcome of a game:</strong></p>
-<h4>$$\begin{align}{R'_A = R_A + K(S_A-E_A))}\end{align}$$</h4>
-<p>$$S_A$$ is 1 if the team won, else 0 if the team lost.</p>
+<h4>$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$</h4>
+<p>The Score of A is 1 if the team won, else 0 if the team lost.</p>
 <h4>Import Libraries</h4>
 <div class="highlight"><pre><span></span><span class="c1"># data wrangling</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
@@ -120,7 +120,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 <li><a href="https://github.com/fivethirtyeight/data/tree/master/nba-elo">FiveThirtyEight NBA Elo Csv</a></li>
 </ul>
 <p>Let's create a class to define a function, <code>prob</code>, to calculate the probability of a team winning based on elo,
-and define another function, <code>update</code>, to update the elo after the outcome of the game.</p>
+and define another function, <code>update</code>, to update the Elo after the outcome of the game.</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EloTracker</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1500</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -218,9 +218,9 @@ and define another function, <code>update</code>, to update the elo after the ou
 
 <hr>
 <h3>Graphs</h3>
-<p>Let's create some elo graphs using NBA data to demonstrate this over a season. </p>
-<p>Note, at the beginning of the 2014 season, elos do not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.</p>
-<p>In NBA elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:</p>
+<p>Let's create some Elo graphs using NBA data to demonstrate this over a season. </p>
+<p>Note, at the beginning of the 2014 season, Elo does not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.</p>
+<p>In NBA Elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:</p>
 <p>$$0.75 \times 1700 + 0.25 \times 1500 = 1650$$</p>
 <div class="highlight"><pre><span></span><span class="c1"># data for 2014-2015 NBA season</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/nba_elo.csv&#39;</span><span class="p">)</span>
@@ -355,9 +355,9 @@ and define another function, <code>update</code>, to update the elo after the ou
 </pre></div>
 
 
-<p><img alt="svg" src="images/elo_nba_31_0.svg"></p>
+<p><img alt="svg" src="images/elo_nba_30_0.svg"></p>
 <p>Ratings are established on a game-by-game rather than a season-by-season basis. So you can see changes in a team's performance over the course of the year: The Toronto Raptors had a much higher rating early in the 2014-15 season than at the end of it, while the reverse has been true for the Boston Celtics, who gained momentum going into the playoffs.</p>
-<p>Remember teams are average with 1500 elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an elo of 1750+, the Warriors are a true title contender!</p>
+<p>Remember teams are average with 1500 Elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an Elo of 1750+, the Warriors are a true title contender!</p>
 <hr>
 <h3>Establish Baseline</h3>
 <h4>Naive Model</h4>
@@ -407,7 +407,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 <hr>
 <h3>Elo Model</h3>
-<p>What if we tried to be smarter? Are we able to create a model with elo that is more accurate?</p>
+<p>What if we tried to be smarter? Are we able to create a model with Elo that is more accurate?</p>
 <div class="highlight"><pre><span></span><span class="c1"># calculate the probability of winning for the home team using elo</span>
 <span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">away_elo</span><span class="p">):</span>
     <span class="n">expected_home</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">away_elo</span> <span class="o">-</span> <span class="n">home_elo</span><span class="p">)</span><span class="o">/</span><span class="mi">400</span><span class="p">)</span> <span class="p">)</span>
@@ -494,7 +494,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 </pre></div>
 
 
-<p><img alt="svg" src="images/elo_nba_52_0.svg"></p>
+<p><img alt="svg" src="images/elo_nba_51_0.svg"></p>
 <div class="highlight"><pre><span></span><span class="n">margin_of_safety</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="o">&gt;</span> <span class="mf">0.70</span><span class="p">]</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">margin_of_safety</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-hover&quot;</span><span class="p">))</span>
 </pre></div>
@@ -610,7 +610,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 
 
 <p>As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! </p>
-<p>Let's plot this relationship, accuracy vs margin of safety.</p>
+<p>Let's plot this relationship, accuracy vs. margin of safety.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">my_plot</span><span class="p">():</span> 
@@ -635,10 +635,10 @@ Let's create naive model, by predicting that the home team always wins. How accu
 </pre></div>
 
 
-<p><img alt="svg" src="images/elo_nba_56_0.svg"></p>
-<p>As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games which are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)</p>
-<p>Also, the trend is pretty smooth, so the occurrences of upsets from the elo model are not clustered around any specific threshold, which is desired.</p>
-<p>In summary, elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!</p>
+<p><img alt="svg" src="images/elo_nba_55_0.svg"></p>
+<p>As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games that are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)</p>
+<p>Also, the trend is pretty smooth, so the occurrences of upsets from the Elo model are not clustered around any specific threshold, which is desired.</p>
+<p>In summary, Elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!</p>
 <p>I highly recommend you to explore both, to see how you could incorporate them into your workflow.</p>
 <hr>
 <h3>Reference and Further Reading</h3>
