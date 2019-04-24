@@ -294,7 +294,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
+<p><img style = "display:block;" src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
 <p>First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. </p>
 <p>And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.</p>
 <hr>
@@ -453,8 +453,8 @@ Name: chocolate, dtype: int64
 <span class="n">cat_model</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="n">CatBoostClassifier</span><span class="p">(</span>
     <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
     <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># stop after 10 rounds if no improvement</span>
-    <span class="n">custom_loss</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;AUC&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">],</span>
-    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="c1"># captures logloss, auc and accuracy</span>
+    <span class="n">custom_loss</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;AUC&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">],</span> <span class="c1"># captures logloss by default, also capture auc and accuracy</span>
+    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="p">)</span>
 
 <span class="c1"># fit</span>
@@ -865,7 +865,7 @@ Name: chocolate, dtype: int64
 
 
 <p>By grouping observations into two sets, one group looks like chocolate, and the other group looks like candy, when compared on the two dimensions of price and sugar percentile.</p>
-<p>16 out of 83 observations were mismatched, but hey, that's pretty good! </p>
+<p>67 out of 83 observations were classified correctly. Hey, that's pretty good! </p>
 <p>Now, let's plot this with the centroids.</p>
 <div class="highlight"><pre><span></span><span class="n">kmeans_model</span><span class="o">.</span><span class="n">cluster_centers_</span> <span class="c1">#2 clusters in 11 dimensions</span>
 <span class="c1"># take the elements for sugar and price</span>

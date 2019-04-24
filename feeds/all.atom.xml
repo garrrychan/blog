@@ -274,7 +274,7 @@ Name: chocolate, dtype: int64
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src="images/candytree.svg" alt="candytree" height="860" width="758"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img style = "display:block;" src="images/candytree.svg" alt="candytree" height="860" width="758"&gt;&lt;/p&gt;
 &lt;p&gt;First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. &lt;/p&gt;
 &lt;p&gt;And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.&lt;/p&gt;
 &lt;hr&gt;
@@ -433,8 +433,8 @@ Name: chocolate, dtype: int64
 &lt;span class="n"&gt;cat_model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CatBoostClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;iterations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
     &lt;span class="n"&gt;early_stopping_rounds&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# stop after 10 rounds if no improvement&lt;/span&gt;
-    &lt;span class="n"&gt;custom_loss&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;AUC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Accuracy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-    &lt;span class="n"&gt;random_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="c1"&gt;# captures logloss, auc and accuracy&lt;/span&gt;
+    &lt;span class="n"&gt;custom_loss&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;AUC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Accuracy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;# captures logloss by default, also capture auc and accuracy&lt;/span&gt;
+    &lt;span class="n"&gt;random_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# fit&lt;/span&gt;
@@ -845,7 +845,7 @@ Name: chocolate, dtype: int64
 
 
 &lt;p&gt;By grouping observations into two sets, one group looks like chocolate, and the other group looks like candy, when compared on the two dimensions of price and sugar percentile.&lt;/p&gt;
-&lt;p&gt;16 out of 83 observations were mismatched, but hey, that's pretty good! &lt;/p&gt;
+&lt;p&gt;67 out of 83 observations were classified correctly. Hey, that's pretty good! &lt;/p&gt;
 &lt;p&gt;Now, let's plot this with the centroids.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;kmeans_model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cluster_centers_&lt;/span&gt; &lt;span class="c1"&gt;#2 clusters in 11 dimensions&lt;/span&gt;
 &lt;span class="c1"&gt;# take the elements for sugar and price&lt;/span&gt;
@@ -1519,7 +1519,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 &lt;p&gt;This was incredible practice with Matplotlib …&lt;/p&gt;</summary><content type="html">&lt;p&gt;FiveThirtyEight is one of my favourite places to read thoughtful analysis, and see data visualizations. I was inspired by one of their posts on &lt;a href="https://fivethirtyeight.com/features/how-your-favorite-baseball-team-blows-its-money/"&gt;'how your favourite baseball team blows its money'&lt;/a&gt;. As an avid basketball fan, I recreated this graphic with NBA data. &lt;/p&gt;
 &lt;p&gt;This was incredible practice with Matplotlib. Thank you to Amy Gordon for her &lt;a href="https://github.com/ag2816/"&gt;Github&lt;/a&gt; for the style guide.&lt;/p&gt;
 &lt;h3&gt;Background&lt;/h3&gt;
-&lt;p&gt;&lt;img alt="nba svg" src="images/nba_team_salary_blog_40_0.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/nba_team_salary_40_0.svg" alt="nba"&gt;&lt;/p&gt;
 &lt;p&gt;This chart illustrates the relationship between team spending and win percentage for each basketball season from 2001 - 2015. Essentially, the steeper the curve, the better the team was maximizing value. &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Each regular season is one dot in the figure&lt;/li&gt;
