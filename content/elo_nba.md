@@ -20,8 +20,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 
 Over the years, you can see its extension and adoption to a wide range of use cases, including video games (CounterStrike, League of Legends), and sports (NBA, football, baseball).
 
-![elo.svg](images/elo.svg)
-
+<img src="images/images/elo_nba_30_0.svg" alt="elo">
 
 Needless to say, it's a very popular framework! Teams always gain Elo points after winning games and lose ground after losing them, in this zero-sum paradigm. Moreover, if you a play stronger opponent and win, then you should be rewarded more points, than if you play weaker opponents and win, and vice versa. Intuitive, right?
 
@@ -77,13 +76,11 @@ The Elo model calculates expected probability of winning of team A, which follow
   </tbody>
 </table>
 
-
-
 **Equation to update a team's elo score after outcome of a game:**
 
-#### $$\begin{align}{R'_A = R_A + K(S_A-E_A))}\end{align}$$
+#### $$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$
 
-$$S_A$$ is 1 if the team won, else 0 if the team lost.
+The Score of A is 1 if the team won, else 0 if the team lost.
 
 #### Import Libraries
 
@@ -123,7 +120,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 * [FiveThirtyEight NBA Elo Csv](https://github.com/fivethirtyeight/data/tree/master/nba-elo)
 
 Let's create a class to define a function, `prob`, to calculate the probability of a team winning based on elo,
-and define another function, `update`, to update the elo after the outcome of the game.
+and define another function, `update`, to update the Elo after the outcome of the game.
 
 
 ```python
@@ -238,11 +235,11 @@ print(f' Toronto gained {toronto_elo_after - toronto_elo_before} elo points')
 
 ### Graphs
 
-Let's create some elo graphs using NBA data to demonstrate this over a season. 
+Let's create some Elo graphs using NBA data to demonstrate this over a season. 
 
-Note, at the beginning of the 2014 season, elos do not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.
+Note, at the beginning of the 2014 season, Elo does not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.
 
-In NBA elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:
+In NBA Elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:
 
 $$0.75 \times 1700 + 0.25 \times 1500 = 1650$$
 
@@ -298,10 +295,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <th>pts_visitor</th>
       <th>visitor_elo</th>
       <th>winner</th>
-      <th>y</th>
-      <th>predict_home_win</th>
-      <th>predict_home_elo_win</th>
-      <th>predict_elo</th>
     </tr>
   </thead>
   <tbody>
@@ -315,10 +308,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <td>108</td>
       <td>1596.46</td>
       <td>Rockets</td>
-      <td>0</td>
-      <td>1.00</td>
-      <td>0.27</td>
-      <td>Rockets</td>
     </tr>
     <tr>
       <th>1</th>
@@ -329,10 +318,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <td>Magic</td>
       <td>84</td>
       <td>1359.43</td>
-      <td>Pelicans</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.64</td>
       <td>Pelicans</td>
     </tr>
     <tr>
@@ -345,10 +330,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <td>100</td>
       <td>1592.01</td>
       <td>Spurs</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.65</td>
-      <td>Spurs</td>
     </tr>
     <tr>
       <th>3</th>
@@ -360,10 +341,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <td>105</td>
       <td>1518.27</td>
       <td>Celtics</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.31</td>
-      <td>Nets</td>
     </tr>
     <tr>
       <th>4</th>
@@ -374,10 +351,6 @@ HTML(df.head().to_html(classes="table table-striped table-hover"))
       <td>Bucks</td>
       <td>106</td>
       <td>1317.85</td>
-      <td>Hornets</td>
-      <td>1</td>
-      <td>1.00</td>
-      <td>0.75</td>
       <td>Hornets</td>
     </tr>
   </tbody>
@@ -413,12 +386,12 @@ plt.savefig('elo.svg')
 ```
 
 
-![svg](images/elo_nba_31_0.svg)
+![svg](images/elo_nba_30_0.svg)
 
 
 Ratings are established on a game-by-game rather than a season-by-season basis. So you can see changes in a team's performance over the course of the year: The Toronto Raptors had a much higher rating early in the 2014-15 season than at the end of it, while the reverse has been true for the Boston Celtics, who gained momentum going into the playoffs.
 
-Remember teams are average with 1500 elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an elo of 1750+, the Warriors are a true title contender!
+Remember teams are average with 1500 Elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an Elo of 1750+, the Warriors are a true title contender!
 
 ---
 ### Establish Baseline
@@ -489,7 +462,7 @@ brier_score_loss(y, y_prob, pos_label=1)
 
 ---
 ### Elo Model
-What if we tried to be smarter? Are we able to create a model with elo that is more accurate?
+What if we tried to be smarter? Are we able to create a model with Elo that is more accurate?
 
 
 ```python
@@ -596,7 +569,7 @@ plt.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
 ```
 
 
-![svg](images/elo_nba_52_0.svg)
+![svg](images/elo_nba_51_0.svg)
 
 
 
@@ -725,7 +698,7 @@ accuracy_score(y, y_hat)
 
 As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! 
 
-Let's plot this relationship, accuracy vs margin of safety)
+Let's plot this relationship, accuracy vs. margin of safety.
 
 
 ```python
@@ -753,14 +726,14 @@ plt.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
 ```
 
 
-![svg](images/elo_nba_56_0.svg)
+![svg](images/elo_nba_55_0.svg)
 
 
-As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games which are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)
+As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games that are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)
 
-Also, the trend is pretty smooth, so the occurrences of upsets from the elo model are not clustered around any specific threshold, which is desired.
+Also, the trend is pretty smooth, so the occurrences of upsets from the Elo model are not clustered around any specific threshold, which is desired.
 
-In summary, elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!
+In summary, Elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!
 
 I highly recommend you to explore both, to see how you could incorporate them into your workflow.
 

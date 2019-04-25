@@ -1,0 +1,16 @@
+#tags ul li {
+    list-style: none;
+}
+
+#tags {
+    margin-top: 15px;
+    padding-top: 0px;
+}
+
+.footer {
+    margin-top: 10px;
+}
+
+#home h2 {
+    color: #181818;
+}

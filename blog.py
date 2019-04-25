@@ -8,7 +8,7 @@ def shell(command):
         command = [command]
     [subprocess.call([c], shell=True) for c in command]
 
-def html(pelican='pelicanconf.py', output='output', content='content', theme='theme'):
+def html(pelican='pelicanconf.py', output='output', content='content', theme='taman'):
     '''Build website artifacts'''
     shell(f'pelican -s {pelican} -o {output} -t {theme} {content}')
 
