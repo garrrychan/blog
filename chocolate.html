@@ -1,26 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
- <title>Life is like a box of chocolates</title>
- <!-- Latest compiled and minified CSS -->
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
- <div class="container">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <title>
+    github.com/garrrychan
+&ndash; Life is like a box of chocolates  </title>
 
- <h1><a href="https://garrrychan.github.io/blog">github.com/garrrychan</a></h1>
+    <link rel="canonical" href="https://garrrychan.github.io/blog/chocolate.html">
 
- </div>
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/logo.png">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+  <!--I need this for the logos-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<meta name="keywords" content="python">
 </head>
 <body>
- <div class="container">
-<head>
- <meta charset='utf-8'>
-</head>
-<div class="row">
- <div class="col-md-8">
-  <h3>Life is like a box of chocolates</h3>
-  <label>19 April 2019</label>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-  <p>Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel <em>happy</em>? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? </p>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo.png" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+  </div>
+
+  <div id="social">
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <i class="fa fa-linkedin"></i>
+    </a>
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+      <i class="fa fa-github"></i>
+    </a>
+  </div>
+
+  <!---<div id="tags">
+    <ul>
+      </ul>
+  </div>--->
+</nav>    </div>
+
+    <div class="eleven columns content">
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <p class="meta">
+    19 April 2019
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/chocolate.html">Life is like a box of chocolates</a></h1>
+
+  <div class="article_text" id="post">
+    <p>Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel <em>happy</em>? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? </p>
 <p>For example, if you told me that your favourite snack contains peanuts, and is not in a bar shape, my model should guess that this is chocolate (Reese Pieces)!</p>
 <p>This is a classification problem, so let's spin up decision trees and sprinkle in some ensemble methods
 (bagging &amp; boosting) to improve prediction performance, and add a kick of flavour. This is a fun exercise to explore a variety of algorithms!</p>
@@ -294,7 +339,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img style = "display:block;" src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
+<p><img src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
 <p>First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. </p>
 <p>And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.</p>
 <hr>
@@ -904,8 +949,19 @@ Name: chocolate, dtype: int64
 
 <p><img alt="compare.svg" src="images/compare.svg"></p>
 <p>Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.</p>
- </div>
-</div>
- </div>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, using a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
 </body>
 </html>

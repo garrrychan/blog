@@ -1,26 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
- <title>Lambda function for data wrangling</title>
- <!-- Latest compiled and minified CSS -->
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
- <div class="container">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <title>
+    github.com/garrrychan
+&ndash; Lambda function for data wrangling  </title>
 
- <h1><a href="https://garrrychan.github.io/blog">github.com/garrrychan</a></h1>
+    <link rel="canonical" href="https://garrrychan.github.io/blog/lambda.html">
 
- </div>
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/logo.png">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+  <!--I need this for the logos-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<meta name="keywords" content="python">
 </head>
 <body>
- <div class="container">
-<head>
- <meta charset='utf-8'>
-</head>
-<div class="row">
- <div class="col-md-8">
-  <h3>Lambda function for data wrangling</h3>
-  <label>28 March 2019</label>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-  <p>Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!</p>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo.png" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+  </div>
+
+  <div id="social">
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <i class="fa fa-linkedin"></i>
+    </a>
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+      <i class="fa fa-github"></i>
+    </a>
+  </div>
+
+  <!---<div id="tags">
+    <ul>
+      </ul>
+  </div>--->
+</nav>    </div>
+
+    <div class="eleven columns content">
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <p class="meta">
+    28 March 2019
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/lambda.html">Lambda function for data wrangling</a></h1>
+
+  <div class="article_text" id="post">
+    <p>Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!</p>
 <p>Whereas in programming, by definition, Lambda is an <em>anonymous</em> function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. </p>
 <p>For me, I choose to write a Lambda function over a named function, if it's a simple function that will only be used a few times, passed as an argument. 
 <br></p>
@@ -60,6 +105,7 @@
 <p><code>lambda</code> is powerful when used in conjunction with a pandas data frame and <code>apply</code>.  Given that we're in the Sweet Sixteen of March madness, let's use NCAA data.
 <br></p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;college&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Duke&#39;</span><span class="p">,</span> <span class="s1">&#39;North Carolina&#39;</span><span class="p">,</span> <span class="s1">&#39;Virginia&#39;</span><span class="p">,</span> <span class="s1">&#39;Oregon&#39;</span><span class="p">],</span>
@@ -69,74 +115,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">df</span>
-</pre></div>
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>college</th>
-      <th>seed</th>
-      <th>final_four_%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Duke</td>
-      <td>1</td>
-      <td>55</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>North Carolina</td>
-      <td>1</td>
-      <td>38</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Virginia</td>
-      <td>1</td>
-      <td>53</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Oregon</td>
-      <td>12</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<p>Let's add a new column, <em>upset</em>, identifying whether or not a college is the favourite or underdog, using a <code>lambda</code> function.</p>
-<p>With <code>lambda</code> , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
-<br></p>
-<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;upset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">lookup</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Favourite&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;Underdog&quot;</span><span class="p">}</span> <span class="p">:</span> <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span><span class="c1"># blog html visualization </span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
-
-<span class="c1"># Sort by probability of reaching final four</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
@@ -147,7 +126,6 @@
       <th>college</th>
       <th>seed</th>
       <th>final_four_%</th>
-      <th>upset</th>
     </tr>
   </thead>
   <tbody>
@@ -156,31 +134,39 @@
       <td>Duke</td>
       <td>1</td>
       <td>55</td>
-      <td>Favourite</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Virginia</td>
-      <td>1</td>
-      <td>53</td>
-      <td>Favourite</td>
     </tr>
     <tr>
       <th>1</th>
       <td>North Carolina</td>
       <td>1</td>
       <td>38</td>
-      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Oregon</td>
       <td>12</td>
       <td>3</td>
-      <td>Underdog</td>
     </tr>
   </tbody>
 </table>
+
+<p>Let's add a new column, <em>upset</em>, identifying whether or not a college is the favourite or underdog, using a <code>lambda</code> function.</p>
+<p>With <code>lambda</code> , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
+<br></p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;upset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">lookup</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Favourite&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;Underdog&quot;</span><span class="p">}</span> <span class="p">:</span> <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Sort by probability of reaching final four</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
 
 <h3>Example 2</h3>
 <hr>
@@ -202,14 +188,21 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Ja Morant
-</pre></div>
-
-
 <p>With <code>lambda</code> in our toolbelt, we'll have a function to write elegant and beautiful code for data wrangling. 
 <br></p>
- </div>
-</div>
- </div>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, using a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
 </body>
 </html>

@@ -274,7 +274,7 @@ Name: chocolate, dtype: int64
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img style = "display:block;" src="images/candytree.svg" alt="candytree" height="860" width="758"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/candytree.svg" alt="candytree" height="860" width="758"&gt;&lt;/p&gt;
 &lt;p&gt;First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. &lt;/p&gt;
 &lt;p&gt;And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.&lt;/p&gt;
 &lt;hr&gt;
@@ -1549,6 +1549,9 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;linear_model&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;LinearRegression&lt;/span&gt;
 
+&lt;span class="c1"&gt;# blog html visualization &lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;
+
 &lt;span class="c1"&gt;# plt.rcParams[&amp;#39;figure.dpi&amp;#39;] = 50&lt;/span&gt;
 &lt;span class="c1"&gt;# %config InlineBackend.figure_format = &amp;#39;retina&amp;#39;&lt;/span&gt;
 &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;InlineBackend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure_format&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;svg&amp;#39;&lt;/span&gt;
@@ -1597,25 +1600,11 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z_salary&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;z_salary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;year&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;salary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div&gt;
-&lt;style scoped&gt;
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-&lt;/style&gt;
-&lt;table border="1" class="dataframe"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1663,7 +1652,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# export to csv &lt;/span&gt;
 &lt;span class="n"&gt;long_salary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./data/nba_team_salary_final.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1688,25 +1676,11 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="c1"&gt;# This dataset is from 1947-2019, so I&amp;#39;ll filter for years 2001 to 2015 to match our Salary data&lt;/span&gt;
 &lt;span class="n"&gt;games&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;games&lt;/span&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;games&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;year_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;2001&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;games&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;year_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;2015&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
 
-&lt;span class="n"&gt;games&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;games&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div&gt;
-&lt;style scoped&gt;
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-&lt;/style&gt;
-&lt;table border="1" class="dataframe"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1772,7 +1746,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# reset record to beginning with list comphrension&lt;/span&gt;
 &lt;span class="n"&gt;record&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;team&lt;/span&gt;&lt;span class="p"&gt;:{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;G&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;W&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;L&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;team&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;teams&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -1811,36 +1784,36 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;Bucks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 52, &amp;#39;L&amp;#39;: 30},
- &amp;#39;Bulls&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 15, &amp;#39;L&amp;#39;: 67},
- &amp;#39;Cavaliers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 30, &amp;#39;L&amp;#39;: 52},
- &amp;#39;Celtics&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 36, &amp;#39;L&amp;#39;: 46},
- &amp;#39;Clippers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 31, &amp;#39;L&amp;#39;: 51},
- &amp;#39;Grizzlies&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 23, &amp;#39;L&amp;#39;: 59},
- &amp;#39;Hawks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 25, &amp;#39;L&amp;#39;: 57},
- &amp;#39;Heat&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 50, &amp;#39;L&amp;#39;: 32},
- &amp;#39;Hornets&amp;#39;: {&amp;#39;G&amp;#39;: 0, &amp;#39;W&amp;#39;: 0, &amp;#39;L&amp;#39;: 0},
- &amp;#39;Jazz&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 53, &amp;#39;L&amp;#39;: 29},
- &amp;#39;Kings&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 55, &amp;#39;L&amp;#39;: 27},
- &amp;#39;Knicks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 48, &amp;#39;L&amp;#39;: 34},
- &amp;#39;Lakers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 56, &amp;#39;L&amp;#39;: 26},
- &amp;#39;Magic&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 43, &amp;#39;L&amp;#39;: 39},
- &amp;#39;Mavericks&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 53, &amp;#39;L&amp;#39;: 29},
- &amp;#39;Nets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 26, &amp;#39;L&amp;#39;: 56},
- &amp;#39;Nuggets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 40, &amp;#39;L&amp;#39;: 42},
- &amp;#39;Pacers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 41, &amp;#39;L&amp;#39;: 41},
- &amp;#39;Pelicans&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 46, &amp;#39;L&amp;#39;: 36},
- &amp;#39;Pistons&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 32, &amp;#39;L&amp;#39;: 50},
- &amp;#39;Raptors&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 47, &amp;#39;L&amp;#39;: 35},
- &amp;#39;Rockets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 45, &amp;#39;L&amp;#39;: 37},
- &amp;#39;Sixers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 56, &amp;#39;L&amp;#39;: 26},
- &amp;#39;Spurs&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 58, &amp;#39;L&amp;#39;: 24},
- &amp;#39;Suns&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 51, &amp;#39;L&amp;#39;: 31},
- &amp;#39;Thunder&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 44, &amp;#39;L&amp;#39;: 38},
- &amp;#39;Timberwolves&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 47, &amp;#39;L&amp;#39;: 35},
- &amp;#39;Trailblazers&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 50, &amp;#39;L&amp;#39;: 32},
- &amp;#39;Warriors&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 17, &amp;#39;L&amp;#39;: 65},
- &amp;#39;Wizards&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 19, &amp;#39;L&amp;#39;: 63}}
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{&amp;#39;Bucks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 93, &amp;#39;L&amp;#39;: 71},
+ &amp;#39;Bulls&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99},
+ &amp;#39;Cavaliers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 83, &amp;#39;L&amp;#39;: 81},
+ &amp;#39;Celtics&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 76, &amp;#39;L&amp;#39;: 88},
+ &amp;#39;Clippers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 87, &amp;#39;L&amp;#39;: 77},
+ &amp;#39;Grizzlies&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 78, &amp;#39;L&amp;#39;: 86},
+ &amp;#39;Hawks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 85, &amp;#39;L&amp;#39;: 79},
+ &amp;#39;Heat&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 87, &amp;#39;L&amp;#39;: 77},
+ &amp;#39;Hornets&amp;#39;: {&amp;#39;G&amp;#39;: 82, &amp;#39;W&amp;#39;: 33, &amp;#39;L&amp;#39;: 49},
+ &amp;#39;Jazz&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 91, &amp;#39;L&amp;#39;: 73},
+ &amp;#39;Kings&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 84, &amp;#39;L&amp;#39;: 80},
+ &amp;#39;Knicks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99},
+ &amp;#39;Lakers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 77, &amp;#39;L&amp;#39;: 87},
+ &amp;#39;Magic&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 68, &amp;#39;L&amp;#39;: 96},
+ &amp;#39;Mavericks&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 103, &amp;#39;L&amp;#39;: 61},
+ &amp;#39;Nets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 64, &amp;#39;L&amp;#39;: 100},
+ &amp;#39;Nuggets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 70, &amp;#39;L&amp;#39;: 94},
+ &amp;#39;Pacers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 79, &amp;#39;L&amp;#39;: 85},
+ &amp;#39;Pelicans&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 91, &amp;#39;L&amp;#39;: 73},
+ &amp;#39;Pistons&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 64, &amp;#39;L&amp;#39;: 100},
+ &amp;#39;Raptors&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 96, &amp;#39;L&amp;#39;: 68},
+ &amp;#39;Rockets&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 101, &amp;#39;L&amp;#39;: 63},
+ &amp;#39;Sixers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 74, &amp;#39;L&amp;#39;: 90},
+ &amp;#39;Spurs&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 113, &amp;#39;L&amp;#39;: 51},
+ &amp;#39;Suns&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 90, &amp;#39;L&amp;#39;: 74},
+ &amp;#39;Thunder&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 89, &amp;#39;L&amp;#39;: 75},
+ &amp;#39;Timberwolves&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 63, &amp;#39;L&amp;#39;: 101},
+ &amp;#39;Trailblazers&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 101, &amp;#39;L&amp;#39;: 63},
+ &amp;#39;Warriors&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 84, &amp;#39;L&amp;#39;: 80},
+ &amp;#39;Wizards&amp;#39;: {&amp;#39;G&amp;#39;: 164, &amp;#39;W&amp;#39;: 65, &amp;#39;L&amp;#39;: 99}}
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1868,25 +1841,11 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;long_seasons&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;long_seasons&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div&gt;
-&lt;style scoped&gt;
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-&lt;/style&gt;
-&lt;table border="1" class="dataframe"&gt;
+&lt;table border="1" class="dataframe table table-striped table-bordered"&gt;
   &lt;thead&gt;
     &lt;tr style="text-align: right;"&gt;
       &lt;th&gt;&lt;/th&gt;
@@ -1946,7 +1905,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Now, I'll merge the two datasets (long_salary, long_seasons) together into one dataframe for scatterplots&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# merge datasets together&lt;/span&gt;
@@ -2304,6 +2262,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;lambda&lt;/code&gt; is powerful when used in conjunction with a pandas data frame and &lt;code&gt;apply&lt;/code&gt;.  Given that we're in the Sweet Sixteen of March madness, let's use NCAA data.
 &lt;br&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;
 
 &lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;college&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Duke&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;North Carolina&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Virginia&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Oregon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
@@ -2313,74 +2272,7 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div&gt;
-&lt;style scoped&gt;
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-&lt;/style&gt;
-&lt;table border="1" class="dataframe"&gt;
-  &lt;thead&gt;
-    &lt;tr style="text-align: right;"&gt;
-      &lt;th&gt;&lt;/th&gt;
-      &lt;th&gt;college&lt;/th&gt;
-      &lt;th&gt;seed&lt;/th&gt;
-      &lt;th&gt;final_four_%&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;th&gt;0&lt;/th&gt;
-      &lt;td&gt;Duke&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;55&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;1&lt;/th&gt;
-      &lt;td&gt;North Carolina&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;38&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;2&lt;/th&gt;
-      &lt;td&gt;Virginia&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;53&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;3&lt;/th&gt;
-      &lt;td&gt;Oregon&lt;/td&gt;
-      &lt;td&gt;12&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Let's add a new column, &lt;em&gt;upset&lt;/em&gt;, identifying whether or not a college is the favourite or underdog, using a &lt;code&gt;lambda&lt;/code&gt; function.&lt;/p&gt;
-&lt;p&gt;With &lt;code&gt;lambda&lt;/code&gt; , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
-&lt;br&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;upset&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lookup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Favourite&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Underdog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;lookup&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# blog html visualization &lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;IPython.display&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;
-
-&lt;span class="c1"&gt;# Sort by probability of reaching final four&lt;/span&gt;
-&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort_values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;final_four_%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ascending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2391,7 +2283,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
       &lt;th&gt;college&lt;/th&gt;
       &lt;th&gt;seed&lt;/th&gt;
       &lt;th&gt;final_four_%&lt;/th&gt;
-      &lt;th&gt;upset&lt;/th&gt;
     &lt;/tr&gt;
   &lt;/thead&gt;
   &lt;tbody&gt;
@@ -2400,31 +2291,39 @@ https://hoopshype.com/salaries/&lt;/p&gt;
       &lt;td&gt;Duke&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
       &lt;td&gt;55&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;th&gt;2&lt;/th&gt;
-      &lt;td&gt;Virginia&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;53&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;1&lt;/th&gt;
       &lt;td&gt;North Carolina&lt;/td&gt;
       &lt;td&gt;1&lt;/td&gt;
       &lt;td&gt;38&lt;/td&gt;
-      &lt;td&gt;Favourite&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;Virginia&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;53&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;th&gt;3&lt;/th&gt;
       &lt;td&gt;Oregon&lt;/td&gt;
       &lt;td&gt;12&lt;/td&gt;
       &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;Underdog&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;p&gt;Let's add a new column, &lt;em&gt;upset&lt;/em&gt;, identifying whether or not a college is the favourite or underdog, using a &lt;code&gt;lambda&lt;/code&gt; function.&lt;/p&gt;
+&lt;p&gt;With &lt;code&gt;lambda&lt;/code&gt; , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
+&lt;br&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;upset&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lookup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Favourite&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Underdog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;lookup&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Sort by probability of reaching final four&lt;/span&gt;
+&lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort_values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;final_four_%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ascending&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;h3&gt;Example 2&lt;/h3&gt;
 &lt;hr&gt;
@@ -2443,10 +2342,6 @@ https://hoopshype.com/salaries/&lt;/p&gt;
 &lt;span class="n"&gt;lightest_prospect&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sorted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prospects&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;weight&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lightest_prospect&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Ja Morant
 &lt;/pre&gt;&lt;/div&gt;
 
 

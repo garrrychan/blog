@@ -1,26 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
- <title>Do NBA teams with greater team salaries win more?</title>
- <!-- Latest compiled and minified CSS -->
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
- <div class="container">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <title>
+    github.com/garrrychan
+&ndash; Do NBA teams with greater team salaries win more?  </title>
 
- <h1><a href="https://garrrychan.github.io/blog">github.com/garrrychan</a></h1>
+    <link rel="canonical" href="https://garrrychan.github.io/blog/nba_team_salary.html">
 
- </div>
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/logo.png">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+  <!--I need this for the logos-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<meta name="keywords" content="python">
 </head>
 <body>
- <div class="container">
-<head>
- <meta charset='utf-8'>
-</head>
-<div class="row">
- <div class="col-md-8">
-  <h3>Do NBA teams with greater team salaries win more?</h3>
-  <label>30 March 2019</label>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-  <p>FiveThirtyEight is one of my favourite places to read thoughtful analysis, and see data visualizations. I was inspired by one of their posts on <a href="https://fivethirtyeight.com/features/how-your-favorite-baseball-team-blows-its-money/">'how your favourite baseball team blows its money'</a>. As an avid basketball fan, I recreated this graphic with NBA data. </p>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo.png" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+  </div>
+
+  <div id="social">
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <i class="fa fa-linkedin"></i>
+    </a>
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+      <i class="fa fa-github"></i>
+    </a>
+  </div>
+
+  <!---<div id="tags">
+    <ul>
+      </ul>
+  </div>--->
+</nav>    </div>
+
+    <div class="eleven columns content">
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <p class="meta">
+    30 March 2019
+    <a href="/">
+      <i class="home fa fa-home"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/nba_team_salary.html">Do NBA teams with greater team salaries win more?</a></h1>
+
+  <div class="article_text" id="post">
+    <p>FiveThirtyEight is one of my favourite places to read thoughtful analysis, and see data visualizations. I was inspired by one of their posts on <a href="https://fivethirtyeight.com/features/how-your-favorite-baseball-team-blows-its-money/">'how your favourite baseball team blows its money'</a>. As an avid basketball fan, I recreated this graphic with NBA data. </p>
 <p>This was incredible practice with Matplotlib. Thank you to Amy Gordon for her <a href="https://github.com/ag2816/">Github</a> for the style guide.</p>
 <h3>Background</h3>
 <p><img src="images/nba_team_salary_40_0.svg" alt="nba"></p>
@@ -52,6 +97,9 @@ https://hoopshype.com/salaries/</p>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># blog html visualization </span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
 <span class="c1"># plt.rcParams[&#39;figure.dpi&#39;] = 50</span>
 <span class="c1"># %config InlineBackend.figure_format = &#39;retina&#39;</span>
@@ -101,25 +149,11 @@ https://hoopshype.com/salaries/</p>
 
 
 <div class="highlight"><pre><span></span><span class="n">long_salary</span><span class="p">[</span><span class="s1">&#39;z_salary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_salary</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">z_salary</span><span class="p">(</span><span class="n">long_salary</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;salary&quot;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">long_salary</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">long_salary</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<table border="1" class="dataframe table table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -167,7 +201,6 @@ https://hoopshype.com/salaries/</p>
     </tr>
   </tbody>
 </table>
-</div>
 
 <div class="highlight"><pre><span></span><span class="c1"># export to csv </span>
 <span class="n">long_salary</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./data/nba_team_salary_final.csv&quot;</span><span class="p">)</span>
@@ -192,25 +225,11 @@ https://hoopshype.com/salaries/</p>
 <span class="c1"># This dataset is from 1947-2019, so I&#39;ll filter for years 2001 to 2015 to match our Salary data</span>
 <span class="n">games</span> <span class="o">=</span> <span class="n">games</span><span class="p">[(</span><span class="n">games</span><span class="p">[</span><span class="s2">&quot;year_id&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2001</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">games</span><span class="p">[</span><span class="s2">&quot;year_id&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">2015</span><span class="p">)]</span>
 
-<span class="n">games</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">games</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<table border="1" class="dataframe table table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -276,7 +295,6 @@ https://hoopshype.com/salaries/</p>
     </tr>
   </tbody>
 </table>
-</div>
 
 <div class="highlight"><pre><span></span><span class="c1"># reset record to beginning with list comphrension</span>
 <span class="n">record</span> <span class="o">=</span> <span class="p">{</span><span class="n">team</span><span class="p">:{</span><span class="s2">&quot;G&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;W&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;L&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">}</span>
@@ -315,36 +333,36 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>{&#39;Bucks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 52, &#39;L&#39;: 30},
- &#39;Bulls&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 15, &#39;L&#39;: 67},
- &#39;Cavaliers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 30, &#39;L&#39;: 52},
- &#39;Celtics&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 36, &#39;L&#39;: 46},
- &#39;Clippers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 31, &#39;L&#39;: 51},
- &#39;Grizzlies&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 23, &#39;L&#39;: 59},
- &#39;Hawks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 25, &#39;L&#39;: 57},
- &#39;Heat&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 50, &#39;L&#39;: 32},
- &#39;Hornets&#39;: {&#39;G&#39;: 0, &#39;W&#39;: 0, &#39;L&#39;: 0},
- &#39;Jazz&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 53, &#39;L&#39;: 29},
- &#39;Kings&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 55, &#39;L&#39;: 27},
- &#39;Knicks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 48, &#39;L&#39;: 34},
- &#39;Lakers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 56, &#39;L&#39;: 26},
- &#39;Magic&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 43, &#39;L&#39;: 39},
- &#39;Mavericks&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 53, &#39;L&#39;: 29},
- &#39;Nets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 26, &#39;L&#39;: 56},
- &#39;Nuggets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 40, &#39;L&#39;: 42},
- &#39;Pacers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 41, &#39;L&#39;: 41},
- &#39;Pelicans&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 46, &#39;L&#39;: 36},
- &#39;Pistons&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 32, &#39;L&#39;: 50},
- &#39;Raptors&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 47, &#39;L&#39;: 35},
- &#39;Rockets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 45, &#39;L&#39;: 37},
- &#39;Sixers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 56, &#39;L&#39;: 26},
- &#39;Spurs&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 58, &#39;L&#39;: 24},
- &#39;Suns&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 51, &#39;L&#39;: 31},
- &#39;Thunder&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 44, &#39;L&#39;: 38},
- &#39;Timberwolves&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 47, &#39;L&#39;: 35},
- &#39;Trailblazers&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 50, &#39;L&#39;: 32},
- &#39;Warriors&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 17, &#39;L&#39;: 65},
- &#39;Wizards&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 19, &#39;L&#39;: 63}}
+<div class="highlight"><pre><span></span>{&#39;Bucks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 93, &#39;L&#39;: 71},
+ &#39;Bulls&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99},
+ &#39;Cavaliers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 83, &#39;L&#39;: 81},
+ &#39;Celtics&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 76, &#39;L&#39;: 88},
+ &#39;Clippers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 87, &#39;L&#39;: 77},
+ &#39;Grizzlies&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 78, &#39;L&#39;: 86},
+ &#39;Hawks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 85, &#39;L&#39;: 79},
+ &#39;Heat&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 87, &#39;L&#39;: 77},
+ &#39;Hornets&#39;: {&#39;G&#39;: 82, &#39;W&#39;: 33, &#39;L&#39;: 49},
+ &#39;Jazz&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 91, &#39;L&#39;: 73},
+ &#39;Kings&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 84, &#39;L&#39;: 80},
+ &#39;Knicks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99},
+ &#39;Lakers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 77, &#39;L&#39;: 87},
+ &#39;Magic&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 68, &#39;L&#39;: 96},
+ &#39;Mavericks&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 103, &#39;L&#39;: 61},
+ &#39;Nets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 64, &#39;L&#39;: 100},
+ &#39;Nuggets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 70, &#39;L&#39;: 94},
+ &#39;Pacers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 79, &#39;L&#39;: 85},
+ &#39;Pelicans&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 91, &#39;L&#39;: 73},
+ &#39;Pistons&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 64, &#39;L&#39;: 100},
+ &#39;Raptors&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 96, &#39;L&#39;: 68},
+ &#39;Rockets&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 101, &#39;L&#39;: 63},
+ &#39;Sixers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 74, &#39;L&#39;: 90},
+ &#39;Spurs&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 113, &#39;L&#39;: 51},
+ &#39;Suns&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 90, &#39;L&#39;: 74},
+ &#39;Thunder&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 89, &#39;L&#39;: 75},
+ &#39;Timberwolves&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 63, &#39;L&#39;: 101},
+ &#39;Trailblazers&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 101, &#39;L&#39;: 63},
+ &#39;Warriors&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 84, &#39;L&#39;: 80},
+ &#39;Wizards&#39;: {&#39;G&#39;: 164, &#39;W&#39;: 65, &#39;L&#39;: 99}}
 </pre></div>
 
 
@@ -372,25 +390,11 @@ https://hoopshype.com/salaries/</p>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">long_seasons</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">long_seasons</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<table border="1" class="dataframe table table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -450,7 +454,6 @@ https://hoopshype.com/salaries/</p>
     </tr>
   </tbody>
 </table>
-</div>
 
 <p>Now, I'll merge the two datasets (long_salary, long_seasons) together into one dataframe for scatterplots</p>
 <div class="highlight"><pre><span></span><span class="c1"># merge datasets together</span>
@@ -768,8 +771,19 @@ https://hoopshype.com/salaries/</p>
 
 <div class="highlight"><pre><span></span>&lt;Figure size 432x288 with 0 Axes&gt;
 </pre></div>
- </div>
-</div>
- </div>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, using a port of jekyll theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
 </body>
 </html>
