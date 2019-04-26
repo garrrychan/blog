@@ -899,7 +899,7 @@ Name: chocolate, dtype: int64
 chess. It is named after its creator Arpad Elo, a Hungarian-American physics professor (Source: Wikipedia).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Over the years, you can see its extension and adoption to a wide range of use cases, including video games (CounterStrike, League of Legends), and sports (NBA, football, baseball).&lt;/p&gt;
-&lt;p&gt;&lt;img src="images/images/elo.svg" alt="elo"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/elo.svg" alt="elo"&gt;&lt;/p&gt;
 &lt;p&gt;Needless to say, it's a very popular framework! Teams always gain Elo points after winning games and lose ground after losing them, in this zero-sum paradigm. Moreover, if you a play stronger opponent and win, then you should be rewarded more points, than if you play weaker opponents and win, and vice versa. Intuitive, right?&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4&gt;Define Elo Model&lt;/h4&gt;
