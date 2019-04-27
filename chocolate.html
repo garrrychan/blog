@@ -33,15 +33,18 @@
   <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
 
   <div id="bio">
-    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+    <p>I write about data science, and occasionally sports.</p>
+    <p>Currently enrolled in a full time data science program.</p>
+    <p>Former tech consultant, with a Bachelors in Mathematics.</p>
   </div>
 
   <div id="social">
     <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
-      <i class="fa fa-linkedin"></i>
-    </a>
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+      <i class="fa fa-linkedin fa-2x"></i>
+    </a> &nbsp; <!--- add space--->
     <a title="Garry on Github" href="https://github.com/garrrychan">
-      <i class="fa fa-github"></i>
+      <i class="fa fa-github fa-2x"></i>
     </a>
   </div>
 </nav>    </div>
@@ -173,11 +176,11 @@
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="mi">47</span><span class="p">,</span><span class="mi">77</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;index&#39;</span><span class="p">,</span><span class="s1">&#39;winpercent&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># drop win_%, focus on the snack attributes</span>
 <span class="c1"># great, now we have 83 observations to practice models on</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -333,7 +336,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/candytree.svg" alt="candytree" height="860" width="758"></p>
+<p><img src="images/candytree.svg" alt="candytree" class="img-responsive"></p>
 <p>First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. </p>
 <p>And, if the snack is singular (i.e. 'pluribus'), contains peanuts, is high in sugar, and has nougats, then it's probably chocolate.</p>
 <hr>
@@ -523,7 +526,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img src="images/catboost.png" alt="catboost" height="364" width="783"></p>
+<p><img src="images/catboost.png" alt="catboost" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="n">best_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">])</span>
 <span class="n">best_iter</span> <span class="o">=</span> <span class="n">cv_data</span><span class="p">[</span><span class="s1">&#39;test-Logloss-mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
 
@@ -597,16 +600,16 @@ Name: chocolate, dtype: int64
 <p>Suppose you're a manager at Cadbury, and you want to create a new confectionery product for the masses. However, all you know is certain attributes of your snacks, and want to identify if there structure in your inventory. If there are patterns, then you might be able to create a new product with attributes that people will enjoy!</p>
 <hr>
 <h4>Life is like a 'cluster' of chocolates - Forrest Gump</h4>
-<p><img src="images/gump.png" alt="gump" height="486" width="864"></p>
+<p><img src="images/gump.png" alt="gump" class="img-responsive"></p>
 <p>Okay, let's pretend we only have X. Our previous supervised learning model wouldn't be able to learn, and predict if something was chocolate or candy.</p>
 <p>How might we cluster these snacks into different categories? </p>
 <p>We can use K-means clustering to solve this, it's one of the most common methods. Again, we are NOT classifying explicitly, but rather exploring if there are common characteristics in k groups.</p>
 <div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;fruity&#39;</span><span class="p">:</span><span class="s1">&#39;pricepercent&#39;</span><span class="p">]</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -624,28 +627,28 @@ Name: chocolate, dtype: int64
   </thead>
   <tbody>
     <tr>
-      <th>60</th>
+      <th>78</th>
       <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
-      <td>0.22</td>
-      <td>0.325</td>
+      <td>0.093</td>
+      <td>0.511</td>
     </tr>
   </tbody>
 </table>
 
 <p>First, let's look at the ground truth. </p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;emoji&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;🍫&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;🍬&#39;</span><span class="p">}[</span><span class="n">snack</span><span class="p">]</span> <span class="k">for</span> <span class="n">snack</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;chocolate&#39;</span><span class="p">]]</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -755,7 +758,7 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<p><img alt="ground_truth.svg" src="images/ground_truth.svg"></p>
+<p><img src="images/ground_truth.svg" alt="ground_truth" class="img-responsive"></p>
 <p>While it's not a very strong cluster, you can see that chocolates (black) tend to cost more relative to candies (red). The spread of the sugar amount varies, you have very sweet and less sweet snacks.</p>
 <p>Let's use k-means clustering, with k=2 clusters to see if we can categorize these snacks into two groups. </p>
 <div class="highlight"><pre><span></span><span class="c1"># instantiate</span>
@@ -776,11 +779,11 @@ Name: chocolate, dtype: int64
 <p>Now, each snack has a label of 1 or 0. From these 10 dimensions (fruity, caramel ... price percentile), the model was able to group these into two clusters that are the most similar to each other, by minimizing the within-cluster sum of squares.</p>
 <p>Since labels are arbitrary when clustering, we can rename the cluster labels to chocolate and candy emojis so we can compare to ground truth (since we have it, generally we wouldn't).</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;kmeans_emoji&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster_label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;🍫&quot;</span> <span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;🍬&quot;</span><span class="p">})</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -937,11 +940,12 @@ Name: chocolate, dtype: int64
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">hconcat</span><span class="p">(</span><span class="n">kmeans</span> <span class="o">+</span> <span class="n">centroid_plot</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">gridOpacity</span><span class="o">=</span><span class="mf">0.25</span><span class="p">))</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;../content/images/compare.svg&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">alt</span><span class="o">.</span><span class="n">hconcat</span><span class="p">(</span><span class="n">kmeans</span> <span class="o">+</span> <span class="n">centroid_plot</span><span class="p">,</span> <span class="n">ground_truth</span><span class="p">)</span>
+ <span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">gridOpacity</span><span class="o">=</span><span class="mf">0.25</span><span class="p">))</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;../content/images/compare.svg&#39;</span><span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="compare.svg" src="images/compare.svg"></p>
+<p><img src="images/compare.svg" alt="compare" class="img-responsive"></p>
 <p>Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.</p>
   </div>
 

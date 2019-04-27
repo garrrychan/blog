@@ -33,15 +33,18 @@
   <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
 
   <div id="bio">
-    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+    <p>I write about data science, and occasionally sports.</p>
+    <p>Currently enrolled in a full time data science program.</p>
+    <p>Former tech consultant, with a Bachelors in Mathematics.</p>
   </div>
 
   <div id="social">
     <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
-      <i class="fa fa-linkedin"></i>
-    </a>
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+      <i class="fa fa-linkedin fa-2x"></i>
+    </a> &nbsp; <!--- add space--->
     <a title="Garry on Github" href="https://github.com/garrrychan">
-      <i class="fa fa-github"></i>
+      <i class="fa fa-github fa-2x"></i>
     </a>
   </div>
 </nav>    </div>
@@ -109,11 +112,11 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -158,11 +161,11 @@
 
 
 <div class="highlight"><pre><span></span><span class="c1"># Sort by probability of reaching final four</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-repsponsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-repsponsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
