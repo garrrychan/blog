@@ -12,14 +12,14 @@
     Garry's Blog
 &ndash; Lambda function for data wrangling  </title>
 
-    <link rel="canonical" href="https://garrrychan.github.io/blog/lambda.html">
+    <link rel="canonical" href="./lambda.html">
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
   <!------>
-  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/logo.png">
-  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
-  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+  <link rel="shortcut icon" href="./theme/images/logo.png">
+  <link rel="stylesheet" type="text/css" href="./theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="./theme/css/pygments-monokai.css">
   <!--I need this for the logos-->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
@@ -27,21 +27,24 @@
   <div class="container">
     <div class="four columns sidebar">
 <nav>
-  <a href="https://garrrychan.github.io/blog/">
-    <img src="https://garrrychan.github.io/blog/theme/images/logo.png" id="gravatar" alt="photo"/>
+  <a href="./">
+    <img src="./theme/images/logo.png" id="gravatar" alt="photo"/>
   </a>
-  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+  <h2><a href="./">Garry Chan</a></h2>
 
   <div id="bio">
-    <p>I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics.</p>
+    <p>I write about data science, and occasionally sports.</p>
+    <p>Currently enrolled in a full time data science program.</p>
+    <p>Former tech consultant, with a Bachelors in Mathematics.</p>
   </div>
 
   <div id="social">
     <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
-      <i class="fa fa-linkedin"></i>
-    </a>
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+      <i class="fa fa-linkedin fa-2x"></i>
+    </a> &nbsp; <!--- add space--->
     <a title="Garry on Github" href="https://github.com/garrrychan">
-      <i class="fa fa-github"></i>
+      <i class="fa fa-github fa-2x"></i>
     </a>
   </div>
 </nav>    </div>
@@ -50,13 +53,13 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
   <p class="meta">
     28 March 2019
-    <a href="/">
+    <a href=".">
       <!--- home icon--->
       <i class="home fa fa-home"></i>
     </a>
   </p>
 
-  <h1 class="title"><a href="https://garrrychan.github.io/blog/lambda.html">Lambda function for data wrangling</a></h1>
+  <h1 class="title"><a href="./lambda.html">Lambda function for data wrangling</a></h1>
 
   <div class="article_text" id="post">
     <p>Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!</p>
@@ -109,11 +112,11 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -158,9 +161,51 @@
 
 
 <div class="highlight"><pre><span></span><span class="c1"># Sort by probability of reaching final four</span>
-<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-striped table-bordered&quot;</span><span class="p">))</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-repsponsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
+
+<table border="1" class="dataframe table table-repsponsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+      <th>upset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>55</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+      <td>Underdog</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3>Example 2</h3>
 <hr>
@@ -179,6 +224,10 @@
 <span class="n">lightest_prospect</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prospects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">lightest_prospect</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>Ja Morant
 </pre></div>
 
 

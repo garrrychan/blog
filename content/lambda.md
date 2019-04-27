@@ -65,13 +65,13 @@ df = pd.DataFrame({
 
 
 ```python
-HTML(df.to_html(classes="table table-striped table-bordered"))
+HTML(df.to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -123,8 +123,55 @@ df["upset"] = df.seed.apply(lambda x, lookup = {1: "Favourite", 12: "Underdog"} 
 
 ```python
 # Sort by probability of reaching final four
-HTML(df.sort_values("final_four_%",ascending=False).to_html(classes="table table-striped table-bordered"))
+HTML(df.sort_values("final_four_%",ascending=False).to_html(classes="table table-repsponsive table-striped table-bordered"))
 ```
+
+
+
+
+<table border="1" class="dataframe table table-repsponsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+      <th>upset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>55</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+      <td>Underdog</td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 ### Example 2
 ---
@@ -149,6 +196,9 @@ lightest_prospect = sorted(prospects, key= lambda x: x['weight'])[0]["name"]
 
 print(lightest_prospect)
 ```
+
+    Ja Morant
+
 
 With ```lambda``` in our toolbelt, we'll have a function to write elegant and beautiful code for data wrangling. 
 <br>

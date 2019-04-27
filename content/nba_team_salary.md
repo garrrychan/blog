@@ -9,7 +9,7 @@ This was incredible practice with Matplotlib. Thank you to Amy Gordon for her [G
 
 ### Background
 
-<img src="images/nba_team_salary_40_0.svg" alt="nba">
+<img src="images/nba_team_salary_40_0.svg" alt="nba_salary" class="img-responsive">
 
 This chart illustrates the relationship between team spending and win percentage for each basketball season from 2001 - 2015. Essentially, the steeper the curve, the better the team was maximizing value. 
 
@@ -110,13 +110,13 @@ def z_salary(df,year,salary):
 
 ```python
 long_salary['z_salary'] = long_salary.apply(lambda row: z_salary(long_salary, row["year"], row["salary"]), axis=1)
-HTML(long_salary.head().to_html(classes="table table-striped table-bordered"))
+HTML(long_salary.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -196,13 +196,13 @@ games = games[["year_id","date_game","team_id","fran_id","opp_id","opp_fran","ga
 # This dataset is from 1947-2019, so I'll filter for years 2001 to 2015 to match our Salary data
 games = games[(games["year_id"] >= 2001) & (games["year_id"] <= 2015)]
 
-HTML(games.head().to_html(classes="table table-striped table-bordered"))
+HTML(games.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -376,13 +376,13 @@ long_seasons["year"] = long_seasons["year"].apply(lambda x: int(x))
 
 
 ```python
-HTML(long_seasons.head().to_html(classes="table table-striped table-bordered"))
+HTML(long_seasons.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -511,11 +511,11 @@ raptors = final[final['team']== 'Raptors']
 
 ```python
 # change way we invoke plot so can manipulate the axis
-fig, ax = plt.subplots(figsize=(5, 5))
+fig, ax = plt.subplots(figsize=(3, 3))
 
 #ax.scatter(x, y)
 ax.scatter(x=raptors['z_salary'], y=raptors['win_%'],alpha=0.5,c="#CE1141")
-plt.title('Toronto Raptors', position = (0,1), ha = 'left', fontsize=16)
+plt.title('Toronto Raptors', position = (0,1), ha = 'left', fontsize=12)
 plt.xlabel("Standardized Salaries", position = (0,0), ha = 'left', color = 'grey')
 plt.ylabel('Win %', position = (0, 1), ha = 'right', color = 'grey')
 
@@ -556,11 +556,11 @@ Compare this with the plot for the league
 
 ```python
 # change way we invoke plot so can manipulate the axis
-fig, ax = plt.subplots(figsize=(5, 5))
+fig, ax = plt.subplots(figsize=(3, 3))
 
 #ax.scatter(x, y)
 scatter_league = (ax.scatter(x=final['z_salary'], y=final['win_%'],alpha=0.5,c="#000000"),
-                  plt.title('NBA League', position = (0,1), ha = 'left', fontsize=16),
+                  plt.title('NBA League', position = (0,1), ha = 'left', fontsize=12),
                   plt.xlabel("Standardized Salaries", position = (0,0), ha = 'left', color = 'grey'),
                   plt.ylabel('Win %', position = (0, 1), ha = 'right', color = 'grey'))
 
@@ -587,7 +587,7 @@ plt.vlines(0,0,1,alpha=0.5)
 # reduce ticks on x axis
 plt.xticks([-2,-1,0,1,2])
 
-league_plot = plt.plot(X, predictions_league, color='#000000',linewidth=2,alpha=0.5)
+league_plot = plt.plot(X, predictions_league, color='#000000',linewidth=2,alpha=0.25)
 plt.show()
 ```
 
@@ -654,10 +654,10 @@ def plot_team_row(team_df, ax,team_color='#00000'):
 
 
 ```python
-fig, ax = plt.subplots(nrows=1, ncols=5,figsize=(10,2.5),sharex=True, sharey=True)
+fig, ax = plt.subplots(nrows=1, ncols=5,figsize=(6,2),sharex=True, sharey=True)
 
 # Division title
-fig.suptitle('Atlantic', color = 'grey',fontsize=10) 
+plt.figtext(0.48,1, "Atlantic", fontsize=10, color="grey")
 
 # Spacing for subplots
 fig.subplots_adjust(hspace = 0.5, wspace=.001, top=0.825)
@@ -735,10 +735,10 @@ nba_league = [atlantic, central, southeast, northwest, pacific, southwest]
 
 ```python
 # 6 rows x 5 columns for all 30 teams
-fig, ax = plt.subplots(nrows=6, ncols=5,figsize=(10,8),sharex=True, sharey=True)
+fig, ax = plt.subplots(nrows=6, ncols=5,figsize=(6,6),sharex=True, sharey=True)
 
 # plot title
-fig.suptitle('More Money, More Wins', x=0.55, y=1,color = 'black', fontsize=15) 
+fig.suptitle('More Money, More Wins', x=0.55, y=1,color = 'black', fontsize=12) 
 
 # Subplots spacing
 fig.subplots_adjust(hspace = .5, wspace=.001, top=0.925)
@@ -756,11 +756,9 @@ for division in nba_league:
     row += 1
     
 # labels
-for i in list(range(0,5)):
-    ax[5][i].set_xlabel('Standardized Salaries', fontsize=8)
+ax[5][2].set_xlabel('Standardized Salary', fontsize=8)
     
-for i in list(range(0,5)):
-    ax[i][0].set_ylabel('Win %', fontsize=8)
+ax[0][0].set_ylabel('Win %', fontsize=8)
 
 # ticks
 for i in list(range(0,5)):

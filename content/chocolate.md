@@ -130,13 +130,13 @@ df[(df.competitorname == "One dime") | (df.competitorname == "One quarter")] #in
 df = df.drop([47,77]).reset_index()
 df = df.drop(['index','winpercent'], 1) # drop win_%, focus on the snack attributes
 # great, now we have 83 observations to practice models on
-HTML(df.head().to_html(classes="table table-striped table-bordered"))
+HTML(df.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -309,7 +309,7 @@ graph = pydotplus.graph_from_dot_data(dot_data)
 # graph.write_svg("candytree.svg");
 ```
 
-<img src="images/candytree.svg" alt="candytree" height="860" width="758">
+<img src="images/candytree.svg" alt="candytree" class="img-responsive">
 
 First, the tree is split on fruit flavour. If it's fruity, then it's probably not chocolate. Makes sense. 
 
@@ -529,7 +529,7 @@ cv_data = cv(
 # 55 iterations for it to stabilize, 5 folds cv
 ```
 
-<img src="images/catboost.png" alt="catboost" height="364" width="783">
+<img src="images/catboost.png" alt="catboost" class="img-responsive">
 
 
 ```python
@@ -617,7 +617,7 @@ Suppose you're a manager at Cadbury, and you want to create a new confectionery 
 
 #### Life is like a 'cluster' of chocolates - Forrest Gump
 
-<img src="images/gump.png" alt="gump" height="486" width="864">
+<img src="images/gump.png" alt="gump" class="img-responsive">
 
 Okay, let's pretend we only have X. Our previous supervised learning model wouldn't be able to learn, and predict if something was chocolate or candy.
 
@@ -628,13 +628,13 @@ We can use K-means clustering to solve this, it's one of the most common methods
 
 ```python
 X = df.loc[:, 'fruity':'pricepercent']
-HTML(X.sample().to_html(classes="table table-striped table-bordered"))
+HTML(X.sample().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -652,17 +652,17 @@ HTML(X.sample().to_html(classes="table table-striped table-bordered"))
   </thead>
   <tbody>
     <tr>
-      <th>60</th>
+      <th>78</th>
       <td>1</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
+      <td>1</td>
       <td>0</td>
       <td>1</td>
-      <td>0.22</td>
-      <td>0.325</td>
+      <td>0.093</td>
+      <td>0.511</td>
     </tr>
   </tbody>
 </table>
@@ -674,13 +674,13 @@ First, let's look at the ground truth.
 
 ```python
 df['emoji'] = [{1: '🍫', 0: '🍬'}[snack] for snack in df['chocolate']]
-HTML(df.head().to_html(classes="table table-striped table-bordered"))
+HTML(df.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -793,7 +793,7 @@ ground_truth = (alt.Chart(df, title='Ground Truth').mark_text(filled=True).encod
     text='emoji'))#.save('../content/images/ground_truth.svg')
 ```
 
-![ground_truth.svg](images/ground_truth.svg)
+<img src="images/ground_truth.svg" alt="ground_truth" class="img-responsive">
 
 While it's not a very strong cluster, you can see that chocolates (black) tend to cost more relative to candies (red). The spread of the sugar amount varies, you have very sweet and less sweet snacks.
 
@@ -822,13 +822,13 @@ Since labels are arbitrary when clustering, we can rename the cluster labels to 
 
 ```python
 df["kmeans_emoji"] = df['cluster_label'].map({1: "🍫" , 0: "🍬"})
-HTML(df.head().to_html(classes="table table-striped table-bordered"))
+HTML(df.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-bordered">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1002,9 +1002,10 @@ centroid_plot = (alt.Chart(centroids).mark_text(filled=True, size=40).encode(
 
 
 ```python
-(alt.hconcat(kmeans + centroid_plot, ground_truth).configure_axis(gridOpacity=0.25)).save('../content/images/compare.svg')
+(alt.hconcat(kmeans + centroid_plot, ground_truth)
+ .configure_axis(gridOpacity=0.25)).save('../content/images/compare.svg')
 ```
 
-![compare.svg](images/compare.svg)
+<img src="images/compare.svg" alt="compare" class="img-responsive">
 
 Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.

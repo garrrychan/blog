@@ -1,11 +1,11 @@
 Title: Elo & Brier scores in classification problems
 Date: 2019-04-13 12:00
 Tags: python
-Slug: elo-nba
+Slug: nba-elo
 
 The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).
 
-Thanks @MaxHumber for inspiring this post.
+Thanks to my instructor, [@MaxHumber](https://speakerdeck.com/maxhumber) for inspiring this post.
 
 ---
 
@@ -20,7 +20,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 
 Over the years, you can see its extension and adoption to a wide range of use cases, including video games (CounterStrike, League of Legends), and sports (NBA, football, baseball).
 
-<img src="images/images/elo_nba_30_0.svg" alt="elo">
+<img src="images/elo.svg" alt="elo" class="img-responsive">
 
 Needless to say, it's a very popular framework! Teams always gain Elo points after winning games and lose ground after losing them, in this zero-sum paradigm. Moreover, if you a play stronger opponent and win, then you should be rewarded more points, than if you play weaker opponents and win, and vice versa. Intuitive, right?
 
@@ -30,7 +30,7 @@ Needless to say, it's a very popular framework! Teams always gain Elo points aft
 
 The Elo model calculates expected probability of winning of team A, which follows the logistic function.
 
-![logistic.png](images/logistic_curve.svg)
+<img src="images/logistic_curve.svg" alt="logistic">
 
 * Notice that the curve's maximum value is 1.
 * This is a common sigmoid curve to use in probabilistic models (approaches 1 and 0, asymptotically)
@@ -39,7 +39,7 @@ The Elo model calculates expected probability of winning of team A, which follow
 #### $$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$$
 
 <table class="table">
- <thead class="table-striped">
+ <thead class="table-responsive table-bordered">
     <tr>
       <th scope="col">NBA Elo Model</th>
       <th scope="col">Description</th>
@@ -277,13 +277,13 @@ df['date'] = pd.to_datetime(df['date'])
 
 
 ```python
-HTML(df.head().to_html(classes="table table-striped table-hover"))
+HTML(df.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-hover">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -362,18 +362,18 @@ Great, we have a dataframe for each game played, and the elos for each team and 
 
 
 ```python
-fig, ax = plt.subplots(nrows=1, ncols=2,figsize=(8,4),sharex=True, sharey=True)
+fig, ax = plt.subplots(nrows=1, ncols=2,figsize=(6,3),sharex=True, sharey=True)
 
 ax[0].plot(df[df["home"]=="Raptors"].date, df[df["home"]=="Raptors"].home_elo, color='#CE1141',linewidth=2)
 ax[0].plot(df[df["home"]=="Celtics"].date, df[df["home"]=="Celtics"].home_elo, color='#007A33',linewidth=2)
 
-ax[0].set_title("Raptors vs Celtics", color = '#000000', alpha=0.8,fontsize=10, fontweight='bold', ha = 'right') 
+ax[0].set_title("Raptors vs Celtics", color = '#000000', alpha=0.8,fontsize=10, fontweight='bold', ha = 'center') 
 ax[0].tick_params(labelsize=8)
 
 ax[1].plot(df[df["home"]=="Warriors"].date, df[df["home"]=="Warriors"].home_elo, color='#FDB927',linewidth=2)
 ax[1].plot(df[df["home"]=="Thunder"].date, df[df["home"]=="Thunder"].home_elo, color='#007AC1',linewidth=2)
 
-ax[1].set_title("Warriors vs Thunder", color = '#000000', alpha=0.8, fontsize=10, fontweight='bold', ha = 'right') 
+ax[1].set_title("Warriors vs Thunder", color = '#000000', alpha=0.8, fontsize=10, fontweight='bold', ha = 'center') 
 ax[1].tick_params(labelsize=8)
 
 ax[0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
@@ -386,7 +386,7 @@ plt.savefig('elo.svg')
 ```
 
 
-![svg](images/elo_nba_30_0.svg)
+![svg](images/nba_elo_30_0.svg)
 
 
 Ratings are established on a game-by-game rather than a season-by-season basis. So you can see changes in a team's performance over the course of the year: The Toronto Raptors had a much higher rating early in the 2014-15 season than at the end of it, while the reverse has been true for the Boston Celtics, who gained momentum going into the playoffs.
@@ -522,7 +522,7 @@ brier_score_loss(y, y_prob, pos_label=1)
 
 
 <table class="table">
-<thead class="table-striped">
+<thead class="table-responsive table-striped">
 <tr>
 <th>Metric</th>
 <th>Prediction based on Home</th>
@@ -569,19 +569,19 @@ plt.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
 ```
 
 
-![svg](images/elo_nba_51_0.svg)
+![svg](images/nba_elo_51_0.svg)
 
 
 
 ```python
 margin_of_safety = df[df.predict_home_elo_win > 0.70]
-HTML(margin_of_safety.head().to_html(classes="table table-striped table-hover"))
+HTML(margin_of_safety.head().to_html(classes="table table-responsive table-striped table-bordered"))
 ```
 
 
 
 
-<table border="1" class="dataframe table table-striped table-hover">
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -726,7 +726,7 @@ plt.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
 ```
 
 
-![svg](images/elo_nba_55_0.svg)
+![svg](images/nba_elo_55_0.svg)
 
 
 As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games that are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)
