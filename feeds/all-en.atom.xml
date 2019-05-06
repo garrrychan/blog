@@ -3,12 +3,12 @@
 &lt;hr&gt;
 &lt;h3&gt;The challenge&lt;/h3&gt;
 &lt;p&gt;Within a day, I was challenged to create a 'smart' rock, paper and scissors bot that can beat a human over 50 games. This would test my data wrangling, predictive modeling, statistics and web development skills.&lt;/p&gt;
-&lt;p&gt;Our bot must:
+&lt;p&gt;&lt;strong&gt;Our bot must:&lt;/strong&gt;
 * Be built on top of a machine learning algorithm
 * Be able to prove that it's not "peeking" at user input (target leakage)
 * Have a flask front-end that can accept user input 
 * Keep track of wins and losses&lt;/p&gt;
-&lt;p&gt;Stretch goals:
+&lt;p&gt;&lt;strong&gt;Stretch goals:&lt;/strong&gt;
 * An ability to switch between different "engines" (naive, random, hard-coded, algorithmic)
 * An ability for your bot to learn from my specific play-style and update turn-over-turn
 * Flask that's prettier than just a couple of white input boxes
