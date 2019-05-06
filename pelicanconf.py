@@ -8,7 +8,6 @@ AUTHOR = 'Garry Chan'
 SITENAME = 'Garry\'s Blog'
 SITEURL = 'https://garrrychan.github.io/blog'
 STATIC_PATHS = ['images']
-TAGLINE = "I write about data science, and occasionally sports. Currently enrolled in a full time data science program. Former tech consultant, with a Bachelors in Mathematics."
 PATH = 'content'
 TIMEZONE = 'America/Toronto'
 DEFAULT_LANG = 'en'

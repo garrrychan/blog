@@ -1,5 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-04-19T12:00:00-04:00</updated><entry><title>Life is like a box of chocolates</title><link href="https://garrrychan.github.io/blog/chocolate.html" rel="alternate"></link><published>2019-04-19T12:00:00-04:00</published><updated>2019-04-19T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-19:/blog/chocolate.html</id><summary type="html">&lt;p&gt;Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel &lt;em&gt;happy&lt;/em&gt;? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-05-03T12:00:00-04:00</updated><entry><title>My first hackathon</title><link href="https://garrrychan.github.io/blog/hackathon.html" rel="alternate"></link><published>2019-05-03T12:00:00-04:00</published><updated>2019-05-03T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-05-03:/blog/hackathon.html</id><summary type="html">&lt;p&gt;Recently, I participated in my first ever hackathon at &lt;a href="https://bitmaker.co/courses/data-science"&gt;Bitmaker General Assembly&lt;/a&gt;! To say it was an eye opening experience would be understatement. I had to apply what I've learned so far, by combining concepts from data science and software development. Additionally, it was an exercise to work in pairs …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently, I participated in my first ever hackathon at &lt;a href="https://bitmaker.co/courses/data-science"&gt;Bitmaker General Assembly&lt;/a&gt;! To say it was an eye opening experience would be understatement. I had to apply what I've learned so far, by combining concepts from data science and software development. Additionally, it was an exercise to work in pairs, tackle unstructured problems, and think outside the box.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;The challenge&lt;/h3&gt;
+&lt;p&gt;Within a day, I was challenged to create a 'smart' rock, paper and scissors bot that can beat a human over 50 games. This would test my data wrangling, predictive modeling, statistics and web development skills.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Our bot must:&lt;/strong&gt;
+* Be built on top of a machine learning algorithm
+* Be able to prove that it's not "peeking" at user input (target leakage)
+* Have a flask front-end that can accept user input 
+* Keep track of wins and losses&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Stretch goals:&lt;/strong&gt;
+* An ability to switch between different "engines" (naive, random, hard-coded, algorithmic)
+* An ability for your bot to learn from my specific play-style and update turn-over-turn
+* Flask that's prettier than just a couple of white input boxes
+* Your bot to a hosted website on the internet, somehow, somewhere &lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Creating my first web app&lt;/h3&gt;
+&lt;p&gt;At this point, I had minimal exposure to web development and databases, so I made the most of my current toolkit. By the end of the hackathon, my teammate and I were nearly there in creating a fully functional app. Over the past week, with the help of my instructor, I refactored and completed my first app. What a feeling! &lt;/p&gt;
+&lt;p&gt;Tech stack: My web application is written in Python, built on Flask, and hosted on Heroku.&lt;/p&gt;
+&lt;p&gt;There are 3 difficulties/models for you to play with.
+&lt;table class="table table-striped table-responsive table-bordered"&gt;
+&lt;thead&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;1. Easy - Naive random model&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt; The bot throws rock, paper, scissors with 1/3 probability each. You are expected to win about 50% of the time.&lt;/td&gt;
+&lt;/tr&gt;&lt;/p&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;2. Medium - Deterministic (random forest) model&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt; The bot is trained on 450K+ previously played games. You are expected win less than 50% of the time.
+&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;3. Hard - Stochastic (markov chain) model&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt; As you play more, the bot learns your specific playing style and it becomes be harder to win!
+&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;p&gt;&lt;/tbody&gt;
+&lt;/table&gt;&lt;/p&gt;
+&lt;p&gt;Without further ado, here it is (hosted on Heroku, another milestone!).
+&lt;strong&gt;&lt;a href="https://rps-bot-garry.herokuapp.com/"&gt;https://rps-bot-garry.herokuapp.com/&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Take a break and see if you can beat my bot 😉&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/home.png" alt="home" width="330" height="360"&gt;
+&lt;img src="images/result.png" alt="result" class="img-responsive"&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Retrospective&lt;/h3&gt;
+&lt;p&gt;As in any hackathon, there were highs and lows, and as good software development practice, here's my reflection on this experience. &lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;🙂 What went well?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Enjoying software development&lt;/strong&gt; - Typically, my data science work is in individual scripts on Jupyter Notebook or Atom, a text editor. By using Flask, &lt;a href="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt;, a Python micro web framework, I was able to spin up a lightweight website. It was a boost of confidence to successfully write simple APIs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Creating a click-able prototype&lt;/strong&gt; - Learning how to create a click-able prototype is rewarding, as it prepares me for future larger projects. This app has a UI component, and provides better interactivity than a static notebook. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Learning front end basics in HTML and CSS&lt;/strong&gt; - As Data Scientists, we should learn just enough HTML and CSS to be dangerous with simple apps showcase our models. It's important to be able to speak their language as they are able to improve the overall app. This hackathon pushed me to read and write more HTML and CSS and I'm glad I discovered OSS libraries such as &lt;a href="https://getbootstrap.com/"&gt;Bootstrap&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Collaborating in teams&lt;/strong&gt; - This was my first time developing with a teammate, and we used GitHub for version control. Fortunately, there was a rough division of labour as I focused on the front end, and Flask component and she focused on the modeling. A good skill to have is to be able to perform code reviews and also merge conflicts. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Creating my first functional app and deploying it on Heroku&lt;/strong&gt; :') &lt;br&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4&gt;😐 What was confusing?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Preparing the data into form ready for machine learning algorithms&lt;/strong&gt; - This data was not ready in its raw form, and the observations had to be grouped into what was thrown in a game, and the player's following throw. Using dictionaries, and Pandas data frame helped tackle this problem. For example, if I created a feature that required the player's previous n throws, then I would need n user throws before I would be able to make one new prediction!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Crystalizing my understanding in Markov Chains&lt;/strong&gt; Markov chains are used in Bayesian statistics and implementing PyMC3. In the case of rock paper scissors, a hint was to use Markov Chain's stochastic process.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The Markov property refers to the memoryless property of a stochastic process. By definition, if the conditional probability distribution of future states of the process  depends only upon the &lt;em&gt;present state&lt;/em&gt;, not on the sequence of events that preceded it.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Said another way, a smart bot should be able to pick up if a player is only playing rock, after a particular scenario, and subsequently throw paper. The bot is predicting that player transitions from one state to another state with a probabilistic process.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Wrestling with localhost, prototyping in Atom and Terminal&lt;/strong&gt; - Practice, practice, practice. While this is new to me, I'm appreciate prototyping in Atom and terminal more than in Jupyter notebooks. By using Hydrogen, a package on Atom, I'm able to run code interactively and 'peak' into objects in-line in real time. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Becoming more comfortable with object oriented programming&lt;/strong&gt; By continuing to better understand Classes, I'm able to bundle functions together efficiently, and use methods for modifying state. &lt;br&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4&gt;🙁 What was challenging?&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Time constraints&lt;/strong&gt; - During a hackathon, there's a expectation to ship code fast, and there can be feelings of self-doubt and anxiety. From this experience, I'll be better prepared to manage my time more accordingly, and also know when to take a breather to bounce ideas off teammates and ask for help as needed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Capturing a new user-generated data point, and saving it to an object to re-train the model&lt;/strong&gt; While I will be learning databases very soon, state wasn't a problem I had to explicitly deal with yet, but is very present in real world applications. I have to be aware of all the transformations required to feed a new data point into my model. This can be difficult even with pipelines.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;When your problem is a random process&lt;/strong&gt; - Many machine learning models which are trained on a large data set are deterministic, and may not be the right model to reach for. Instead, reach for the algorithm that is better suited for random processes, like Markov Chains.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Lots of trial and error and Stack Overflow&lt;/strong&gt;. Compiling errors are not fun. &lt;br&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3&gt;Quick start with Heroku&lt;/h3&gt;
+&lt;p&gt;Heroku is a third-party cloud hosting provider that runs your application. &lt;/p&gt;
+&lt;p&gt;This was a stretch goal, but I really wanted to host my app, so I could share it! I chose Heroku because it has a free level service, is user friendly for Python apps, and comes with many tutorials. &lt;/p&gt;
+&lt;p&gt;This is a quick start guide only, please see the resources below for more documentation. &lt;br&gt;&lt;/p&gt;
+&lt;h4&gt;Prerequisites&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Your app is in a Git repository, such as GitHub. &lt;/li&gt;
+&lt;li&gt;Create a free account on &lt;a href="https://www.heroku.com/"&gt;Heroku&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;Install the Heroku CLI for interacting with the service&lt;/li&gt;
+&lt;li&gt;Create a &lt;code&gt;runtime.txt&lt;/code&gt; and inside the file, specify your version of Python (e.g. python-3.6.8) 
+&lt;code&gt;$ python -V&lt;/code&gt; if you don't know&lt;/li&gt;
+&lt;li&gt;Create a &lt;code&gt;requirements.txt&lt;/code&gt;, and inside the file specify your app's dependencies
+&lt;code&gt;$ pip freeze &amp;gt; requirements.txt&lt;/code&gt; Note, this lists all your dependencies, so you should scrub it for only the modules your app needs.&lt;/li&gt;
+&lt;li&gt;Add &lt;code&gt;gunicorn&lt;/code&gt;, the web server recommended by Heroku for Python apps&lt;/li&gt;
+&lt;li&gt;Create a text file named &lt;code&gt;Procfile&lt;/code&gt;, and inside the file declare the command to execute and start your web app.
+&lt;code&gt;web: gunicorn app:app&lt;/code&gt; where the first app is the module and the second app is the app function name. 
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4&gt;Commands&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;From the terminal, login to the Heroku CLI. Enter your credentials.
+&lt;code&gt;$ heroku login&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Navigate to your app directory, clone your application.
+&lt;code&gt;$ git clone https://github.com/garrrychan/hackathon_rps.git&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create an app on Heroku to receive your source code. Pass a unique application name as the argument
+&lt;code&gt;$ heroku apps:create rps-bot-garry&lt;/code&gt;&lt;br&gt;
+Your URL is now live at &lt;code&gt;https://rps-bot-garry.herokuapp.com/&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy!&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is akin to pushing from local Git repo to GitHub. Push code from local repo to Heroku repo.
+- &lt;code&gt;$ git add .&lt;/code&gt;
+- &lt;code&gt;$ git commit -m "deploy app"&lt;/code&gt;
+- &lt;code&gt;$ git push heroku master&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And that's a wrap, you've deployed your first app onto Heroku's servers! Now visit your app @ &lt;code&gt;https://rps-bot-garry.herokuapp.com/&lt;/code&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Lessons learned&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Start small. Make a quick and dirty solution that works first.&lt;/li&gt;
+&lt;li&gt;Think about new data. How will you transform a new piece of data, transform it and re-train your model?&lt;/li&gt;
+&lt;li&gt;Conceptualize how to surface your model.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As Data Scientists, it's important to bridge the gap to software development in order to create basic apps, in a end to end workflow. During Hackathons, in addition to my Data Science hat, I'll very likely have to think like a Designer, and Web Developer when creating a functional app!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;Resources&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://medium.com/@rchang/learning-how-to-build-a-web-application-c5499bd15c8f"&gt;A great primer by a Data Scientist at Twitter for building a web application&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xviii-deployment-on-heroku"&gt;Flask tutorial - I referenced Miguel's chapters 18 and 2 for Heroku and Templates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://devcenter.heroku.com/articles/getting-started-with-python"&gt;Heroku documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;All code for my bot is available on &lt;a href="https://github.com/garrrychan/hackathon_rps"&gt;GitHub&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;</content><category term="python"></category></entry><entry><title>Life is like a box of chocolates</title><link href="https://garrrychan.github.io/blog/chocolate.html" rel="alternate"></link><published>2019-04-19T12:00:00-04:00</published><updated>2019-04-19T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-19:/blog/chocolate.html</id><summary type="html">&lt;p&gt;Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel &lt;em&gt;happy&lt;/em&gt;? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? &lt;/p&gt;
 &lt;p&gt;For example, if you told me that your favourite snack …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel &lt;em&gt;happy&lt;/em&gt;? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? &lt;/p&gt;
 &lt;p&gt;For example, if you told me that your favourite snack contains peanuts, and is not in a bar shape, my model should guess that this is chocolate (Reese Pieces)!&lt;/p&gt;
 &lt;p&gt;This is a classification problem, so let's spin up decision trees and sprinkle in some ensemble methods
