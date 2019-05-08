@@ -77,7 +77,7 @@ h6 { font-size: 14px; line-height: 21px; }
 
 p { margin: 0 0 20px 0; }
 p img { margin: 0; }
-p.lead { font-size: 21px; line-height: 27px; color: #777;  }
+p.lead { font-size: 21px; line-height: 17px; color: #777;  }
 
 em { font-style: italic; }
 strong { font-weight: bold; color: #333; }
@@ -596,7 +596,7 @@ font-weight: 600;
 }
 
 h1.title {
-font-weight: 100;
+font-weight: 150;
 }
 
 h1 {
@@ -652,8 +652,8 @@ margin-bottom: 10px;
 }
 
 ul.posts li {
-line-height: 22px;
-font-size: 16px;
+line-height: 24px;
+font-size: 20px;
 margin-bottom: 0px;
 }
 
