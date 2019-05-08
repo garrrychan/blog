@@ -4,15 +4,19 @@
 &lt;h3&gt;The challenge&lt;/h3&gt;
 &lt;p&gt;Within a day, the challenge was to create a 'smart' rock, paper and scissors bot that can beat a human over 50 games. This would test my data wrangling, predictive modeling, statistics and web development skills.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;My bot must:&lt;/strong&gt;
-* Be built on top of a machine learning algorithm
-* Be able to prove that it's not "peeking" at user input (target leakage)
-* Have a flask front-end that can accept user input 
-* Keep track of wins and losses&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Be built on top of a machine learning algorithm&lt;/li&gt;
+  &lt;li&gt;Be able to prove that it's not "peeking" at user input (target leakage)&lt;/li&gt;
+  &lt;li&gt;Have a flask front-end that can accept user input &lt;/li&gt;
+  &lt;li&gt;Keep track of wins and losses &lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Stretch goals:&lt;/strong&gt;
-* An ability to switch between different "engines" (naive, random, hard-coded, algorithmic)
-* An ability for your bot to learn from my specific play-style and update turn-over-turn
-* Flask that's prettier than just a couple of white input boxes
-* Your bot to a hosted website on the internet, somehow, somewhere &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;An ability to switch between different "engines" (naive, random, hard-coded, algorithmic)&lt;/li&gt;
+  &lt;li&gt;An ability for your bot to learn from my specific play-style and update turn-over-turn&lt;/li&gt;
+  &lt;li&gt;Flask that's prettier than just a couple of white input boxes &lt;/li&gt;
+  &lt;li&gt;Your bot to a hosted website on the internet, somehow, somewhere  &lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Creating my first web app&lt;/h3&gt;
 &lt;p&gt;At this point, I had minimal exposure to web development and databases, so I made the most of my current toolkit. By the end of the hackathon, my teammate and I were nearly there in creating a fully functional app. Over the past week, with the help of my instructor, I refactored and completed my first app. What a feeling! &lt;/p&gt;
