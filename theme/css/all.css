@@ -653,15 +653,15 @@ margin-bottom: 10px;
 
 ul.posts li {
 line-height: 24px;
-font-size: 20px;
+font-size: 17px;
 margin-bottom: 0px;
 }
 
 ul.posts span {
-font-family: 'Lucida Console', 'Andale Mono', monospace;
+font-family: 'Open Sans', Helvetica;
 color: #aaa;
 padding-right: 5px;
-font-size:14px;
+font-size:17px;
 }
 
 .meta {
