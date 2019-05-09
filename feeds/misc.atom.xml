@@ -137,8 +137,7 @@
 &lt;code&gt;$ heroku login&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Navigate to your app directory, clone your application.
-&lt;code&gt;$ git clone https://github.com/garrrychan/hackathon_rps.git&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ensure your app is in a &lt;code&gt;git&lt;/code&gt; repository.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create an app on Heroku to receive your source code. Pass a unique application name as the argument
