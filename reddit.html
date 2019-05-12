@@ -762,11 +762,15 @@ Words that occur often in one document but don't occur in many documents are imp
 </tbody>
 </table>
 
-<p>Given these results, my selected production model will be the logistic regression model with TF-IDF as the vectorizer. The Logistic Model is the most nearly the most performant (89.5% on test accuracy) vs. Naive Bayes, and the baseline model, but providing a higher level of interpret-ability. </p>
-<p>In conclusion:
-* The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.</p>
+<p>Given these results, my selected production model will be the logistic regression model with TF-IDF as the vectorizer. The Logistic Model is the most nearly the most performant (89.5% on test accuracy), and also provides a high level of interpret-ability compared to SVM.</p>
+<p>In conclusion:</p>
 <ul>
-<li>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</li>
+<li>
+<p>The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.</p>
+</li>
+<li>
+<p>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</p>
+</li>
 </ul>
 <hr>
 <h1>Wrap up</h1>
