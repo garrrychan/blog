@@ -367,7 +367,7 @@ since you don't want to heed the advice of a bad tip, but if you miss a life pro
 &lt;p&gt;"Give the same perfume to your wife and your girlfriend. It could save your ass one day." 🙅🏻‍♂️ - &lt;em&gt;Not a Life Pro Tip&lt;/em&gt; but was predicted a &lt;em&gt;Pro Tip&lt;/em&gt; &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.&lt;/p&gt;
+&lt;p&gt;The more 'popular' i.e. more comments and score, the great likelihood that it is unethical. Controversial posts tend to gain more popularity.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!&lt;/p&gt;
@@ -709,8 +709,7 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;hr&gt;
 &lt;h1&gt;Wrap up&lt;/h1&gt;
 &lt;p&gt;I was able to create an app using Natural Language Processing to classify which subreddit a particular post belongs to.&lt;/p&gt;
-&lt;p&gt;While this was a fun use case of NLP, this analysis is widely applicable other areas, such as politics in classifying fake news vs. real news, or for eCommerce, for sentiment analysis of user reviews (i.e. polarity classification - positive, negative of neutral).&lt;/p&gt;
-&lt;p&gt;in sentiment analysis of user reviews. More over, many virtual assistances (Amazon Alexa, Google Assistant) use NLP to help with customer service or eCommerce FAQ, to understand the questino and provide the correct response.&lt;/p&gt;
+&lt;p&gt;While this was a fun use case of NLP, this analysis is widely applicable other areas, such as politics in classifying fake news vs. real news, or for eCommerce, for sentiment analysis of user reviews (i.e. polarity classification - positive, negative of neutral). Further, many virtual assistants (Amazon Alexa, Google Assistant) use NLP to understand the human's question and provide the appropriate response.&lt;/p&gt;
 &lt;p&gt;As you can imagine, there would be far greater consequences, if the prediction was a false-positive or false-negative and tuning the model to adjust these thresholds is critical.&lt;/p&gt;
 &lt;p&gt;As a next step, I hope to investigate other NLP open source packages such as &lt;a href="https://spacy.io/"&gt;Spacy&lt;/a&gt;!&lt;/p&gt;</content><category term="python"></category></entry><entry><title>My first hackathon</title><link href="https://garrrychan.github.io/blog/hackathon.html" rel="alternate"></link><published>2019-05-03T12:00:00-04:00</published><updated>2019-05-03T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-05-03:/blog/hackathon.html</id><summary type="html">&lt;p&gt;Recently, I participated in my first ever hackathon at &lt;a href="https://bitmaker.co/courses/data-science"&gt;Bitmaker General Assembly&lt;/a&gt;! To say it was an eye opening experience would be an understatement. I applied what I've learned so far, by combining concepts from data science and software development. Additionally, it was an exercise to work in pairs, tackle …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently, I participated in my first ever hackathon at &lt;a href="https://bitmaker.co/courses/data-science"&gt;Bitmaker General Assembly&lt;/a&gt;! To say it was an eye opening experience would be an understatement. I applied what I've learned so far, by combining concepts from data science and software development. Additionally, it was an exercise to work in pairs, tackle unstructured problems, and think outside the box.&lt;/p&gt;
 &lt;hr&gt;
