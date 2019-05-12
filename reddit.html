@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <title>
+    Garry's Blog
+&ndash; What's a life pro tip, anyways?  </title>
+
+    <link rel="canonical" href="https://garrrychan.github.io/blog/reddit.html">
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/gary_snail.png">  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+  <!--I need this for the logos-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo.png" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science, and occasionally sports.</p>
+    <p>I'm currently enrolled in a full time data science program.</p>
+    <p>Formerly, a tech consultant, with a Bachelors in Mathematics.</p>
+  </div>
+
+  <div id="social">
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+      <i class="fa fa-linkedin fa-2x"></i>
+    </a> &nbsp; <!--- add space--->
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+      <i class="fa fa-github fa-2x"></i>
+    </a> &nbsp; <!--- add space--->
+    <a title="Garry's Email" href="mailto: g33chan@uwaterloo.ca">
+      <i class="fa fa-envelope fa-2x"></i>
+    </a>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <p class="meta">
+    12 May 2019
+    <a href="https://garrrychan.github.io/blog">
+      <!--- home icon--->
+      <i class="home fa fa-home fa-2x"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/reddit.html">What's a life pro tip, anyways?</a></h1>
+
+  <div class="article_text" id="post">
+    <p>What's the difference between a life pro tip, and one that is a bit more questionable? This can be sometimes a subtle difference, or a moral grey area to distinguish, even for humans.  </p>
+<p>Life Pro Tip: </p>
+<blockquote>
+<p>A concise and specific tip that improves life for you and those around you in a specific and significant way.</p>
+</blockquote>
+<p><br></p>
+<p><em>Example</em>: "If you want to learn a new language, figure out the 100 most frequently used words and start with them. Those words make up about 50% of everyday speech, and should be a very solid basis."</p>
+<blockquote>
+<p>An Unethical Life Pro Tip is a tip that improves your life in a meaningful way, perhaps at the expense of others and/or with questionable legality. Due to their nature, do not actually follow any of these tips–they're just for fun. </p>
+</blockquote>
+<p><br></p>
+<p>Example: "Save business cards of people you don't like. If you ever hit a parked car accidentally, just write "sorry" on the back and leave it on the windshield."</p>
+<p>Let's collect posts (web scrap) from 2 subreddits, and create a machine learning model to classify which subreddit a particular post belongs too. Can my model pick up on sarcasm, internet 'trolling', or tongue-in-cheek semantic of sentences? Probably not, but let's try. I hope you have as much fun playing with this, as I did making it. </p>
+<p>If you're feeling lucky, visit my app for a Life Pro Tip!</p>
+<hr>
+<h1>Reddit API</h1>
+<p>Fortunately, Reddit provides a public JSON end point, so we can easily consume that format, and manipulate it a Pandas DataFrame. Simply add <code>.json</code> at the end of the URL.</p>
+<p>If you plan to run your own <code>get</code> requests, keep in mind that Reddit has a limit of 25 posts / request. In conjunction with <code>for</code> loop, write a <code>time.sleep()</code> function in Python (or something equivalent) to avoid a 429 Too Many Requests error. </p>
+<h2>Data dictionary</h2>
+<p>We are interested in the following features:</p>
+<table class="table table-responsive table-bordered">
+<thead>
+</thead>
+<tbody>
+<tr>
+<td><b>Target variable, y </b></td>
+<td> <p> subreddit (str) </p> </td>
+</tr>
+
+<tr>
+<td><b>Design matrix, X </b></td>
+<td> 
+<p>title (str)</p>
+<p>score (int)</p>
+<p>num_comments (int)</p>
+<p>author (int)</p>
+<p>name (int)</p>
+</ul>
+</td></tr>   
+
+</tbody>
+</table>
+
+<hr>
+<h1>Pre-processing data</h1>
+<p>First, I have to pre-process the data, and use natural language processing packages to tokenize strings to individual words. We will be using Python's Natural Language Toolkit (nltk) package.</p>
+<p>Follow along if you want to create your own classifier, otherwise, skip to the results. All code is available on GitHub. Refer to reddit_garry.py for scraping.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">RegexpTokenizer</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span><span class="p">,</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">nltk.stem</span> <span class="kn">import</span> <span class="n">WordNetLemmatizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">LabelBinarizer</span>
+<span class="kn">from</span> <span class="nn">sklearn_pandas</span> <span class="kn">import</span> <span class="n">DataFrameMapper</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span> 
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="kn">import</span> <span class="n">DataConversionWarning</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">DataConversionWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span> 
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># encoding utf-8 for special characters</span>
+<span class="n">raw_lpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./lpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">raw_ulpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./ulpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Merge, train, test split data. </p>
+<p>Notice how there is "ULPT" or "LPT" in the title, which is clearly target leakage. To prevent target leakage in the title, I will use regular expressions (Regex) to match permutations of LPT, lpt, ULPT, ulpt and remove.</p>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">raw_lpt</span><span class="p">,</span> <span class="n">raw_ulpt</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>author</th>
+      <th>name</th>
+      <th>num_comments</th>
+      <th>score</th>
+      <th>subreddit</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>526</th>
+      <td>yourmate155</td>
+      <td>t3_69bzui</td>
+      <td>720</td>
+      <td>21216</td>
+      <td>LifeProTips</td>
+      <td>LPT: Instead of saying 'Sorry this is late', say 'Thanks for your patience.' Using positive language in a negative situation can have a big impact on how you're remembered.</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Humble_Internet_Dude</td>
+      <td>t3_a95fr8</td>
+      <td>958</td>
+      <td>122775</td>
+      <td>LifeProTips</td>
+      <td>LPT: Try not to be mean or toxic in online games today and tommorow as there are a lot of people who have no family and want to distract themselves from this time of year. Instead be kind and thoughtful. This goes for all year round.</td>
+    </tr>
+    <tr>
+      <th>1084</th>
+      <td>ZakX10</td>
+      <td>t3_blsna7</td>
+      <td>243</td>
+      <td>15689</td>
+      <td>UnethicalLifeProTips</td>
+      <td>ULPT: Don't want to speak to someone but can't hang up? Keep tapping the mute option on your smartphone while you are speaking and when they complain about your voice breaking, make an excuse about poor network and hang up.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">subreddit</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;subreddit&quot;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># drop name, it&#39;s a unique identifier, not predictive</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">post_to_words</span><span class="p">(</span><span class="n">raw_post</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns a list of words ready for classification, by tokenizing,</span>
+<span class="sd">    removing punctuation, setting to lower case and removing stop words.&#39;&#39;&#39;</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RegexpTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[a-z]+&#39;</span><span class="p">)</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">raw_post</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">meaningful_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))]</span>
+    <span class="k">return</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">meaningful_words</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+<span class="n">X_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+</pre></div>
+
+
+<hr>
+<h1>Modeling</h1>
+<h2>CountVectorizer</h2>
+<p>Let's start simple. CountVectorizer is a bag of words model processes text by ignoring structure of a sentences and merely assesses the count of specific words, or word combinations.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_vectorizer</span><span class="p">(</span><span class="n">vectorizer</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Takes a vectorizer, fits the model, learns the vocabulary,</span>
+<span class="sd">    transforms data and returns the transformed matrices&#39;&#39;&#39;</span>
+    <span class="c1"># transform text</span>
+    <span class="n">vect</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span> 
+    <span class="n">train_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">test_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+    <span class="n">target_train</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">target_test</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+
+    <span class="c1"># transform non text</span>
+    <span class="n">mapper</span> <span class="o">=</span> <span class="n">DataFrameMapper</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="n">LabelBinarizer</span><span class="p">()),</span>
+    <span class="p">([</span><span class="s2">&quot;num_comments&quot;</span><span class="p">],</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+    <span class="p">([</span><span class="s2">&quot;score&quot;</span><span class="p">],</span> <span class="n">StandardScaler</span><span class="p">())],</span> <span class="n">df_out</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">Z_train</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">Z_test</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Learned distinct training vocabulary is {train_data_features.shape[1]}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Remember: 0 -&gt; {le.classes_[0]}, 1 -&gt; {le.classes_[1]}&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Baseline model</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Baseline model that guessed all LPT -&gt; {round(1-sum(target_test)/len(target_test),2)} accurate&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Combine both df columns together</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_data_features</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">Z_train</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">test_data_features</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Z_test</span>
+
+    <span class="c1"># reset indices in order to merge</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">Z_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">Z_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">Z_test</span><span class="p">,</span> <span class="n">target_train</span><span class="p">,</span> <span class="n">target_test</span><span class="p">)</span>
+</pre></div>
+
+
+<hr>
+<h2>Classification</h2>
+<p>With my data ready in array format, I can now apply binary classifiers. I'll try:</p>
+<ul>
+<li>Logistic Regression</li>
+<li>Naive Bayes Multinomial</li>
+<li>Support Vector Machine</li>
+</ul>
+
+<div class="highlight"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="n">my_vectorizer</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Z_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">target_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">target_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+ Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
+ Baseline model that guessed all LPT -&gt; 0.5 accurate
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Return a sample of 5 wrong predictions&#39;&#39;&#39;</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Training accuracy: {model.score(Z_train, target_train)}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Test accuracy: {model.score(Z_test, target_test)}&#39;</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">predictions</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;LifeProTips&quot;</span><span class="p">,</span><span class="s2">&quot;UnethicalLifeProTips&quot;</span><span class="p">)</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>   
+    <span class="n">wrong</span> <span class="o">=</span> <span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="o">.</span><span class="n">prediction</span><span class="o">!=</span><span class="n">final</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> 
+    <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">wrong</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">())</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Training accuracy: 0.9993021632937893
+ Test accuracy: 0.895397489539749
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>45</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Teenagers repeatedly driving through your bagged leaves on the side of the road? Cut the bottom of one and place it around a fire hydrant before filling with leaves, that?ll teach those punks.</td>
+      <td>804</td>
+      <td>13842</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always talk about someone as if they're standing right next to you.</td>
+      <td>344</td>
+      <td>11917</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
+      <td>616</td>
+      <td>25459</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Let's look at the largest coefficients which correspond to num_comments (col 6452), score (col 6453), column 653 &amp; 3218, and peak into the words. </p>
+<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;{:.2f}&#39;</span><span class="o">.</span><span class="n">format</span>
+<span class="c1"># my_coef = pd.DataFrame(list(zip(Z_train.columns,abs(model.coef_[0]))),columns=[&quot;x&quot;,&quot;coef&quot;]).sort_values(by=&quot;coef&quot;,ascending=False).head()                       </span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">my_coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;coef&quot;</span><span class="p">])</span>
+<span class="n">large_coef</span> <span class="o">=</span> <span class="n">my_coef</span><span class="p">[(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;num_comments&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;score&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">653</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3218</span><span class="p">)]</span> 
+<span class="n">HTML</span><span class="p">(</span><span class="n">large_coef</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>coef</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>653</th>
+      <td>653</td>
+      <td>1.11</td>
+    </tr>
+    <tr>
+      <th>3218</th>
+      <td>3218</td>
+      <td>1.08</td>
+    </tr>
+    <tr>
+      <th>6452</th>
+      <td>num_comments</td>
+      <td>-4.26</td>
+    </tr>
+    <tr>
+      <th>6453</th>
+      <td>score</td>
+      <td>-1.89</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="n">cvect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span> 
+<span class="n">train_data_features</span> <span class="o">=</span> <span class="n">cvect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cvect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()[</span><span class="mi">3218</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cvect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()[</span><span class="mi">653</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>pay
+business
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is {np.exp(-4.26)} more likely.&#39;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.014122302410163962 more likely.&#39;
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is {np.exp(-1.89)} more likely.&#39;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.15107180883637086 more likely.&#39;
+</pre></div>
+
+
+<p>This is really performant off the bat with 99.9% training accuracy and 89.5% test accuracy. Yes, there is overfitting but it's picking up signal, in the text.</p>
+<p>There's many more false positives than false negatives. One could argue, false positives are not as bad
+since you don't want to heed the advice of a bad tip, but if you miss a life pro tip, it's not as damaging. If we wanted to be more strict, we could tweak the threshold such that only predictions &gt; 75% would be classified as UnethicalLifeProTip.</p>
+<p>"Give the same perfume to your wife and your girlfriend. It could save your ass one day." 🙅🏻‍♂️ - <em>Not a Life Pro Tip</em> but was predicted a <em>Pro Tip</em> </p>
+<ul>
+<li>
+<p>The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.</p>
+</li>
+<li>
+<p>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</p>
+</li>
+</ul>
+<hr>
+<h2>Term Frequency Inverse Document Frequency (TF-IDF)</h2>
+<p>Compared to CountVectorizer, TF-IDF vectorizer tells us which words are most discriminating between documents.
+Words that occur often in one document but don't occur in many documents are important and contain a great deal of discriminating power. Note, TF-IDF figures are between [0,1]. The score is based on how often a word is compared in your document (spam) and other documents.</p>
+<div class="highlight"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="n">my_vectorizer</span><span class="p">(</span><span class="n">TfidfVectorizer</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Z_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">target_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">target_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+ Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
+ Baseline model that guessed all LPT -&gt; 0.5 accurate
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">())</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Training accuracy: 0.9581297976273552
+ Test accuracy: 0.8514644351464435
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>319</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you receive great service from an organization, consider sending written appreciation to the representative who assisted you. It can go a long way toward his/her professional development and look better in their portfolio.</td>
+      <td>333</td>
+      <td>23419</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always talk about someone as if they're standing right next to you.</td>
+      <td>344</td>
+      <td>11917</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you ever rob a bank, make sure to hold your middle finger in front of you the whole time so the news has to blur your face in the security footage.</td>
+      <td>531</td>
+      <td>32565</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Test accuracy decreases to 85.1% which is lower than CountVectorizer. There are probably not as many discriminating words. Common words are helpful in distinguishing between the two classes. Words of high frequency that are predictive of one of the classes.</p>
+<p>It's not entire clear which words are the most influential, some words might indicate sarcasm. Overall, it's impressive that a logistic regression model is so powerful already, let's try a few more algorithms.</p>
+<hr>
+<h2>Naive Bayes Classifier</h2>
+<p>The multinomial Naive Bayes classifier is appropriate for classification with discrete features (e.g., word counts for text classification), as the columns of X are all integer counts.</p>
+<p>Note, this classifier accepts only positive values so I have run the abs function on my scaled features. While I have the option to add a prior, I have opted to have Sklearn estimate from training data directly. I don't have a strong opinion if a particular post is in one subreddit over the other. </p>
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Z_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">target_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">target_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="n">Z_train</span><span class="o">.</span><span class="n">num_comments</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">num_comments</span><span class="p">)</span>
+<span class="n">Z_train</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Training accuracy: {model.score(Z_train, target_train)}&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Test accuracy: {model.score(Z_test, target_test)}&#39;</span><span class="p">)</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">predictions</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;LifeProTips&quot;</span><span class="p">,</span><span class="s2">&quot;UnethicalLifeProTips&quot;</span><span class="p">)</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>
+<span class="n">wrong</span> <span class="o">=</span> <span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="o">.</span><span class="n">prediction</span><span class="o">!=</span><span class="n">final</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> 
+<span class="n">HTML</span><span class="p">(</span><span class="n">wrong</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Training accuracy: 0.9951151430565248
+ Test accuracy: 0.797071129707113
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>419</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.</td>
+      <td>469</td>
+      <td>18511</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you’ve got some free time and you’re planning on spending it watching tv/playing video games, etc. make yourself go on a short walk or do some brief exercise beforehand. You’ll probably end up going longer than you planned and you’ll feel better about relaxing after.</td>
+      <td>841</td>
+      <td>45500</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>When grocery shopping and buying fruits and vegetables, get the organic versions of the produce. When paying go to the self-checkout line and select the regular version of the produce, it's cheaper and you get the more premium product.</td>
+      <td>453</td>
+      <td>3798</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">predictions</span><span class="p">))</span>
+<span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;True Negatives: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">tn</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;False Positives: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fp</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;False Negatives: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fn</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;True Positives: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">tp</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">[[163  78]</span>
+ <span class="k">[ 19 218]]</span>
+<span class="na">True Negatives: 163</span>
+<span class="na">False Positives: 78</span>
+<span class="na">False Negatives: 19</span>
+<span class="na">True Positives: 218</span>
+</pre></div>
+
+
+<p>While Naive Bayes also has a high training accuracy, it is severely overfitting. In this case, there are more false negatives than false positives. It tended predict that certain posts were unethical life pro tips, when in fact they are!</p>
+<hr>
+<h2>Support Vector Machines</h2>
+<ul>
+<li>Exceptional perfomance</li>
+<li>Effective in high-dimensional data</li>
+<li>Low risk of overfitting, but a black box method</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">my_tuple</span> <span class="o">=</span> <span class="n">my_vectorizer</span><span class="p">(</span><span class="n">CountVectorizer</span><span class="p">,</span><span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">Z_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Z_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">target_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">target_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">())</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+ Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
+ Baseline model that guessed all LPT -&gt; 0.5 accurate
+ Training accuracy: 0.6140963014654571
+ Test accuracy: 0.5941422594142259
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>451</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Just Because The Election Is Over, Does Not Mean That This Subreddit Will Be Accepting Politics or Politic Related Tips. We Will Still Not Accept Them. Keep Those Posts To Their Proper Subreddits. - Thank you.</td>
+      <td>0</td>
+      <td>15175</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you have to leave your puppy/kitten/ baby animal alone during the day, get them a soft stuffed animal about twice their size. It will help sooth separation anxiety and provide comfort.</td>
+      <td>1021</td>
+      <td>37788</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Use the FORD method when you don’t know what to say in conversation</td>
+      <td>1533</td>
+      <td>27113</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]}</span>
+
+<span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">Z_test</span><span class="p">,</span><span class="n">target_test</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.9148639218422889
+{&#39;C&#39;: 3, &#39;gamma&#39;: &#39;scale&#39;}
+0.9058577405857741
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Training accuracy: 1.0
+ Test accuracy: 0.9058577405857741
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>439</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When applying for jobs online, save a copy of the job responsibilities and requirements. This information is usually not available after they stop accepting applications and will be useful when preparing for the interviews.</td>
+      <td>143</td>
+      <td>12465</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If a product has a review score higher than 4, go through the reviews. If there are lots of 5s and lots of 1s, it's probably a fake review score.</td>
+      <td>653</td>
+      <td>12745</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Own two guns. A nice one, registered, and a shitty unregistered handgun</td>
+      <td>1169</td>
+      <td>7145</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Out of the box, SVC is not performant. We have to tune hyperparameters to improve the accuracy. Recall, if C is large, we do not regularize much (larger budget that the margin can be violated), leading to a more perfect classifier of our training data. Of course, there will be a trade off in overfitting and greater error due to higher variance. A smaller gamma helps with lower bias, by trading off with higher variance. Gamma = "scale", which uses <code>n_features</code> * <code>X.var()</code> tends to work well. </p>
+<table class="table table-striped table-responsive table-bordered">
+<thead>
+</thead>
+<tbody>
+
+<tr>
+<td><b> Classification Model </b></td>
+<td><b> Training Accuracy % </b></td>
+<td><b> Test Accuracy % </b></td>
+</tr>
+
+<tr>
+<td><b>Baseline </b></td>
+<td> 0.5 </td>
+<td> 0.5 </td>
+</tr>   
+
+
+<tr>
+<td><b>Logistic </b></td>
+<td> 0.999 </td>
+<td> 0.895</td>
+</tr>   
+
+<tr>
+<td><b>Naive Bayes </b></td>
+<td> 0.980 </td>
+<td> 0.757 </td>
+</tr>  
+
+<tr>
+<td><b>Support Vector Machines </b></td>
+<td> 0.998 </td>
+<td> 0.905 </td>
+</tr>   
+
+</tbody>
+</table>
+
+<p>Given these results, my selected production model will be the logistic regression model with TF-IDF as the vectorizer. The Logistic Model is the most nearly the most performant (89.5% on test accuracy) vs. Naive Bayes, and the baseline model, but providing a higher level of interpret-ability. </p>
+<p>In conclusion:
+* The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.</p>
+<ul>
+<li>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</li>
+</ul>
+<hr>
+<h1>Wrap up</h1>
+<p>I was able to create an app using Natural Language Processing to classify which subreddit a particular post belongs to.</p>
+<p>While this was a fun use case of NLP, this analysis is widely applicable other areas, such as politics in classifying fake news vs. real news, or for eCommerce, for sentiment analysis of user reviews (i.e. polarity classification - positive, negative of neutral).</p>
+<p>in sentiment analysis of user reviews. More over, many virtual assistances (Amazon Alexa, Google Assistant) use NLP to help with customer service or eCommerce FAQ, to understand the questino and provide the correct response.</p>
+<p>As you can imagine, there would be far greater consequences, if the prediction was a false-positive or false-negative and tuning the model to adjust these thresholds is critical.</p>
+<p>As a next step, I hope to investigate other NLP open source packages such as <a href="https://spacy.io/">Spacy</a>!</p>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan,  &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, built off of the theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+</body>
+</html>
