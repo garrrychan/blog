@@ -15,7 +15,7 @@
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;p&gt;Example: "Save business cards of people you don't like. If you ever hit a parked car accidentally, just write "sorry" on the back and leave it on the windshield."&lt;/p&gt;
 &lt;p&gt;Let's collect posts (web scrap) from 2 subreddits, and create a machine learning model using Natural Langauge Processing (NLP) to classify which subreddit a particular post belongs too. Can my model pick up on sarcasm, internet 'trolling', or tongue-in-cheek semantic of sentences? Probably not, but let's try. I hope you have as much fun playing with this, as I did making it. &lt;/p&gt;
-&lt;p&gt;If you're feeling lucky, visit my app for a (Life Pro Tip)[https://nlp-reddit-garry.herokuapp.com/]!&lt;/p&gt;
+&lt;p&gt;If you're feeling lucky, visit my app for a &lt;a href="https://nlp-reddit-garry.herokuapp.com"&gt;Life Pro Tip&lt;/a&gt;!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1&gt;Reddit API&lt;/h1&gt;
 &lt;p&gt;Fortunately, Reddit provides a public JSON end point, so we can easily consume that format, and manipulate it a Pandas DataFrame. Simply add &lt;code&gt;.json&lt;/code&gt; at the end of the URL.&lt;/p&gt;
