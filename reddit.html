@@ -110,7 +110,7 @@
 <hr>
 <h1>Pre-processing data</h1>
 <p>First, I have to pre-process the data, and use natural language processing packages to tokenize strings to individual words. We will be using Python's Natural Language Toolkit (nltk) package.</p>
-<p>Follow along if you want to create your own classifier, otherwise, skip to the results. All code is available on GitHub. Refer to reddit_garry.py for scraping.</p>
+<p>Follow along if you want to create your own classifier, otherwise, skip to the results. All code is available on <a href="https://github.com/garrrychan/nlp_reddit">GitHub</a>. Refer to <code>reddit_garry.py</code> for scraping.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -137,8 +137,8 @@
 
 
 <div class="highlight"><pre><span></span><span class="c1"># encoding utf-8 for special characters</span>
-<span class="n">raw_lpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./lpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-<span class="n">raw_ulpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./ulpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">raw_lpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/lpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">raw_ulpt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/ulpt.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -163,31 +163,31 @@
   </thead>
   <tbody>
     <tr>
-      <th>526</th>
-      <td>yourmate155</td>
-      <td>t3_69bzui</td>
-      <td>720</td>
-      <td>21216</td>
-      <td>LifeProTips</td>
-      <td>LPT: Instead of saying 'Sorry this is late', say 'Thanks for your patience.' Using positive language in a negative situation can have a big impact on how you're remembered.</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>Humble_Internet_Dude</td>
-      <td>t3_a95fr8</td>
-      <td>958</td>
-      <td>122775</td>
-      <td>LifeProTips</td>
-      <td>LPT: Try not to be mean or toxic in online games today and tommorow as there are a lot of people who have no family and want to distract themselves from this time of year. Instead be kind and thoughtful. This goes for all year round.</td>
-    </tr>
-    <tr>
-      <th>1084</th>
-      <td>ZakX10</td>
-      <td>t3_blsna7</td>
-      <td>243</td>
-      <td>15689</td>
+      <th>1661</th>
+      <td>8khays</td>
+      <td>t3_6fbbez</td>
+      <td>86</td>
+      <td>1754</td>
       <td>UnethicalLifeProTips</td>
-      <td>ULPT: Don't want to speak to someone but can't hang up? Keep tapping the mute option on your smartphone while you are speaking and when they complain about your voice breaking, make an excuse about poor network and hang up.</td>
+      <td>ULPT: If someone is tailgating you, hit your hazards for a brief moment</td>
+    </tr>
+    <tr>
+      <th>1274</th>
+      <td>Troll3Killer</td>
+      <td>t3_7octvp</td>
+      <td>467</td>
+      <td>9531</td>
+      <td>UnethicalLifeProTips</td>
+      <td>ULPT Don't want to pay tax for games on your Nintendo Switch? Just change your zip code to one in Oregon! Then you will get games tax-free!</td>
+    </tr>
+    <tr>
+      <th>1224</th>
+      <td>TheOmerAngi</td>
+      <td>t3_b4utl1</td>
+      <td>187</td>
+      <td>10543</td>
+      <td>UnethicalLifeProTips</td>
+      <td>ULPT: if you need an excuse to leave school or work, chew up some random food, fill you mouth with water, mix them in your mouth for 20 seconds and then spit it like you throw up. Usually, even if people didn't see you throw up, the mess it leaves really looks like vomit. Easy escape.</td>
     </tr>
   </tbody>
 </table>
@@ -209,7 +209,16 @@
 
 
 <div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
-<span class="n">X_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># for humans</span>
+<span class="n">X_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_read&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># for model</span>
+<span class="n">X_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="s2">&quot;title_read&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
 </pre></div>
 
 
@@ -222,8 +231,8 @@
 <span class="sd">    transforms data and returns the transformed matrices&#39;&#39;&#39;</span>
     <span class="c1"># transform text</span>
     <span class="n">vect</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span> 
-    <span class="n">train_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">test_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">train_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title_clean</span><span class="p">)</span>
+    <span class="n">test_data_features</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">title_clean</span><span class="p">)</span>
     <span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
     <span class="n">target_train</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
     <span class="n">target_test</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
@@ -235,7 +244,7 @@
     <span class="p">([</span><span class="s2">&quot;score&quot;</span><span class="p">],</span> <span class="n">StandardScaler</span><span class="p">())],</span> <span class="n">df_out</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">Z_train</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
     <span class="n">Z_test</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Learned distinct training vocabulary is {train_data_features.shape[1]}&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Training set learned {train_data_features.shape[1]} distinct vocabulary&#39;</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Remember: 0 -&gt; {le.classes_[0]}, 1 -&gt; {le.classes_[1]}&#39;</span><span class="p">)</span>
 
     <span class="c1"># Baseline model</span>
@@ -276,7 +285,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+<div class="highlight"><pre><span></span> Training set learned 5104 distinct vocabulary
  Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
  Baseline model that guessed all LPT -&gt; 0.5 accurate
 </pre></div>
@@ -289,7 +298,7 @@
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Test accuracy: {model.score(Z_test, target_test)}&#39;</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">predictions</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;LifeProTips&quot;</span><span class="p">,</span><span class="s2">&quot;UnethicalLifeProTips&quot;</span><span class="p">)</span>
-    <span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>   
+    <span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title_read</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>   
     <span class="n">wrong</span> <span class="o">=</span> <span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="o">.</span><span class="n">prediction</span><span class="o">!=</span><span class="n">final</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> 
     <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">wrong</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
@@ -317,45 +326,99 @@
   </thead>
   <tbody>
     <tr>
-      <th>45</th>
-      <td>LifeProTips</td>
+      <th>125</th>
       <td>UnethicalLifeProTips</td>
-      <td>Teenagers repeatedly driving through your bagged leaves on the side of the road? Cut the bottom of one and place it around a fire hydrant before filling with leaves, that?ll teach those punks.</td>
-      <td>804</td>
-      <td>13842</td>
+      <td>LifeProTips</td>
+      <td>To check if a map is up to date, look for South Sudan. It is the world's newest country, gaining its independence from Sudan in 2011.</td>
+      <td>553</td>
+      <td>17981</td>
     </tr>
     <tr>
-      <th>453</th>
-      <td>UnethicalLifeProTips</td>
+      <th>15</th>
       <td>LifeProTips</td>
-      <td>Always talk about someone as if they're standing right next to you.</td>
-      <td>344</td>
-      <td>11917</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you ever get caught sleeping at your desk at work then say "They told me at the Blood Bank that this would happen" when asked for a reason</td>
+      <td>669</td>
+      <td>42472</td>
     </tr>
     <tr>
-      <th>186</th>
+      <th>439</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
-      <td>616</td>
-      <td>25459</td>
+      <td>When applying for jobs online, save a copy of the job responsibilities and requirements. This information is usually not available after they stop accepting applications and will be useful when preparing for the interviews.</td>
+      <td>143</td>
+      <td>12465</td>
     </tr>
   </tbody>
 </table>
 
-<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="n">log_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">log_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">);</span>
 </pre></div>
 
 
-<p>Let's look at the largest coefficients which correspond to num_comments (col 6452), score (col 6453), column 653 &amp; 3218, and peak into the words. </p>
+<p>These two were incorrectly classified, because the num_comments might have thrown it off. These are not your typical posts, but by moderators.</p>
+<p>Let's look at the largest coefficients that correspond to num_comments (col 6452), score (col 6453), column 576, 4945 &amp; 3125, and peak into the words. </p>
 <div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;{:.2f}&#39;</span><span class="o">.</span><span class="n">format</span>
-<span class="c1"># my_coef = pd.DataFrame(list(zip(Z_train.columns,abs(model.coef_[0]))),columns=[&quot;x&quot;,&quot;coef&quot;]).sort_values(by=&quot;coef&quot;,ascending=False).head()                       </span>
+<span class="n">my_coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">log_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]))),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;coef&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;coef&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">my_coef</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">my_coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;coef&quot;</span><span class="p">])</span>
-<span class="n">large_coef</span> <span class="o">=</span> <span class="n">my_coef</span><span class="p">[(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;num_comments&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;score&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">653</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3218</span><span class="p">)]</span> 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>coef</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6354</th>
+      <td>num_comments</td>
+      <td>4.33</td>
+    </tr>
+    <tr>
+      <th>6355</th>
+      <td>score</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <th>576</th>
+      <td>576</td>
+      <td>1.11</td>
+    </tr>
+    <tr>
+      <th>4945</th>
+      <td>4945</td>
+      <td>1.05</td>
+    </tr>
+    <tr>
+      <th>3125</th>
+      <td>3125</td>
+      <td>1.03</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="highlight"><pre><span></span><span class="n">my_coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Z_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span><span class="n">log_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;coef&quot;</span><span class="p">])</span>
+<span class="n">large_coef</span> <span class="o">=</span> <span class="n">my_coef</span><span class="p">[(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;num_comments&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;score&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">576</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">4945</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">my_coef</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3125</span><span class="p">)]</span> 
 <span class="n">HTML</span><span class="p">(</span><span class="n">large_coef</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
@@ -370,69 +433,75 @@
   </thead>
   <tbody>
     <tr>
-      <th>653</th>
-      <td>653</td>
+      <th>576</th>
+      <td>576</td>
       <td>1.11</td>
     </tr>
     <tr>
-      <th>3218</th>
-      <td>3218</td>
-      <td>1.08</td>
+      <th>3125</th>
+      <td>3125</td>
+      <td>1.03</td>
     </tr>
     <tr>
-      <th>6452</th>
+      <th>4945</th>
+      <td>4945</td>
+      <td>1.05</td>
+    </tr>
+    <tr>
+      <th>6354</th>
       <td>num_comments</td>
-      <td>-4.26</td>
+      <td>-4.33</td>
     </tr>
     <tr>
-      <th>6453</th>
+      <th>6355</th>
       <td>score</td>
-      <td>-1.89</td>
+      <td>-1.83</td>
     </tr>
   </tbody>
 </table>
 
 <div class="highlight"><pre><span></span><span class="n">cvect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span> 
-<span class="n">train_data_features</span> <span class="o">=</span> <span class="n">cvect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+<span class="n">train_data_features</span> <span class="o">=</span> <span class="n">cvect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">title_clean</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cvect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()[</span><span class="mi">3218</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="n">cvect</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()[</span><span class="mi">653</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; {cvect.get_feature_names()[576]}: {round(np.exp(1.11),2)}x&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; {cvect.get_feature_names()[4945]}: {round(np.exp(1.03),2)}x&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; {cvect.get_feature_names()[3215]}: {round(np.exp(1.05),2)}x&#39;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>pay
-business
+<div class="highlight"><pre><span></span> business: 3.03x
+ want: 2.8x
+ pitched: 2.86x
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is {np.exp(-4.26)} more likely.&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is {round(np.exp(-4.33),2)}x more likely.&#39;</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.014122302410163962 more likely.&#39;
+<div class="highlight"><pre><span></span>&#39;If the number of comments increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.01x more likely.&#39;
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is {np.exp(-1.89)} more likely.&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="s1">&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is {round(np.exp(-1.83),2)}x more likely.&#39;</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.15107180883637086 more likely.&#39;
+<div class="highlight"><pre><span></span>&#39;If the score (upvotes - downvotes) increases by 1, the likelihood of being an Unethical Life Pro Tip is 0.16x more likely.&#39;
 </pre></div>
 
 
 <p>This is really performant off the bat with 99.9% training accuracy and 89.5% test accuracy. Yes, there is overfitting but it's picking up signal, in the text.</p>
-<p>There's many more false positives than false negatives. One could argue, false positives are not as bad
-since you don't want to heed the advice of a bad tip, but if you miss a life pro tip, it's not as damaging. If we wanted to be more strict, we could tweak the threshold such that only predictions &gt; 75% would be classified as UnethicalLifeProTip.</p>
+<p>There's many more false positives than false negatives. One could argue, false positives are not as bad as false negatives since you don't want to heed the advice of a bad tip, but if you miss a life pro tip, it's not as damaging. If we wanted to be more strict, we could tweak the threshold such that only predictions &gt; 75% would be classified as UnethicalLifeProTip.</p>
 <p>"Give the same perfume to your wife and your girlfriend. It could save your ass one day." 🙅🏻‍♂️ - <em>Not a Life Pro Tip</em> but was predicted a <em>Pro Tip</em> </p>
 <ul>
 <li>
 <p>The more 'popular' i.e. more comments and score, the great likelihood that it is unethical. Controversial posts tend to gain more popularity.</p>
 </li>
 <li>
-<p>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</p>
+<p>In this training set, if your document includes the word 'business', then the likelihood of being unethical is far more likely by 3x. There's probably a lot of unethical comments around taking advantage of businesses!</p>
 </li>
 </ul>
 <hr>
@@ -447,7 +516,7 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+<div class="highlight"><pre><span></span> Training set learned 5104 distinct vocabulary
  Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
  Baseline model that guessed all LPT -&gt; 0.5 accurate
 </pre></div>
@@ -457,8 +526,8 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Training accuracy: 0.9581297976273552
- Test accuracy: 0.8514644351464435
+<div class="highlight"><pre><span></span> Training accuracy: 0.9567341242149338
+ Test accuracy: 0.8535564853556485
 </pre></div>
 
 
@@ -483,25 +552,25 @@ Words that occur often in one document but don't occur in many documents are imp
       <td>23419</td>
     </tr>
     <tr>
-      <th>453</th>
+      <th>62</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Always talk about someone as if they're standing right next to you.</td>
-      <td>344</td>
-      <td>11917</td>
+      <td>if you have problems throwing something away you don't need anymore because of sentimentality, take a picture of it before you get rid of it.</td>
+      <td>425</td>
+      <td>11823</td>
     </tr>
     <tr>
-      <th>66</th>
+      <th>294</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
-      <td>If you ever rob a bank, make sure to hold your middle finger in front of you the whole time so the news has to blur your face in the security footage.</td>
-      <td>531</td>
-      <td>32565</td>
+      <td>Buy the cheapest tickets available for a sporting event. Once inside, check Ticketmaster and Stubhub for better seats that didn?t sell and go sit there.</td>
+      <td>716</td>
+      <td>34959</td>
     </tr>
   </tbody>
 </table>
 
-<p>Test accuracy decreases to 85.1% which is lower than CountVectorizer. There are probably not as many discriminating words. Common words are helpful in distinguishing between the two classes. Words of high frequency that are predictive of one of the classes.</p>
+<p>Test accuracy decreases to 85.4% which is lower than CountVectorizer. There are probably not as many discriminating words. Common words are helpful in distinguishing between the two classes. Words of high frequency that are predictive of one of the classes.</p>
 <p>It's not entire clear which words are the most influential, some words might indicate sarcasm. Overall, it's impressive that a logistic regression model is so powerful already, let's try a few more algorithms.</p>
 <hr>
 <h2>Naive Bayes Classifier</h2>
@@ -522,14 +591,14 @@ Words that occur often in one document but don't occur in many documents are imp
 
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">predictions</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;LifeProTips&quot;</span><span class="p">,</span><span class="s2">&quot;UnethicalLifeProTips&quot;</span><span class="p">)</span>
-<span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title_read</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>
 <span class="n">wrong</span> <span class="o">=</span> <span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="o">.</span><span class="n">prediction</span><span class="o">!=</span><span class="n">final</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> 
 <span class="n">HTML</span><span class="p">(</span><span class="n">wrong</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
 
 
 <div class="highlight"><pre><span></span> Training accuracy: 0.9951151430565248
- Test accuracy: 0.797071129707113
+ Test accuracy: 0.805439330543933
 </pre></div>
 
 
@@ -546,28 +615,28 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>419</th>
-      <td>LifeProTips</td>
+      <th>410</th>
       <td>UnethicalLifeProTips</td>
-      <td>If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.</td>
-      <td>469</td>
-      <td>18511</td>
+      <td>LifeProTips</td>
+      <td>Did your kids get some outdoor gear/equipment? Before putting it together. Take the nuts and bolts to the local hardware and upgrade them to stainless steel. Pics in comments.</td>
+      <td>1232</td>
+      <td>15247</td>
     </tr>
     <tr>
-      <th>177</th>
+      <th>153</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>If you’ve got some free time and you’re planning on spending it watching tv/playing video games, etc. make yourself go on a short walk or do some brief exercise beforehand. You’ll probably end up going longer than you planned and you’ll feel better about relaxing after.</td>
-      <td>841</td>
-      <td>45500</td>
+      <td>Bring candy on your plane trip, any sad kid can't cry next to you with Starbursts in his mouth</td>
+      <td>1081</td>
+      <td>15279</td>
     </tr>
     <tr>
-      <th>32</th>
-      <td>LifeProTips</td>
+      <th>91</th>
       <td>UnethicalLifeProTips</td>
-      <td>When grocery shopping and buying fruits and vegetables, get the organic versions of the produce. When paying go to the self-checkout line and select the regular version of the produce, it's cheaper and you get the more premium product.</td>
-      <td>453</td>
-      <td>3798</td>
+      <td>LifeProTips</td>
+      <td>For you dog owners out there.</td>
+      <td>1109</td>
+      <td>25638</td>
     </tr>
   </tbody>
 </table>
@@ -583,10 +652,10 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="k">[[163  78]</span>
+<div class="highlight"><pre><span></span><span class="k">[[167  74]</span>
  <span class="k">[ 19 218]]</span>
-<span class="na">True Negatives: 163</span>
-<span class="na">False Positives: 78</span>
+<span class="na">True Negatives: 167</span>
+<span class="na">False Positives: 74</span>
 <span class="na">False Negatives: 19</span>
 <span class="na">True Positives: 218</span>
 </pre></div>
@@ -610,11 +679,11 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Learned distinct training vocabulary is 5202
+<div class="highlight"><pre><span></span> Training set learned 5104 distinct vocabulary
  Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
  Baseline model that guessed all LPT -&gt; 0.5 accurate
- Training accuracy: 0.6140963014654571
- Test accuracy: 0.5941422594142259
+ Training accuracy: 0.6189811584089323
+ Test accuracy: 0.5962343096234309
 </pre></div>
 
 
@@ -631,12 +700,556 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>451</th>
+      <th>1</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Just Because The Election Is Over, Does Not Mean That This Subreddit Will Be Accepting Politics or Politic Related Tips. We Will Still Not Accept Them. Keep Those Posts To Their Proper Subreddits. - Thank you.</td>
-      <td>0</td>
-      <td>15175</td>
+      <td>If you're taking your animal to the vet for an ailment, get video of them coughing, breathing strangely, limping, etc. Animals may not show the ailment at the vet's office and the video can help the vet diagnose your furry friend.</td>
+      <td>463</td>
+      <td>45965</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you’re a renter with low water pressure, buy a decent shower head. They can typically be installed in less than 5 minutes and make a huge difference.</td>
+      <td>911</td>
+      <td>25579</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're trying to improve, and you know you're gonna relapse, write a note to yourself saying why you shouldn't, and why you want to improve. Whenever you feel like you're gonna fall back, read the note.</td>
+      <td>403</td>
+      <td>21130</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If someone attempts to do something, especially for the first time, don't encourage them by telling them it's easy, it puts pressure on them to do it right first time and downplays their success when they achieve it.</td>
+      <td>399</td>
+      <td>17870</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>‘Swallow the frog’: Do the thing you are least looking forward to first and the whole day will seem brighter and easier.</td>
+      <td>358</td>
+      <td>11195</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're staying up all night to write a paper and hit a wall, take a break from the paper itself and do your bibliography.</td>
+      <td>576</td>
+      <td>11708</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If a company has a chat feature, chat with a representative instead of calling. Then save your chat transcript. That way you have written proof in the even a company tries to screw you over about a service.</td>
+      <td>1142</td>
+      <td>44015</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you have children and talk to them about danger (which you should), tell them that if someone is ever attempting to take them they should yell “you’re not my mom/dad!” That way, passers-by know it’s not just a kid having a tantrum.</td>
+      <td>998</td>
+      <td>27377</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>After a car accident, step-by-step checklist. Getting into a car accident can be jarring and emotional, even if it’s a small fender bender. Make a checklist to help take the thinking out of what information to collect.</td>
+      <td>1014</td>
+      <td>14480</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Use the FORD method when you don’t know what to say in conversation</td>
+      <td>1533</td>
+      <td>27113</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If something bad happens in your life, don't let it define who you are. Don't make it your excuse for not progressing yourself. Don't undermine it, learn from it, understand it, and let it be apart of you without it being who you are.</td>
+      <td>1213</td>
+      <td>32084</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When traveling, buy your souvenir items from a thrift store. There tends to be some cool finds and you can save a lot of $$.</td>
+      <td>387</td>
+      <td>11450</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you use your laptop for work, create a separate user for presentations. This will prevent embarrassing pop-ups or web history.</td>
+      <td>1244</td>
+      <td>36549</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're having a foreign guest over for dinner, don't make them food native to their country</td>
+      <td>2023</td>
+      <td>13432</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Buy a small bottle of perfume you have never tried on before going for a vacation and use it for while you're there. At any point after your vacation, you get a sniff of it, it brings back those memories instantly.</td>
+      <td>785</td>
+      <td>42771</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>15 years Repairing Electronics Here: With Liquid Damaged Electronics, DON'T Use Rice, Instead Use A Fan (explanation inside)</td>
+      <td>912</td>
+      <td>16523</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>if you are buying something high quality, prefer material over brand. For example, a good merino wool pair of sock will be almost certainly better than a fancy cotton one. Or a good full grain leather belt will be almost certainly better than a fancy genuine leather one.</td>
+      <td>1224</td>
+      <td>35082</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>A single flower given unexpectedly, goes a lot further than expensive arrangements on expected holidays.</td>
+      <td>463</td>
+      <td>18731</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If someone confides in you with a problem they're having, your first instinct might be to try relating to them with a similar problem you've had. Avoid this as a first response as it often comes off as "one-upsmanship" rather than empathy.</td>
+      <td>373</td>
+      <td>19102</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Confidently understanding and properly making known you don't know the answer to a question is leagues better than trying to meander your way into a fake answer or straight up lying.</td>
+      <td>688</td>
+      <td>29661</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you’re heading to a busy cafe or restaurant that doesn’t take bookings arrange meet your friends at 10 minutes to the hour (9:50am or 6:50pm) instead of on the hour. You’ll beat out everyone who arranged to meet on the hour and get seated much sooner.</td>
+      <td>649</td>
+      <td>27442</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When in an argument, pretend like you're being recorded. This will prevent you from saying stupid/mean things you may regret later.</td>
+      <td>639</td>
+      <td>20189</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>you can turn off those irrelevant and annoying Reddit notifications which have started popping up all of a suddon by clicking on the button in the top-left, going to settings, notifications, and then toggling off 'Trending'</td>
+      <td>773</td>
+      <td>25633</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When moving, pack a “first day” box with everything you think you’ll need right after you arrive. It’s annoying to dig through all your boxes for things like modems and hair dryers when you’re tired from your move.</td>
+      <td>982</td>
+      <td>47629</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you’ve made a mistake/ screwed up already, STRONGLY fight the temptation to over-explain/ justify what happened. Own up to it, offer to make up for it, and move on.</td>
+      <td>733</td>
+      <td>34629</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>IF you find yourself in a bit of a slump, pay yourself a bit of extra attention. Get a haircut, buy some new clothes. Just that can really help give your confidence a needed boost.</td>
+      <td>1142</td>
+      <td>26869</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If a product has a review score higher than 4, go through the reviews. If there are lots of 5s and lots of 1s, it's probably a fake review score.</td>
+      <td>653</td>
+      <td>12745</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>if you have problems throwing something away you don't need anymore because of sentimentality, take a picture of it before you get rid of it.</td>
+      <td>425</td>
+      <td>11823</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Shipping boxes for the Holiday Season</td>
+      <td>662</td>
+      <td>11521</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>- When at a pub in the U.K., if they serve food but the table has no cutlery or napkins set then you need to order at the bar.</td>
+      <td>1971</td>
+      <td>31256</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you were in an accident and had a car seat in the vehicle, you can take it to your local fire department and have them inspect it for free. If it's unsafe, they can give you a slip for your insurance company to replace it.</td>
+      <td>770</td>
+      <td>15878</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you think highly of someone, tell them.</td>
+      <td>877</td>
+      <td>18089</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Don't have serious arguments via text (especially with your SO.) Tone does not translate, comments can be misunderstood, and if things really go south, the messages you send can be used against you. Calling them has a better chance to deescalate the problem.</td>
+      <td>527</td>
+      <td>15158</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.</td>
+      <td>250</td>
+      <td>19586</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If giving gifts to homeless, you can never go wrong with socks</td>
+      <td>1072</td>
+      <td>11621</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Not 100% certain you're ready for the responsibility of adopting a pet? Try fostering first. It costs you nothing, and enriches the pets' lives even if you don't ultimately adopt.</td>
+      <td>581</td>
+      <td>29312</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Take a screenshot of your mobile boarding pass before boarding an airplane so if you lose internet access, you can still pull it up.</td>
+      <td>1274</td>
+      <td>22980</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>For you dog owners out there.</td>
+      <td>1109</td>
+      <td>25638</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>All signs indicate that this summer will be the hottest ever in North America. If you will need to buy an air conditioner or will have trouble paying higher electric bills, you should start saving for this right now.</td>
+      <td>2162</td>
+      <td>23978</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Look for the shady spot when you're leaving work, not when you get there. This way you know where to park the next day!</td>
+      <td>642</td>
+      <td>24971</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When calling a company to complain, ask where to be directed 1st rather than explaining your situation right away with no pauses.</td>
+      <td>982</td>
+      <td>15439</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When you see someone being harassed in public, act like you know them and get them out of the situation.</td>
+      <td>1038</td>
+      <td>29768</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Disable the center channel audio line on a 5.1 surround sound system to mute the Olympic commentary</td>
+      <td>1352</td>
+      <td>37474</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>How to wrap a gift, faster, less paper, less tape</td>
+      <td>688</td>
+      <td>11726</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Blend dog food and low-sodium chicken broth together and freeze it in a hollow dog toy. It will keep your dog busy and occupied for hours while also providing them a healthier treat.</td>
+      <td>838</td>
+      <td>18577</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>For those in flooded areas, use extreme caution when walking on streets and sidewalks. Manhole covers are often forced off by the flood and can be extremely dangerous as people can fall in, get trapped, and drown.</td>
+      <td>1072</td>
+      <td>45049</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When you're newly qualified or just starting to do something solo that you'd previously done supervised, pretend you're teaching someone.</td>
+      <td>259</td>
+      <td>13792</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>As a manager, give praise in public and give discipline in private.</td>
+      <td>967</td>
+      <td>45976</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When buying a duvet for your bed, buy one size larger (or more) than your current bed size. The extra duvet will provide greater comfort especially when sharing.</td>
+      <td>1013</td>
+      <td>30605</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Use Internet Explorer or Safari to stream Netflix. Other browsers such as firefox, opera and chrome are limited to 720p!</td>
+      <td>1514</td>
+      <td>13814</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Many of us use i.e. incorrectly. i.e. means "in other words" and e.g. means "for example".</td>
+      <td>959</td>
+      <td>28760</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Whenever you receive a greeting card with money in it for your birthday (or any other special day), always act like you don't see the money and read the card out loud first. After that, then thank them for the money. People really appreciate when you take the time to enjoy their greeting cards.</td>
+      <td>1077</td>
+      <td>25192</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When browsing en.wikipedia.org, you can replace "en" with "simple" to bring up simple English wikipedia, where everything is explained like you're five.</td>
+      <td>883</td>
+      <td>19837</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>To check if a map is up to date, look for South Sudan. It is the world's newest country, gaining its independence from Sudan in 2011.</td>
+      <td>553</td>
+      <td>17981</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>"If you opened a Paypal Account before turning 18 years old, close it now"</td>
+      <td>1294</td>
+      <td>13120</td>
+    </tr>
+    <tr>
+      <th>129</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Initiate handshakes with professional women just as you would with men.</td>
+      <td>2372</td>
+      <td>15044</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When using a website chat feature type your messages in word or something else and copy and paste them into the chat. Support reps can see everything you type as you type it regardless if you send it.</td>
+      <td>743</td>
+      <td>18074</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you want to endear someone to you quickly, ask them for advice. Doesn't matter what on; just asking for their opinion on anything shows that you respect them and value their input.</td>
+      <td>324</td>
+      <td>21778</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Whenever someone had a bad day and they’re being cathartic, just listen. Don’t speak. Don’t give advice. Don’t interrupt. Don’t pretend to listen. Be a pal and be a sponge. This is the most good you can do.</td>
+      <td>566</td>
+      <td>33310</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're taking a foreign language class and have to prepare a journal, essay, presentation, etc., use ideas and plot lines from sitcoms.</td>
+      <td>564</td>
+      <td>23189</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always correct someone privately and one-on-one rather in a group setting. It will save them humiliation and they will have greater respect for you.</td>
+      <td>529</td>
+      <td>21194</td>
+    </tr>
+    <tr>
+      <th>139</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>if there are no chances for job growth or improvement - it's time to move on. You are worth more the more you learn. Otherwise you are getting paid less the more you know.</td>
+      <td>1378</td>
+      <td>34533</td>
+    </tr>
+    <tr>
+      <th>143</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>While talking to anyone cross-eyed / lazy eyed / anything else that makes eye contact difficult, look at the bridge of their nose. You appear to be making eye contact with them without having to worry about making either of you uncomfortable</td>
+      <td>1527</td>
+      <td>33209</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Keep extra napkins in your car's glove compartment. You won't believe how many times they'll get you out of a jam.</td>
+      <td>1267</td>
+      <td>21557</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Bring candy on your plane trip, any sad kid can't cry next to you with Starbursts in his mouth</td>
+      <td>1081</td>
+      <td>15279</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Live support chat systems allow the business to see what you're typing in realtime, so only enter text you're 100% comfortable with.</td>
+      <td>1164</td>
+      <td>25252</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Take time to learn how to properly fall. It sounds ridiculous but as a snowboarder/skateboarder if you know how to fall it will save you from injury very easily. Not just in extreme sports but in every day life.</td>
+      <td>1747</td>
+      <td>30708</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If your car gets a parking ticket, always check the plate number on the ticket.</td>
+      <td>943</td>
+      <td>14895</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Write a fake pin number on the back of your credit card. That way if it gets stolen the person will only get 3 attempts before the ATM machine swallows the card.</td>
+      <td>2240</td>
+      <td>25182</td>
     </tr>
     <tr>
       <th>164</th>
@@ -647,12 +1260,988 @@ Words that occur often in one document but don't occur in many documents are imp
       <td>37788</td>
     </tr>
     <tr>
-      <th>18</th>
+      <th>171</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Use the FORD method when you don’t know what to say in conversation</td>
+      <td>Learn to be concise and get to the point when speaking. Sometimes you never know when sharing too many details can come back to harm you.</td>
+      <td>640</td>
+      <td>20202</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Take a videocamera and spend 10min filming every room and every item in your house. Upload footage to the cloud. If you are ever in the unfortunate situation of a house-fire, this will make the insurance claim thousand times easier.</td>
+      <td>609</td>
+      <td>25580</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If your milk smells sour, pour a little into a cup/glass and smell it again, often it is the residue in the neck/opening that is sour and not the milk inside.</td>
+      <td>1090</td>
+      <td>18401</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you’ve got some free time and you’re planning on spending it watching tv/playing video games, etc. make yourself go on a short walk or do some brief exercise beforehand. You’ll probably end up going longer than you planned and you’ll feel better about relaxing after.</td>
+      <td>841</td>
+      <td>45500</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>For people pleasers it can be very hard to say "no" and it is easy to get taken advantage of. Practice by saying no to small things that don't matter much. It will make it easier to say when it really counts.</td>
+      <td>705</td>
+      <td>13683</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Instead of saying 'Sorry this is late', say 'Thanks for your patience.' Using positive language in a negative situation can have a big impact on how you're remembered.</td>
+      <td>720</td>
+      <td>21216</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When leaving a voicemail, if you mess up hit pound (#) for the option to re-record. Works on every system I've ever encountered.</td>
+      <td>493</td>
+      <td>11481</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>when making rice, just throw some broccoli on top when there is like 10mins left, it'll be perfectly steamed at the end and is a super easy way to add some nutrition with virtually zero extra work!</td>
+      <td>1435</td>
+      <td>18783</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When overloaded at work, ask your boss to help you prioritize your tasks, even if you already know what the priorities are.</td>
+      <td>474</td>
+      <td>14706</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
+      <td>616</td>
+      <td>25459</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When stressing over something, use the 10-10-10 rule. Will it matter in 10 days? 10 months? 10 years? After getting some perspective, you’ll notice how very few things end up worth stressing over.</td>
+      <td>967</td>
+      <td>39141</td>
+    </tr>
+    <tr>
+      <th>192</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Save your PowerPoint presentations with a .pps extension instead of .ppt. They'll open directly in presentation mode and PowerPoint will close when the slideshow is over.</td>
+      <td>324</td>
+      <td>23122</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>You need motivation only till a habit is formed. After that, routine will take care of itself.</td>
+      <td>664</td>
+      <td>13567</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When comparing ice cream for quality, but the ingredient list looks the similar, compare the weight of a serving on the nutrition label. Denser is better. The gums and fillers used in lower quality ice cream are lighter than cream and eggs.</td>
+      <td>1387</td>
+      <td>37206</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>A real, effective apology has three parts: (1) Acknowledge how your action affected the person; (2) say you're sorry; (3) describe what you're going to do to make it right or make sure it doesn't happen again. Don't excuse or explain.</td>
+      <td>1155</td>
+      <td>32174</td>
+    </tr>
+    <tr>
+      <th>204</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Watch "silent movie" comedies with younger kids - Charlie Chaplin, Buster Keaton, Harold Lloyd, etc. The lack of dialogue and emphasis on physical storytelling will be extremely fun and engaging for the kids, and will keep grownups laughing too</td>
+      <td>871</td>
+      <td>16662</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When starting univerity/college in a living arrangement where you're put randomly with people, leave your door wide open. It invites quick conversation and friend making and avoids people having to awkwardly knock on the door to interact with you.</td>
+      <td>1710</td>
+      <td>11322</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>request : Do not request one hour dry cleaning if you can help it.</td>
+      <td>1129</td>
+      <td>34881</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you are near a university's campus in spring, check near the dorms for items that the students leave when they break up for summer. Many don't want to take home larger items if they live far away from campus, so you could pick up some nice stuff that was left on the curb for trash.</td>
+      <td>1400</td>
+      <td>33165</td>
+    </tr>
+    <tr>
+      <th>216</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>- Know the difference between state parks and state forests. It's often free to camp in a state forest, but not in a state park.</td>
+      <td>778</td>
+      <td>33451</td>
+    </tr>
+    <tr>
+      <th>217</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're ever called by your bank's fraud department hang up and call them back.</td>
+      <td>1288</td>
+      <td>28465</td>
+    </tr>
+    <tr>
+      <th>218</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>when cleaning out your closet, think “if I saw this at the store right now, would I buy this again?” If the answer is no, it might be time to get rid of that item.</td>
+      <td>1013</td>
+      <td>36322</td>
+    </tr>
+    <tr>
+      <th>219</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When using Pandora, never use thumbs up, only thumbs down. This will keep the station constantly looking for something you like, while avoiding things you don't like. It also keeps it from playing the same 10 songs over and over.</td>
+      <td>1339</td>
+      <td>27811</td>
+    </tr>
+    <tr>
+      <th>221</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Put a peeled banana in the freezer for a snack that almost has the same texture and taste of ice cream but without the guilt or calories.</td>
+      <td>1696</td>
+      <td>28460</td>
+    </tr>
+    <tr>
+      <th>224</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you burn food to the bottom of a pot and can't scrub it out, put the pot back on the stove and boil water in it. It will loosen the burnt food and make it easier to clean.</td>
+      <td>1061</td>
+      <td>35919</td>
+    </tr>
+    <tr>
+      <th>225</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>keep your bedroom windows closed for about a day after the rain has stopped to prevent terrifying spiders from taking up residency.</td>
+      <td>1517</td>
+      <td>31199</td>
+    </tr>
+    <tr>
+      <th>227</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>often, being liked doesn’t require you to be interesting/funny. It just requires you to make other people feel interesting/funny.</td>
+      <td>1062</td>
+      <td>51147</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Getting married? Create a separate email account just for your wedding to avoid spam and keep organized</td>
+      <td>746</td>
+      <td>15810</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Whenever you have to watch/ take notes on a video for school always write down the point in time in the video. It makes it much easier to go back later and get the full quote or idea.</td>
+      <td>248</td>
+      <td>28469</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always be gracious when friends or classmates get jobs you both applied to, they might be in a position to hire you in the future</td>
+      <td>522</td>
+      <td>17866</td>
+    </tr>
+    <tr>
+      <th>244</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you drop something small on the floor and can't find it, put a sock over the vacuum arm. There will be enough suction to pick up the thing you lost, but it won't be sucked into the vacuum itself.</td>
+      <td>339</td>
+      <td>17783</td>
+    </tr>
+    <tr>
+      <th>245</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Ever get corrected on calling someone by the wrong name? Respond with, "What did I say?" It implies that you truly knew the person's name but your mouth said something different, which can help you feel less embarrassed.</td>
+      <td>601</td>
+      <td>22593</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When buying tickets for a sporting event for a large amount of people, buy some of the tickets in the row behind.</td>
+      <td>361</td>
+      <td>20679</td>
+    </tr>
+    <tr>
+      <th>252</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you are a parent, record a video message for your children even if you're perfectly healthy.</td>
+      <td>824</td>
+      <td>11279</td>
+    </tr>
+    <tr>
+      <th>257</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If Word crashes or shuts down and your document didn't save, search ".asd" in the file Explorer under "This/My PC". It should be there.</td>
+      <td>976</td>
+      <td>51212</td>
+    </tr>
+    <tr>
+      <th>263</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>request: How to not be such a procrastinating, lazy fuck</td>
+      <td>1785</td>
+      <td>15544</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you constantly vent your problems to someone, make sure to also call them when things are going well. Good listeners can sometimes get overwhelmed, and it's nice to hear positive news.</td>
+      <td>890</td>
+      <td>54260</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>in college, if you miss an assignment, don't go to the instructor and ask if you can turn it in late for partial credit. Do the assignment first, then give it in asking for feedback and any credit theyre willing to give. They will be far more receptive.</td>
+      <td>720</td>
+      <td>24231</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're an impulse spender or find it too easy to drop money on something, translate the price of an item into the hours that you have worked to make that amount of money. It really puts in perspective the cash value of an item against the value of your time.</td>
+      <td>900</td>
+      <td>25095</td>
+    </tr>
+    <tr>
+      <th>278</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you work in a place that loses pens constantly, you can order a box of thousands on Ebay for pennies each if you look for misprinted advertising pens.</td>
+      <td>1358</td>
+      <td>39500</td>
+    </tr>
+    <tr>
+      <th>279</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When posting your resume online for a specific job, copy the “looking for” section and paste in white font at bottom of your resume. You place higher because you’re a “perfect match” and humans won’t notice when they read it.</td>
+      <td>875</td>
+      <td>19453</td>
+    </tr>
+    <tr>
+      <th>280</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Just because you can get training or a degree in a field doesn't mean you can get a job doing it. Research your interests before committing to an expensive degree path</td>
       <td>1533</td>
-      <td>27113</td>
+      <td>28375</td>
+    </tr>
+    <tr>
+      <th>282</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you lock your keys in your car, don't call a locksmith, call a towing company. They will typically unlock your car for less than a locksmith, arrive faster, and are available 24/7</td>
+      <td>1937</td>
+      <td>20263</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>In Chrome's address bar, type "slide", "doc", or "sheet" followed by ".new" to instantly create and go to a new document.</td>
+      <td>365</td>
+      <td>19404</td>
+    </tr>
+    <tr>
+      <th>287</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're not planning to do anything the entire day, go outside for a walk.</td>
+      <td>1240</td>
+      <td>21130</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When trying to solve a computer error code by doing a google search, include the word "solved" in your search.</td>
+      <td>1199</td>
+      <td>37966</td>
+    </tr>
+    <tr>
+      <th>293</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When you put in a fresh bin bag, sprinkle some cat litter into the bottom of the bag. It will absorb any gross liquids, and your bags will have almost no bad odour.</td>
+      <td>840</td>
+      <td>30525</td>
+    </tr>
+    <tr>
+      <th>295</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you take showers when you're tired or hung over, buy a cheap shower chair. Sitting under the cascading water as it slowly reinvigorates you is amazing and relatively inexpensive.</td>
+      <td>1269</td>
+      <td>23186</td>
+    </tr>
+    <tr>
+      <th>303</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Don't take unsolicited advice personally. Most of the time the person giving the advice is giving advice they wish they had, not advice they think you need.</td>
+      <td>756</td>
+      <td>44758</td>
+    </tr>
+    <tr>
+      <th>304</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're reduced to eating ramen so you can pay rent as I often am, go to the asian market or at least the asian aisle in your market. The packages generally come with much more interesting seasonings that do alot for the flavor of the soup and making you feel "fancy".</td>
+      <td>2057</td>
+      <td>25727</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>In places with free 30 minute WiFi(airports and hotels), you can clear the cookies on your browser and register again to refresh the timer.</td>
+      <td>426</td>
+      <td>23058</td>
+    </tr>
+    <tr>
+      <th>311</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>It is important to note that you get the courage after you do the thing that you are so anxious and terrified of doing, not before.</td>
+      <td>575</td>
+      <td>37555</td>
+    </tr>
+    <tr>
+      <th>312</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>you can use @gmail.com and @googlemail.com interchangeably. Perfect for signing up to a website twice without setting up two accounts.</td>
+      <td>606</td>
+      <td>21531</td>
+    </tr>
+    <tr>
+      <th>316</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Hit "s" while watching netflix on a computer to skip the intro.</td>
+      <td>519</td>
+      <td>32527</td>
+    </tr>
+    <tr>
+      <th>319</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you receive great service from an organization, consider sending written appreciation to the representative who assisted you. It can go a long way toward his/her professional development and look better in their portfolio.</td>
+      <td>333</td>
+      <td>23419</td>
+    </tr>
+    <tr>
+      <th>321</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>after a family member gets married, keep the list of things that they registered for but didn’t get and use it for birthday and Christmas presents. It will save you time wondering what they want especially if they’re difficult to shop for.</td>
+      <td>365</td>
+      <td>21039</td>
+    </tr>
+    <tr>
+      <th>324</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Before you buy a house get an insurance quote; it'll tell you crime rates, flood/fire risk, type of neighborhood claims and more</td>
+      <td>604</td>
+      <td>26858</td>
+    </tr>
+    <tr>
+      <th>326</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Hey All, While We Appreciate All The Pokémon Go Tips, Please Keep Them To /R/PokemonGO. Thank You!</td>
+      <td>0</td>
+      <td>12728</td>
+    </tr>
+    <tr>
+      <th>327</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>New college freshmen, get to know your professors early on. In your later years, good relationships with professors can lead to recommendations, research, and job opportunities.</td>
+      <td>501</td>
+      <td>28029</td>
+    </tr>
+    <tr>
+      <th>330</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're thinking about getting a tattoo, get it done in Henna first: It will force you to live with the design and location past the honeymoon stage and show you how comfortable you are with it in your day to day life.</td>
+      <td>1212</td>
+      <td>28804</td>
+    </tr>
+    <tr>
+      <th>335</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>For those without home security alarms...if you have a car with a keyless entry remote, leave it next to your bed. If someone tries to break into your house, press the panic button. Your car's alarm will go off, which will draw attention to your house or scare whoever is trying to break in.</td>
+      <td>876</td>
+      <td>19610</td>
+    </tr>
+    <tr>
+      <th>336</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>View your time as an investment, and pay attention to what gives you the greatest return</td>
+      <td>1035</td>
+      <td>23553</td>
+    </tr>
+    <tr>
+      <th>337</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.</td>
+      <td>779</td>
+      <td>17594</td>
+    </tr>
+    <tr>
+      <th>340</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Looking for some Christmas Magic? The International Space Station orbits the earth 15 times a day and can easily be confused with Santa's Sleigh by excited children in December</td>
+      <td>749</td>
+      <td>32882</td>
+    </tr>
+    <tr>
+      <th>342</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>On a Windows system, hit Win+R and type "shutdown -t x" where x stands for a time in seconds to automatically shutdown your computer after a given time. Perfect if you just want to finish this one youtube video before going to bed, but tend to usually watch another 20.</td>
+      <td>916</td>
+      <td>34385</td>
+    </tr>
+    <tr>
+      <th>344</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When getting an oil change (or other quick service) at your dealership, turn your phone's Bluetooth off</td>
+      <td>993</td>
+      <td>17528</td>
+    </tr>
+    <tr>
+      <th>345</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>a Word file, is a zip in disguise.</td>
+      <td>994</td>
+      <td>16003</td>
+    </tr>
+    <tr>
+      <th>349</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>The fjrst time you give someone flowers, do it randomly. Don't wait for a special occasion.</td>
+      <td>1280</td>
+      <td>20939</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you screw up and inconvenience someone, apologize once, then move on (by correcting your mistake if possible). Apologizing repeatedly &amp;amp; profusely doesn't help anything, it's just you trying to make yourself feel better.</td>
+      <td>694</td>
+      <td>15985</td>
+    </tr>
+    <tr>
+      <th>352</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When memorizing a speech, memorize the main points instead of memorizing word for word.</td>
+      <td>546</td>
+      <td>15515</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Use https://old.reddit.com/ to browse reddit using the old design. It loads more quickly and it's a bit more intuitive. Assuming everyone knows this, but for those that don't there ya go.</td>
+      <td>1005</td>
+      <td>52211</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When you start working full time, make a real effort to hang out with friends who invite you to hang out with them</td>
+      <td>787</td>
+      <td>18127</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Picking out a gift? Find an item they "need", but don't think is high priority. Often, it's something that they really want to get for themselves, but think there are "more important" things to spend money on. Getting those "lower priority" items as gifts relieves stress and saves them cash.</td>
+      <td>1210</td>
+      <td>32981</td>
+    </tr>
+    <tr>
+      <th>359</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When using your laptop in bed, put a large book underneath to help with ventilation and maximizing battery life.</td>
+      <td>1181</td>
+      <td>18876</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Someone who likes you will often automatically look at you when they laugh or find something funny.</td>
+      <td>734</td>
+      <td>29282</td>
+    </tr>
+    <tr>
+      <th>364</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>- If you wake due to stress and can't fall asleep, do a chore like emptying/reload dishwasher or put away laundry. You'll burn off your frustration and be able to settle nerves having a sense of accomplishment</td>
+      <td>705</td>
+      <td>26042</td>
+    </tr>
+    <tr>
+      <th>365</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always enter the email recipient after you have finalized the email body.</td>
+      <td>587</td>
+      <td>11414</td>
+    </tr>
+    <tr>
+      <th>366</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Don't point it out when someone is quiet/doesn't talk much</td>
+      <td>2343</td>
+      <td>12510</td>
+    </tr>
+    <tr>
+      <th>367</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>People want someone to tell them what to do in emergency situations. For example while performing CPR on someone don't say "Someone call an ambulance" instead talk to one person and ask him/her to call an ambulance directly.</td>
+      <td>706</td>
+      <td>20378</td>
+    </tr>
+    <tr>
+      <th>368</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!</td>
+      <td>715</td>
+      <td>18413</td>
+    </tr>
+    <tr>
+      <th>371</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Found a useful Youtube video but no time to watch all of it? Click on the three circles underneath the video and hit 'Open transcript'.</td>
+      <td>260</td>
+      <td>10747</td>
+    </tr>
+    <tr>
+      <th>373</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>for you students out there studying content heavy subjects. Instead of blindly reading and memorising, explain the concept out loud to an imaginary audience. This helps you understand the concept better while also testing yourself.</td>
+      <td>406</td>
+      <td>22598</td>
+    </tr>
+    <tr>
+      <th>375</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you are composing an important message, do not enter the recipient until you have finished composing it so that you do not accidentally send an incomplete message.</td>
+      <td>454</td>
+      <td>37653</td>
+    </tr>
+    <tr>
+      <th>376</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Whenever you make eye contact with someone randomly, just smile! They'll most likely smile back and that just makes the world a little bit happier. :)</td>
+      <td>1278</td>
+      <td>20092</td>
+    </tr>
+    <tr>
+      <th>379</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you have a Google Keep note called shopping list and you use the voice command "Add Paper Towels to my shopping list", Google now will add it, handsfree. (xpost /r/android)</td>
+      <td>829</td>
+      <td>14444</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Change the extension of any word document, spreadsheet or power point presentation to .zip. Then unzip the file and you'll find a media folder containing all the documents images.</td>
+      <td>274</td>
+      <td>19108</td>
+    </tr>
+    <tr>
+      <th>381</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Can't get to the wifi login page? Browse to 192.168.1.1!</td>
+      <td>919</td>
+      <td>12625</td>
+    </tr>
+    <tr>
+      <th>386</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you make a packing list before you go on a trip, review and edit the list when you return from your trip then save it. Over time, you'll be able to pack more efficiently.</td>
+      <td>825</td>
+      <td>28965</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you accidentally clicked "Don't Save" when closing a MS Word document, you can manually recover it by going to go to File&amp;gt;Info&amp;gt;Manage Versions&amp;gt;Recover Unsaved Documents</td>
+      <td>315</td>
+      <td>23711</td>
+    </tr>
+    <tr>
+      <th>392</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Bring a healthy snack to work. If you're looking for a snack but don't feel like eating the one you brought, you're not hungry you're bored.</td>
+      <td>1081</td>
+      <td>32151</td>
+    </tr>
+    <tr>
+      <th>393</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If your flight gets cancelled while you are at the airport, don't approach the ticket agent, but call the 1800 number to re-book your flight.</td>
+      <td>955</td>
+      <td>38241</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>buy a battery recharger and each time you need to replace batteries but rechargeable ones instead. I started this about 7 years ago and just realised I haven’t bought new batteries for years.</td>
+      <td>893</td>
+      <td>33891</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you buy ground beef in bulk and freeze it, repackage it in serving-sized plastic baggies and completely flatten them. They'll stack nicely in your freezer and the larger surface area will allow them to thaw more rapidly when you need them.</td>
+      <td>798</td>
+      <td>22909</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Showing someone 'reflective appreciation' for something they did for you earlier that day means more them than it did when you said 'thank you' as it happened.</td>
+      <td>717</td>
+      <td>20546</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>You're going to be "weird" to someone, no matter what you do. There is no such thing as normal. You might as well just be yourself.</td>
+      <td>530</td>
+      <td>14114</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>if you don’t care about football, go see a movie during the super bowl, there will be no lines and you might have the whole theater to yourself.</td>
+      <td>897</td>
+      <td>25248</td>
+    </tr>
+    <tr>
+      <th>402</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Want a password that always "stays" with you? The back cover of every hand watch has a unique serial number you can use as a password and never forget.</td>
+      <td>1356</td>
+      <td>17837</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Did your kids get some outdoor gear/equipment? Before putting it together. Take the nuts and bolts to the local hardware and upgrade them to stainless steel. Pics in comments.</td>
+      <td>1232</td>
+      <td>15247</td>
+    </tr>
+    <tr>
+      <th>412</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Avoid using analogies in heated arguments. They are only effective when the other person is willing to learn. Otherwise, your opponent will just nitpick your example and you won't get through to them.</td>
+      <td>661</td>
+      <td>26909</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When a stranger asks you to take a photo of a group, take several before and during the "3 2 1" countdown.</td>
+      <td>1203</td>
+      <td>25083</td>
+    </tr>
+    <tr>
+      <th>418</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Want to download the highest quality version of an Instagram photo? View the page source on desktop and find the line titled "og:image"</td>
+      <td>589</td>
+      <td>25796</td>
+    </tr>
+    <tr>
+      <th>423</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Clean one room a day. It breaks down the chore and means you don't have to dedicate a significant part of your weekend or evening to keep your house clean.</td>
+      <td>532</td>
+      <td>10951</td>
+    </tr>
+    <tr>
+      <th>428</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Don't walk your dog on roads and walks where rock salt is used to melt snow and ice, it will cut up the pads on your dogs paws</td>
+      <td>1243</td>
+      <td>31340</td>
+    </tr>
+    <tr>
+      <th>430</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Need something done? Call legal</td>
+      <td>825</td>
+      <td>21000</td>
+    </tr>
+    <tr>
+      <th>431</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always keep one extra day off from your vacation schedule to adjust back to daily life.</td>
+      <td>1638</td>
+      <td>30902</td>
+    </tr>
+    <tr>
+      <th>439</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When applying for jobs online, save a copy of the job responsibilities and requirements. This information is usually not available after they stop accepting applications and will be useful when preparing for the interviews.</td>
+      <td>143</td>
+      <td>12465</td>
+    </tr>
+    <tr>
+      <th>440</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Take the time to reflect on your time at the company you may currently work for. Are you still growing professionally and personally? Are your skills still developing? Sometimes it's wise to move on from a company if you're development is stagnant.</td>
+      <td>726</td>
+      <td>25380</td>
+    </tr>
+    <tr>
+      <th>441</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you are having trouble with your phone charger, use a toothpick to clean out the phones charging port. More often than not, it’s filled with lint from being in your pocket. Pull it out and it will work like new again.</td>
+      <td>1035</td>
+      <td>27248</td>
+    </tr>
+    <tr>
+      <th>443</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If an advertisement video asks you for your age at the beginning, select the youngest one available. Typically the ads they’re running won’t apply for that age and it will skip the entire ad.</td>
+      <td>233</td>
+      <td>12392</td>
+    </tr>
+    <tr>
+      <th>444</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>How to give a quick, impromptu speech or toast!</td>
+      <td>549</td>
+      <td>18460</td>
+    </tr>
+    <tr>
+      <th>447</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you have to cancel plans with someone, immediately ask them when they are free again in the future and make replacement plans. It makes people feel like you do really care about seeing them and you appear less flaky.</td>
+      <td>891</td>
+      <td>38826</td>
+    </tr>
+    <tr>
+      <th>448</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If an ambulance is called for you, you do not have to ride in it. If you choose to exercise your right to refuse treatment &amp;amp; transport, they will have you sign a form with a witness saying so. TAKE A PICTURE OF THIS FORM to protect yourself from getting billed. (U.S.A.)</td>
+      <td>1818</td>
+      <td>20506</td>
+    </tr>
+    <tr>
+      <th>449</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When flying, put a tag with your info inside your bag, not just outside. Any tag on the outside can come off. Also, when a bag gets lost, the airline will open it to try to determine who it belongs to. Source: Used to work at Lost Baggage for an airline.</td>
+      <td>769</td>
+      <td>54813</td>
+    </tr>
+    <tr>
+      <th>451</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Just Because The Election Is Over, Does Not Mean That This Subreddit Will Be Accepting Politics or Politic Related Tips. We Will Still Not Accept Them. Keep Those Posts To Their Proper Subreddits. - Thank you.</td>
+      <td>0</td>
+      <td>15175</td>
+    </tr>
+    <tr>
+      <th>452</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Stop comparing yourself to others. Instead, compare yourself to where you were 1-2 years ago. Whether it's fitness or finance, use that as motivation for your own goals.</td>
+      <td>817</td>
+      <td>29098</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always talk about someone as if they're standing right next to you.</td>
+      <td>344</td>
+      <td>11917</td>
+    </tr>
+    <tr>
+      <th>458</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>- you don't realize how much you miss your hearing until it's gone. When engaging in anything that involves a lot of noise (concerts, festivals, gun range, etc.) make sure you use earplugs. Tinnitus is just the beginning of a nightmare.</td>
+      <td>917</td>
+      <td>14672</td>
+    </tr>
+    <tr>
+      <th>460</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you spot a cockroach larger than 1 inch inside of your house, it's an outside cockroach that found its way in. If you find a cockroach under 1 inch long, it's a cockroach that lives in your home and likely has plenty of buddies.</td>
+      <td>1502</td>
+      <td>37439</td>
+    </tr>
+    <tr>
+      <th>462</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When unsubscribing from a service online, take a screen shot of the finalized screen as proof in the event they try to bill you again against your will.</td>
+      <td>435</td>
+      <td>32601</td>
+    </tr>
+    <tr>
+      <th>464</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you're going to meet a group for the first time, get there as early as you can</td>
+      <td>615</td>
+      <td>13678</td>
+    </tr>
+    <tr>
+      <th>468</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Write every email as if they will get forwarded on to the CEO.</td>
+      <td>1106</td>
+      <td>19191</td>
+    </tr>
+    <tr>
+      <th>469</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Dress well even for the small things- If you look good, you'll feel good. Feel good, you'll do well. Do well, you'll succeed.</td>
+      <td>941</td>
+      <td>12677</td>
+    </tr>
+    <tr>
+      <th>472</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If your dog is addicted to tennis balls, call a local racquet club and ask if they sell their used balls. Yesterday my local club gave me over 100 for free!</td>
+      <td>1070</td>
+      <td>23524</td>
     </tr>
   </tbody>
 </table>
@@ -668,9 +2257,9 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>0.9148639218422889
+<div class="highlight"><pre><span></span>0.9204466154919749
 {&#39;C&#39;: 3, &#39;gamma&#39;: &#39;scale&#39;}
-0.9058577405857741
+0.9037656903765691
 </pre></div>
 
 
@@ -679,7 +2268,7 @@ Words that occur often in one document but don't occur in many documents are imp
 
 
 <div class="highlight"><pre><span></span> Training accuracy: 1.0
- Test accuracy: 0.9058577405857741
+ Test accuracy: 0.9037656903765691
 </pre></div>
 
 
@@ -696,12 +2285,52 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>439</th>
+      <th>9</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
+      <td>637</td>
+      <td>20452</td>
+    </tr>
+    <tr>
+      <th>10</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>When applying for jobs online, save a copy of the job responsibilities and requirements. This information is usually not available after they stop accepting applications and will be useful when preparing for the interviews.</td>
-      <td>143</td>
-      <td>12465</td>
+      <td>‘Swallow the frog’: Do the thing you are least looking forward to first and the whole day will seem brighter and easier.</td>
+      <td>358</td>
+      <td>11195</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you ever get caught sleeping at your desk at work then say "They told me at the Blood Bank that this would happen" when asked for a reason</td>
+      <td>669</td>
+      <td>42472</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When traveling, buy your souvenir items from a thrift store. There tends to be some cool finds and you can save a lot of $$.</td>
+      <td>387</td>
+      <td>11450</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>When grocery shopping and buying fruits and vegetables, get the organic versions of the produce. When paying go to the self-checkout line and select the regular version of the produce, it's cheaper and you get the more premium product.</td>
+      <td>453</td>
+      <td>3798</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Teenagers repeatedly driving through your bagged leaves on the side of the road? Cut the bottom of one and place it around a fire hydrant before filling with leaves, that?ll teach those punks.</td>
+      <td>804</td>
+      <td>13842</td>
     </tr>
     <tr>
       <th>58</th>
@@ -712,6 +2341,110 @@ Words that occur often in one document but don't occur in many documents are imp
       <td>12745</td>
     </tr>
     <tr>
+      <th>61</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Just screenshot McDonald's "10 minute temporary" QR coupons from the app. You can redeem them from a screenshot at any time, infinite number of times.</td>
+      <td>655</td>
+      <td>16409</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>if you have problems throwing something away you don't need anymore because of sentimentality, take a picture of it before you get rid of it.</td>
+      <td>425</td>
+      <td>11823</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Shipping boxes for the Holiday Season</td>
+      <td>662</td>
+      <td>11521</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Take a picture of your luggage with as much cash as possible so if an airline loses it you could get extra money, as you have photo evidence of money being in the luggage</td>
+      <td>672</td>
+      <td>21184</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.</td>
+      <td>250</td>
+      <td>19586</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When you're newly qualified or just starting to do something solo that you'd previously done supervised, pretend you're teaching someone.</td>
+      <td>259</td>
+      <td>13792</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you ever get caught sleeping at your desk at work then say "They told me at the Blood Bank that this would happen" when asked for a reason</td>
+      <td>669</td>
+      <td>42471</td>
+    </tr>
+    <tr>
+      <th>127</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>When called for jury duty and they question you, tell them you are atheist and you assume anyone who believes in a god is a liar.</td>
+      <td>1013</td>
+      <td>13546</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you want to endear someone to you quickly, ask them for advice. Doesn't matter what on; just asking for their opinion on anything shows that you respect them and value their input.</td>
+      <td>324</td>
+      <td>21778</td>
+    </tr>
+    <tr>
+      <th>141</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Give the same perfume to your wife and your girlfriend. It could save your ass one day.</td>
+      <td>500</td>
+      <td>25325</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Take a videocamera and spend 10min filming every room and every item in your house. Upload footage to the cloud. If you are ever in the unfortunate situation of a house-fire, this will make the insurance claim thousand times easier.</td>
+      <td>609</td>
+      <td>25580</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When leaving a voicemail, if you mess up hit pound (#) for the option to re-record. Works on every system I've ever encountered.</td>
+      <td>493</td>
+      <td>11481</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
+      <td>616</td>
+      <td>25459</td>
+    </tr>
+    <tr>
       <th>191</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
@@ -719,10 +2452,210 @@ Words that occur often in one document but don't occur in many documents are imp
       <td>1169</td>
       <td>7145</td>
     </tr>
+    <tr>
+      <th>223</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you?re driving next to a cop with drugs in your car and are trying to act normal, pick your nose. Your body language shows you aren?t concerned with anyone around you. The last thing you?d ever do if you were paranoid about a cop next to you is pick you nose.</td>
+      <td>654</td>
+      <td>24883</td>
+    </tr>
+    <tr>
+      <th>249</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When buying tickets for a sporting event for a large amount of people, buy some of the tickets in the row behind.</td>
+      <td>361</td>
+      <td>20679</td>
+    </tr>
+    <tr>
+      <th>262</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you?re driving next to a cop with drugs in your car and are trying to act normal, pick your nose. Your body language shows you aren?t concerned with anyone around you. The last thing you?d ever do if you were paranoid about a cop next to you is pick you nose.</td>
+      <td>654</td>
+      <td>24890</td>
+    </tr>
+    <tr>
+      <th>286</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>In Chrome's address bar, type "slide", "doc", or "sheet" followed by ".new" to instantly create and go to a new document.</td>
+      <td>365</td>
+      <td>19404</td>
+    </tr>
+    <tr>
+      <th>289</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Take a picture of your luggage with as much cash as possible so if an airline loses it you could get extra money, as you have photo evidence of money being in the luggage</td>
+      <td>672</td>
+      <td>21174</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>In places with free 30 minute WiFi(airports and hotels), you can clear the cookies on your browser and register again to refresh the timer.</td>
+      <td>426</td>
+      <td>23058</td>
+    </tr>
+    <tr>
+      <th>321</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>after a family member gets married, keep the list of things that they registered for but didn’t get and use it for birthday and Christmas presents. It will save you time wondering what they want especially if they’re difficult to shop for.</td>
+      <td>365</td>
+      <td>21039</td>
+    </tr>
+    <tr>
+      <th>325</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Give the same perfume to your wife and your girlfriend. It could save your ass one day.</td>
+      <td>500</td>
+      <td>25324</td>
+    </tr>
+    <tr>
+      <th>326</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Hey All, While We Appreciate All The Pokémon Go Tips, Please Keep Them To /R/PokemonGO. Thank You!</td>
+      <td>0</td>
+      <td>12728</td>
+    </tr>
+    <tr>
+      <th>365</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always enter the email recipient after you have finalized the email body.</td>
+      <td>587</td>
+      <td>11414</td>
+    </tr>
+    <tr>
+      <th>367</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>People want someone to tell them what to do in emergency situations. For example while performing CPR on someone don't say "Someone call an ambulance" instead talk to one person and ask him/her to call an ambulance directly.</td>
+      <td>706</td>
+      <td>20378</td>
+    </tr>
+    <tr>
+      <th>371</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Found a useful Youtube video but no time to watch all of it? Click on the three circles underneath the video and hit 'Open transcript'.</td>
+      <td>260</td>
+      <td>10747</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Change the extension of any word document, spreadsheet or power point presentation to .zip. Then unzip the file and you'll find a media folder containing all the documents images.</td>
+      <td>274</td>
+      <td>19108</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>You're going to be "weird" to someone, no matter what you do. There is no such thing as normal. You might as well just be yourself.</td>
+      <td>530</td>
+      <td>14114</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
+    </tr>
+    <tr>
+      <th>404</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If your girlfriend has a friend who always annoys you, just go to your girlfriend and casually mention how pretty that friend is. Chances are that it will be the last time you'll ever see or hear about that annoying friend.</td>
+      <td>428</td>
+      <td>18322</td>
+    </tr>
+    <tr>
+      <th>419</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.</td>
+      <td>469</td>
+      <td>18511</td>
+    </tr>
+    <tr>
+      <th>423</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Clean one room a day. It breaks down the chore and means you don't have to dedicate a significant part of your weekend or evening to keep your house clean.</td>
+      <td>532</td>
+      <td>10951</td>
+    </tr>
+    <tr>
+      <th>433</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Accuse your significant other of something you know they didn't do and study their reaction. Now you know how they'll act when telling the truth on the future.</td>
+      <td>401</td>
+      <td>17277</td>
+    </tr>
+    <tr>
+      <th>435</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
+      <td>637</td>
+      <td>20447</td>
+    </tr>
+    <tr>
+      <th>439</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When applying for jobs online, save a copy of the job responsibilities and requirements. This information is usually not available after they stop accepting applications and will be useful when preparing for the interviews.</td>
+      <td>143</td>
+      <td>12465</td>
+    </tr>
+    <tr>
+      <th>443</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>If an advertisement video asks you for your age at the beginning, select the youngest one available. Typically the ads they’re running won’t apply for that age and it will skip the entire ad.</td>
+      <td>233</td>
+      <td>12392</td>
+    </tr>
+    <tr>
+      <th>451</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Just Because The Election Is Over, Does Not Mean That This Subreddit Will Be Accepting Politics or Politic Related Tips. We Will Still Not Accept Them. Keep Those Posts To Their Proper Subreddits. - Thank you.</td>
+      <td>0</td>
+      <td>15175</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Always talk about someone as if they're standing right next to you.</td>
+      <td>344</td>
+      <td>11917</td>
+    </tr>
+    <tr>
+      <th>454</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
+    </tr>
   </tbody>
 </table>
 
-<p>Out of the box, SVC is not performant. We have to tune hyperparameters to improve the accuracy. Recall, if C is large, we do not regularize much (larger budget that the margin can be violated), leading to a more perfect classifier of our training data. Of course, there will be a trade off in overfitting and greater error due to higher variance. A smaller gamma helps with lower bias, by trading off with higher variance. Gamma = "scale", which uses <code>n_features</code> * <code>X.var()</code> tends to work well. </p>
+<p>Out of the box, SVC is not performant. I have to tune hyperparameters to improve the accuracy. Recall, if C is large, we do not regularize much (larger budget that the margin can be violated), leading to a more perfect classifier of our training data. Of course, there will be a trade off in overfitting and greater error due to higher variance. A smaller gamma helps with lower bias, by trading off with higher variance. Gamma = "scale", which uses <code>n_features</code> * <code>X.var()</code> tends to work well. </p>
 <table class="table table-striped table-responsive table-bordered">
 <thead>
 </thead>
@@ -749,34 +2682,34 @@ Words that occur often in one document but don't occur in many documents are imp
 
 <tr>
 <td><b>Naive Bayes </b></td>
-<td> 0.980 </td>
-<td> 0.757 </td>
+<td> 0.995 </td>
+<td> 0.805 </td>
 </tr>  
 
 <tr>
 <td><b>Support Vector Machines </b></td>
-<td> 0.998 </td>
-<td> 0.905 </td>
+<td> 0.920 </td>
+<td> 0.903 </td>
 </tr>   
 
 </tbody>
 </table>
 
-<p>Given these results, my selected production model will be the logistic regression model with TF-IDF as the vectorizer. The Logistic Model is the most nearly the most performant (89.5% on test accuracy), and also provides a high level of interpret-ability compared to SVM.</p>
+<p>Given these results, my selected production model will be the logistic regression model with CountVectorizer as the vectorizer. The Logistic Model is the nearly the most performant, but also provides a high level of interpret-ability compared to SVM.</p>
 <p>In conclusion:</p>
 <ul>
 <li>
-<p>The more 'popular' i.e. more comments and score, the great likelihood that it is a unethical. Controversial posts tend to gain more popularity.</p>
+<p>The more 'popular' i.e. more comments and score, the great likelihood that it is unethical. Controversial posts tend to gain more popularity.</p>
 </li>
 <li>
-<p>If your document includes words 'pay' or 'business', then the likelihood of being unethical is 3x more likely. There's probably a lot of unethical comments around payment and businesses!</p>
+<p>In this training set, if your document includes the word 'business', then the likelihood of being unethical is far more likely by 3x. There's probably a lot of unethical comments around taking advantage of businesses!</p>
 </li>
 </ul>
 <hr>
 <h1>Wrap up</h1>
 <p>I was able to create an app using Natural Language Processing to classify which subreddit a particular post belongs to.</p>
-<p>While this was a fun use case of NLP, this analysis is widely applicable other areas, such as politics in classifying fake news vs. real news, or for eCommerce, for sentiment analysis of user reviews (i.e. polarity classification - positive, negative of neutral). Further, many virtual assistants (Amazon Alexa, Google Assistant) use NLP to understand the human's question and provide the appropriate response.</p>
-<p>As you can imagine, there would be far greater consequences, if the prediction was a false-positive or false-negative and tuning the model to adjust these thresholds is critical.</p>
+<p>While this was a fun use case of NLP, this analysis is widely applicable other areas, such as politics in classifying fake news vs. real news, or for eCommerce, with sentiment analysis of user reviews (i.e. polarity classification - positive, negative of neutral). Further, many virtual assistants (Amazon Alexa, Google Assistant) use NLP to understand human questions and provide the appropriate responses.</p>
+<p>In these scenarios, there would be far greater consequences, if the prediction was a false-positive or false-negative, so fine tuning the model to adjust for these thresholds is critical.</p>
 <p>As a next step, I hope to investigate other NLP open source packages such as <a href="https://spacy.io/">Spacy</a>!</p>
   </div>
 
