@@ -557,6 +557,15 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[[167  74]&lt;/span&gt;
+ &lt;span class="k"&gt;[ 19 218]]&lt;/span&gt;
+&lt;span class="na"&gt;True Negatives: 167&lt;/span&gt;
+&lt;span class="na"&gt;False Positives: 74&lt;/span&gt;
+&lt;span class="na"&gt;False Negatives: 19&lt;/span&gt;
+&lt;span class="na"&gt;True Positives: 218&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;While Naive Bayes also has a high training accuracy, it is severely overfitting. In this case, there are more false negatives than false positives. It tended predict that certain posts were unethical life pro tips, when in fact they are!&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Support Vector Machines&lt;/h2&gt;
@@ -574,6 +583,45 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Training set learned 5104 distinct vocabulary
+ Remember: 0 -&amp;gt; LifeProTips, 1 -&amp;gt; UnethicalLifeProTips
+ Baseline model that guessed all LPT -&amp;gt; 0.5 accurate
+ Training accuracy: 0.6189811584089323
+ Test accuracy: 0.5962343096234309
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-responsive table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;prediction&lt;/th&gt;
+      &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;num_comments&lt;/th&gt;
+      &lt;th&gt;score&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;337&lt;/th&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.&lt;/td&gt;
+      &lt;td&gt;779&lt;/td&gt;
+      &lt;td&gt;17594&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;368&lt;/th&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!&lt;/td&gt;
+      &lt;td&gt;715&lt;/td&gt;
+      &lt;td&gt;18413&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gamma&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scale&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]}&lt;/span&gt;
 
@@ -595,6 +643,42 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;gamma&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scale&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Training accuracy: 0.9986043265875785
+ Test accuracy: 0.9016736401673641
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table border="1" class="dataframe table table-responsive table-striped table-bordered"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;prediction&lt;/th&gt;
+      &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;num_comments&lt;/th&gt;
+      &lt;th&gt;score&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;435&lt;/th&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.&lt;/td&gt;
+      &lt;td&gt;637&lt;/td&gt;
+      &lt;td&gt;20447&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;84&lt;/th&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.&lt;/td&gt;
+      &lt;td&gt;250&lt;/td&gt;
+      &lt;td&gt;19586&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;Out of the box, SVC is not performant. I have to tune hyperparameters to improve the accuracy. Recall, if C is large, we do not regularize much (larger budget that the margin can be violated), leading to a more perfect classifier of our training data. Of course, there will be a trade off in overfitting and greater error due to higher variance. A smaller gamma helps with lower bias, by trading off with higher variance. Gamma = "scale", which uses &lt;code&gt;n_features&lt;/code&gt; * &lt;code&gt;X.var()&lt;/code&gt; tends to work well. &lt;/p&gt;
 &lt;table class="table table-striped table-responsive table-bordered"&gt;
@@ -636,7 +720,7 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Given these results, my selected production model will be the logistic regression model with CountVectorizer as the vectorizer. The Logistic Model is the nearly the most performant, but also provides a high level of interpret-ability compared to SVM.&lt;/p&gt;
+&lt;p&gt;Given these results, my selected production model will be the logistic regression model with CountVectorizer as the vectorizer. The Logistic Model is nearly the most performant, but also provides a high level of interpret-ability compared to SVM.&lt;/p&gt;
 &lt;p&gt;In conclusion:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;

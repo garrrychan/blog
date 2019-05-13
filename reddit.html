@@ -619,6 +619,15 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
+<div class="highlight"><pre><span></span><span class="k">[[167  74]</span>
+ <span class="k">[ 19 218]]</span>
+<span class="na">True Negatives: 167</span>
+<span class="na">False Positives: 74</span>
+<span class="na">False Negatives: 19</span>
+<span class="na">True Positives: 218</span>
+</pre></div>
+
+
 <p>While Naive Bayes also has a high training accuracy, it is severely overfitting. In this case, there are more false negatives than false positives. It tended predict that certain posts were unethical life pro tips, when in fact they are!</p>
 <hr>
 <h2>Support Vector Machines</h2>
@@ -636,6 +645,45 @@ Words that occur often in one document but don't occur in many documents are imp
 <span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">())</span>
 </pre></div>
 
+
+<div class="highlight"><pre><span></span> Training set learned 5104 distinct vocabulary
+ Remember: 0 -&gt; LifeProTips, 1 -&gt; UnethicalLifeProTips
+ Baseline model that guessed all LPT -&gt; 0.5 accurate
+ Training accuracy: 0.6189811584089323
+ Test accuracy: 0.5962343096234309
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>337</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.</td>
+      <td>779</td>
+      <td>17594</td>
+    </tr>
+    <tr>
+      <th>368</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!</td>
+      <td>715</td>
+      <td>18413</td>
+    </tr>
+  </tbody>
+</table>
 
 <div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span><span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]}</span>
 
@@ -657,6 +705,42 @@ Words that occur often in one document but don't occur in many documents are imp
 <div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">))</span>
 </pre></div>
 
+
+<div class="highlight"><pre><span></span> Training accuracy: 0.9986043265875785
+ Test accuracy: 0.9016736401673641
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prediction</th>
+      <th>label</th>
+      <th>title</th>
+      <th>num_comments</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>435</th>
+      <td>LifeProTips</td>
+      <td>UnethicalLifeProTips</td>
+      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
+      <td>637</td>
+      <td>20447</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>UnethicalLifeProTips</td>
+      <td>LifeProTips</td>
+      <td>; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.</td>
+      <td>250</td>
+      <td>19586</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Out of the box, SVC is not performant. I have to tune hyperparameters to improve the accuracy. Recall, if C is large, we do not regularize much (larger budget that the margin can be violated), leading to a more perfect classifier of our training data. Of course, there will be a trade off in overfitting and greater error due to higher variance. A smaller gamma helps with lower bias, by trading off with higher variance. Gamma = "scale", which uses <code>n_features</code> * <code>X.var()</code> tends to work well. </p>
 <table class="table table-striped table-responsive table-bordered">
@@ -698,7 +782,7 @@ Words that occur often in one document but don't occur in many documents are imp
 </tbody>
 </table>
 
-<p>Given these results, my selected production model will be the logistic regression model with CountVectorizer as the vectorizer. The Logistic Model is the nearly the most performant, but also provides a high level of interpret-ability compared to SVM.</p>
+<p>Given these results, my selected production model will be the logistic regression model with CountVectorizer as the vectorizer. The Logistic Model is nearly the most performant, but also provides a high level of interpret-ability compared to SVM.</p>
 <p>In conclusion:</p>
 <ul>
 <li>
