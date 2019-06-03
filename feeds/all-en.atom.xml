@@ -1842,6 +1842,7 @@ Name: chocolate, dtype: int64
 &lt;p&gt;What are the variables that are correlated to predicting teams that make it to the final four? As a corollary, my model will also output the associated probabilities of making it to the final 4. Am I able to outperform a naive model? As even the sport pundits will tell you, since 2008, 53% of the time, at least 2 No. 1 seeds make the final four. So just by choosing two No 1. seeds, you're half way there.&lt;/p&gt;
 &lt;p&gt;As a trusted advisor to Coach Krzyzewski (Duke) or Coach Izzo (Michigan State), how would I recommend spending time developing the team? &lt;/p&gt;
 &lt;p&gt;Or at the very least, how do I improve my 2020 bracket to make some money?&lt;/p&gt;
+&lt;hr&gt;
 &lt;h1&gt;Preprocessing&lt;/h1&gt;
 &lt;h2&gt;Import libraries&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# data wrangling&lt;/span&gt;
@@ -1879,6 +1880,7 @@ Name: chocolate, dtype: int64
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr&gt;
 &lt;h2&gt;Data&lt;/h2&gt;
 &lt;p&gt;The data spans 2003 to 2017 and is compiled from &lt;a href="https://www.sports-reference.com/cbb/schools/virginia/2019-gamelogs.html"&gt;sports-reference.com&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;The data is spread across four files:&lt;/p&gt;
@@ -2700,6 +2702,7 @@ Perfect, now we can flag all of these teams as final four = 1&lt;/p&gt;
 &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;hr&gt;
 &lt;h2&gt;Define X and y&lt;/h2&gt;
 &lt;p&gt;Let's define X and y so we can more easily perform EDA, feature engineering and modelling.
 First, we'll need a target vector y, with all the teams in each season and whether or not
@@ -3568,6 +3571,7 @@ defense wins champions!&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr&gt;
 &lt;h2&gt;Train Test Split&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;As always, let's train test split (80% / 20%). Given it's time series we can split on years.&lt;/li&gt;
@@ -3594,6 +3598,7 @@ defense wins champions!&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr&gt;
 &lt;h2&gt;Imputation&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Data is pretty complete and in the right type which is great. We'll just need to create multi class labels, such that we can identify which conferences a team is in, as I suspect that some teams play in more competitive conferences than others.&lt;/li&gt;
@@ -3825,11 +3830,11 @@ defense wins champions!&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr&gt;
 &lt;h2&gt;Establish Benchmarks&lt;/h2&gt;
 &lt;p&gt;Let's quickly spin up a naive baseline/benchmark model &amp;amp; naive out the door. Then, in subsequent steps, we can feature engineering and model to improve our score!&lt;/p&gt;
 &lt;p&gt;From FiveThirtyEight, 1 seeds only had a 35%-52% of reaching the final four.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="ncaa" src="./images/ncaa.png"&gt;&lt;/p&gt;
-&lt;p&gt;reminder to add 538 image&lt;/p&gt;
+&lt;p&gt;&lt;img src="./images/ncaa.png"  width="620" height="120"&gt;&lt;/p&gt;
 &lt;p&gt;Let's see how how our naive model's prediction fared.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Baseline logistic &lt;/span&gt;
 
@@ -3857,6 +3862,7 @@ defense wins champions!&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr&gt;
 &lt;h3&gt;Imbalanced Classes&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Accuracy of 94% looks good right? However, we have imbalanced classes.&lt;/li&gt;
@@ -4408,6 +4414,7 @@ be accurate 52% of the time with training data and 92% with test data. Therefore
 there is opportunity to improve the any over-fitting, and through feature engineering (advanced basketball metrics!)&lt;/p&gt;
 &lt;p&gt;Notice how the AUC score is much better now. With this model (trained on balanced classes), we are much better than a 'no information' classifier. In fact is very close to 1 so it does not display signals of imbalanced classes,
 nor overwhelming amount of false positives vs false negatives. We'll revisit this later in model evaluation.&lt;/p&gt;
+&lt;hr&gt;
 &lt;h1&gt;Exploratory Data Analysis&lt;/h1&gt;
 &lt;p&gt;Let us perform EDA to better understand our data. &lt;/p&gt;
 &lt;h2&gt;Summary Statistics&lt;/h2&gt;
@@ -4805,6 +4812,7 @@ Name: final_four, dtype: float64
 &lt;/table&gt;
 &lt;/div&gt;
 
+&lt;hr&gt;
 &lt;h2&gt;Data Visualization&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sns&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pairplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x_vars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;quant&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;y_vars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;final_four&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -4822,6 +4830,7 @@ Name: final_four, dtype: float64
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
 &lt;h1&gt;Feature Engineering&lt;/h1&gt;
 &lt;h2&gt;'Standardize' features&lt;/h2&gt;
 &lt;p&gt;Let's keep the stat metrics on the same scale, on a per game basis rather than standardizing to keep it interpretable. First we need to count the number of games for each team.&lt;/p&gt;
@@ -4995,6 +5004,7 @@ Note, opponent % are kept as to gauge defense as well.&lt;/p&gt;
 
 
 &lt;p&gt;I will keep the original features and use regularization methods in the next section.&lt;/p&gt;
+&lt;hr&gt;
 &lt;h1&gt;Modelling&lt;/h1&gt;
 &lt;h2&gt;Logistic Regression with Regularization&lt;/h2&gt;
 &lt;h3&gt;L1: Lasso&lt;/h3&gt;
@@ -5266,6 +5276,7 @@ table {float:left}
 &lt;p&gt;Similar to the NBA, margin of victory is a predictive variable though with a positive correlation. In the NBA, there is more parity since each team plays one another at least twice in a season, so individual team stats are more important than seed &amp;amp; conference.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
 &lt;h2&gt;Model Evaluation&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Score the model - accuracy&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; Logreg train accuracy: {cross_val_score(logreg_lasso_1, X_train, y_train, cv=5).mean()}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -6182,6 +6193,7 @@ It does not overfit, and even improves the AUC score by 2% points.&lt;/p&gt;
 &lt;p&gt;255 rows × 6 columns&lt;/p&gt;
 &lt;/div&gt;
 
+&lt;hr&gt;
 &lt;h1&gt;Results&lt;/h1&gt;
 &lt;p&gt;Overall, I was able to improve from the baseline logistic model, by 1.5% in train accuracy, 0% in test accuracy, and 2.6% in ROC curve. What I am impressed about is that the best model via Lasso is able to predict with less variables, while also maintaining interpretability (no wild transformations). &lt;/p&gt;
 &lt;p&gt;In summary:&lt;/p&gt;
@@ -6210,6 +6222,7 @@ It does not overfit, and even improves the AUC score by 2% points.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Research Links
 * https://projects.fivethirtyeight.com/2019-march-madness-predictions/ &lt;/p&gt;
+&lt;hr&gt;
 &lt;h2&gt;Next Steps&lt;/h2&gt;
 &lt;p&gt;This was a very fun exploration and may plan to revisit this project in a future blog post.&lt;/p&gt;
 &lt;p&gt;Ideas:

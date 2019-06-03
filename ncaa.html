@@ -77,6 +77,7 @@
 <p>What are the variables that are correlated to predicting teams that make it to the final four? As a corollary, my model will also output the associated probabilities of making it to the final 4. Am I able to outperform a naive model? As even the sport pundits will tell you, since 2008, 53% of the time, at least 2 No. 1 seeds make the final four. So just by choosing two No 1. seeds, you're half way there.</p>
 <p>As a trusted advisor to Coach Krzyzewski (Duke) or Coach Izzo (Michigan State), how would I recommend spending time developing the team? </p>
 <p>Or at the very least, how do I improve my 2020 bracket to make some money?</p>
+<hr>
 <h1>Preprocessing</h1>
 <h2>Import libraries</h2>
 <div class="highlight"><pre><span></span><span class="c1"># data wrangling</span>
@@ -114,6 +115,7 @@
 </pre></div>
 
 
+<hr>
 <h2>Data</h2>
 <p>The data spans 2003 to 2017 and is compiled from <a href="https://www.sports-reference.com/cbb/schools/virginia/2019-gamelogs.html">sports-reference.com</a>. </p>
 <p>The data is spread across four files:</p>
@@ -935,6 +937,7 @@ Perfect, now we can flag all of these teams as final four = 1</p>
 </table>
 </div>
 
+<hr>
 <h2>Define X and y</h2>
 <p>Let's define X and y so we can more easily perform EDA, feature engineering and modelling.
 First, we'll need a target vector y, with all the teams in each season and whether or not
@@ -1803,6 +1806,7 @@ defense wins champions!</p>
 </pre></div>
 
 
+<hr>
 <h2>Train Test Split</h2>
 <ul>
 <li>As always, let's train test split (80% / 20%). Given it's time series we can split on years.</li>
@@ -1829,6 +1833,7 @@ defense wins champions!</p>
 </pre></div>
 
 
+<hr>
 <h2>Imputation</h2>
 <ul>
 <li>Data is pretty complete and in the right type which is great. We'll just need to create multi class labels, such that we can identify which conferences a team is in, as I suspect that some teams play in more competitive conferences than others.</li>
@@ -2060,11 +2065,11 @@ defense wins champions!</p>
 </pre></div>
 
 
+<hr>
 <h2>Establish Benchmarks</h2>
 <p>Let's quickly spin up a naive baseline/benchmark model &amp; naive out the door. Then, in subsequent steps, we can feature engineering and model to improve our score!</p>
 <p>From FiveThirtyEight, 1 seeds only had a 35%-52% of reaching the final four.</p>
-<p><img alt="ncaa" src="./images/ncaa.png"></p>
-<p>reminder to add 538 image</p>
+<p><img src="./images/ncaa.png"  width="620" height="120"></p>
 <p>Let's see how how our naive model's prediction fared.</p>
 <div class="highlight"><pre><span></span><span class="c1"># Baseline logistic </span>
 
@@ -2092,6 +2097,7 @@ defense wins champions!</p>
 </pre></div>
 
 
+<hr>
 <h3>Imbalanced Classes</h3>
 <ul>
 <li>Accuracy of 94% looks good right? However, we have imbalanced classes.</li>
@@ -2643,6 +2649,7 @@ be accurate 52% of the time with training data and 92% with test data. Therefore
 there is opportunity to improve the any over-fitting, and through feature engineering (advanced basketball metrics!)</p>
 <p>Notice how the AUC score is much better now. With this model (trained on balanced classes), we are much better than a 'no information' classifier. In fact is very close to 1 so it does not display signals of imbalanced classes,
 nor overwhelming amount of false positives vs false negatives. We'll revisit this later in model evaluation.</p>
+<hr>
 <h1>Exploratory Data Analysis</h1>
 <p>Let us perform EDA to better understand our data. </p>
 <h2>Summary Statistics</h2>
@@ -3040,6 +3047,7 @@ Name: final_four, dtype: float64
 </table>
 </div>
 
+<hr>
 <h2>Data Visualization</h2>
 <div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">quant</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">y_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;final_four&quot;</span><span class="p">])</span>
 </pre></div>
@@ -3057,6 +3065,7 @@ Name: final_four, dtype: float64
 </ul>
 </li>
 </ul>
+<hr>
 <h1>Feature Engineering</h1>
 <h2>'Standardize' features</h2>
 <p>Let's keep the stat metrics on the same scale, on a per game basis rather than standardizing to keep it interpretable. First we need to count the number of games for each team.</p>
@@ -3230,6 +3239,7 @@ Note, opponent % are kept as to gauge defense as well.</p>
 
 
 <p>I will keep the original features and use regularization methods in the next section.</p>
+<hr>
 <h1>Modelling</h1>
 <h2>Logistic Regression with Regularization</h2>
 <h3>L1: Lasso</h3>
@@ -3501,6 +3511,7 @@ table {float:left}
 <p>Similar to the NBA, margin of victory is a predictive variable though with a positive correlation. In the NBA, there is more parity since each team plays one another at least twice in a season, so individual team stats are more important than seed &amp; conference.</p>
 </li>
 </ul>
+<hr>
 <h2>Model Evaluation</h2>
 <div class="highlight"><pre><span></span><span class="c1"># Score the model - accuracy</span>
 <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Logreg train accuracy: {cross_val_score(logreg_lasso_1, X_train, y_train, cv=5).mean()}&#39;</span><span class="p">)</span>
@@ -4417,6 +4428,7 @@ It does not overfit, and even improves the AUC score by 2% points.</p>
 <p>255 rows × 6 columns</p>
 </div>
 
+<hr>
 <h1>Results</h1>
 <p>Overall, I was able to improve from the baseline logistic model, by 1.5% in train accuracy, 0% in test accuracy, and 2.6% in ROC curve. What I am impressed about is that the best model via Lasso is able to predict with less variables, while also maintaining interpretability (no wild transformations). </p>
 <p>In summary:</p>
@@ -4445,6 +4457,7 @@ It does not overfit, and even improves the AUC score by 2% points.</p>
 </ul>
 <p>Research Links
 * https://projects.fivethirtyeight.com/2019-march-madness-predictions/ </p>
+<hr>
 <h2>Next Steps</h2>
 <p>This was a very fun exploration and may plan to revisit this project in a future blog post.</p>
 <p>Ideas:
