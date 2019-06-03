@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog - Garry Chan</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/garry-chan.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-05-12T12:00:00-04:00</updated><entry><title>What's a life pro tip, anyways?</title><link href="https://garrrychan.github.io/blog/reddit.html" rel="alternate"></link><published>2019-05-12T12:00:00-04:00</published><updated>2019-05-12T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-05-12:/blog/reddit.html</id><summary type="html">&lt;p&gt;What's the difference between a life pro tip, and one that is a bit more questionable? This can be sometimes a subtle difference, or a moral grey area to distinguish, even for humans.  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Garry's Blog - Garry Chan</title><link href="https://garrrychan.github.io/blog/" rel="alternate"></link><link href="https://garrrychan.github.io/blog/feeds/garry-chan.atom.xml" rel="self"></link><id>https://garrrychan.github.io/blog/</id><updated>2019-06-03T12:00:00-04:00</updated><entry><title>What's for dinner?</title><link href="https://garrrychan.github.io/blog/recipe.html" rel="alternate"></link><published>2019-06-03T12:00:00-04:00</published><updated>2019-06-03T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-06-03:/blog/recipe.html</id><summary type="html">&lt;p&gt;Driven by my curiousity of how Netflix, YouTube and Spotify serve personalized recommendations, I decided to learn how to create my own recommender system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Machine Learning Problem&lt;/strong&gt;: Given a person’s preferences in past recipes, could I predict other new recipes they might enjoy?&lt;/p&gt;
+&lt;p&gt;I created &lt;em&gt;Seasonings&lt;/em&gt;, a Recipe Recommender …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Driven by my curiousity of how Netflix, YouTube and Spotify serve personalized recommendations, I decided to learn how to create my own recommender system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Machine Learning Problem&lt;/strong&gt;: Given a person’s preferences in past recipes, could I predict other new recipes they might enjoy?&lt;/p&gt;
+&lt;p&gt;I created &lt;em&gt;Seasonings&lt;/em&gt;, a Recipe Recommender System. The motivation behind this web app is to help users discover personalized and new recipes, and prepare for grocery runs! I received a lot early positive feedback and plan future improvements to the UX and model.&lt;/p&gt;
+&lt;p&gt;I plan to use this whenever I need a jolt of inspiration in the kitchen!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;Demo&lt;/h1&gt;
+&lt;p&gt;All code is available on &lt;a href="https://github.com/garrrychan/recipe_recommender_system"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Background &amp;amp; &lt;a href="https://github.com/garrrychan/recipe_recommender_system/blob/master/presentation.pdf"&gt;Presentation Deck&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/qwFbSFgZMts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;hr&gt;
+&lt;h1&gt;Lessons learned&lt;/h1&gt;
+&lt;p&gt;Here are some concepts I discovered while creating my Recipe Recommendation System, and may be useful for anyone building their first recommender system.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;1. Data retrieval is not trivial&lt;/h2&gt;
+&lt;p&gt;While the MovieLens, and Yelp public dataset are both instructive, if you want to create a recommender system, I encourage you to reach for your own data set. &lt;/p&gt;
+&lt;p&gt;To appreciate the ins-and-outs of recommender system, you need a large cross section of items and user ratings. I would implore you to gather enough data, so that you can tease out interesting results before validating its performance.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;2. Check the results of your matrix factorization, to ensure it's over a floor baseline&lt;/h2&gt;
+&lt;p&gt;The main hyper-parameter of singular value decomposition (SVD) is the number of components.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;svd = TruncatedSVD(n_components=100)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;A rule of thumb is to use a number of components such that you retain a reasonable amount of &lt;code&gt;svd.explained_variance_ratio_&lt;/code&gt;, such as 80%-90%. &lt;/p&gt;
+&lt;p&gt;While SVD provides ranked suggestions, some predicted ratings may only be a 2 or a 3. I didn't want to recommend a recipe with a predicted rating of 3, because that's below average compared to Chef John's other recipes. Therefore, I added a rule to ensure that recipes recommended were over a specific threshold &amp;gt;=4.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;3. SVD performs best when the user vector is large&lt;/h2&gt;
+&lt;p&gt;In evaluating my model, SVD performs better when the user vector is large. This is obvious, but cannot be overstated, as my app can only take up to 20 recipe ratings during the onboarding flow. In full recommender systems, ratings are continually updated from subsequent sessions, which is why Netflix &lt;em&gt;learns&lt;/em&gt; your preferences the more you use it!&lt;/p&gt;
+&lt;p&gt;Also, as a corollary, SVD generally performed better for users with less ratings, as it was able to recommend new recipes. Nevertheless, it was useful to train the model, such that the decomposed matrix $M$ could be used on new user matrix $U$.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;4. Balance between prediction, and novelty&lt;/h2&gt;
+&lt;p&gt;Users turn to recommendations for not only recipes that are homogeneous to their preferences, but also for serendipitous recipes they might not immediately think of. In my opinion, it's a strength to make content discovery less algorithmic, and more human-like.&lt;/p&gt;
+&lt;p&gt;Hybrid recommenders address this problem by solving the shortcomings of individual recommenders.
+For example:
+* Content-based recommenders address the cold start problem
+* Collaborative filtering is prone to recommending recipes with less ratings, but I see that as a positive to inject new recipes
+* Matrix factorization address curse of dimensionality, when no recipes or users are similar to each other&lt;/p&gt;
+&lt;p&gt;It's no surprised that the algorithm that won Cinematch (Netflix's challenge), used an ensemble of multiple models. Hybrid recommenders can get very complex, with feature weighted linear stacking of the various recommenders, but that was out of scope for my first recommender system.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2&gt;5. Rank-based evaluation metrics are preferred&lt;/h2&gt;
+&lt;p&gt;For recommender systems, rank based metrics are preferred over RMSE or accuracy. At the end of the day, it's about recommending new recipes that my user will like, in a ranked fashion, over predicting the exact rating.&lt;/p&gt;
+&lt;p&gt;I leaned on precision at K and recall at K, and these metrics were higher when the user had more than 3 ratings.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;I had a lot of fun building this, and I gained a greater appreciation of what's going on underneath the hood of all the recommender systems I see on a daily basis. YouTube, please keep recommending me cute cat videos!&lt;/p&gt;</content><category term="python"></category></entry><entry><title>What's a life pro tip, anyways?</title><link href="https://garrrychan.github.io/blog/reddit.html" rel="alternate"></link><published>2019-05-12T12:00:00-04:00</published><updated>2019-05-12T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-05-12:/blog/reddit.html</id><summary type="html">&lt;p&gt;What's the difference between a life pro tip, and one that is a bit more questionable? This can be sometimes a subtle difference, or a moral grey area to distinguish, even for humans.  &lt;/p&gt;
 &lt;p&gt;Life Pro Tip: &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A concise and specific tip that improves life for you and those around you …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;What's the difference between a life pro tip, and one that is a bit more questionable? This can be sometimes a subtle difference, or a moral grey area to distinguish, even for humans.  &lt;/p&gt;

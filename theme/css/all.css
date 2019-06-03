@@ -747,9 +747,6 @@ min-height: 400px;
 
 .footer {
 width: 100%;
-}
-
-.footer {
 font-size: 80%;
 color: #666;
 border-top: 4px solid #EEE;
@@ -926,3 +923,9 @@ pre { white-space: pre; overflow: auto; }
 code, pre { font-family: Monaco,Menlo,Consolas,"Courier New",monospace; }
 
 /* Garry's edits */
+
+.location_icon {
+  font-size: 17px;
+  font-weight: normal;
+  font-family: "Open Sans";
+}
