@@ -1832,7 +1832,7 @@ Name: chocolate, dtype: int64
 
 
 &lt;p&gt;&lt;img src="images/compare.svg" alt="compare" class="img-responsive"&gt;&lt;/p&gt;
-&lt;p&gt;Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>March Madness</title><link href="https://garrrychan.github.io/blog/ncaa.html" rel="alternate"></link><published>2019-04-18T12:00:00-04:00</published><updated>2019-04-18T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-18:/blog/ncaa.html</id><summary type="html">&lt;p&gt;How likely is a team to make the Final Four of the NCAA Tournament?&lt;/p&gt;
+&lt;p&gt;Note: For the k-means graph on the left, the 2 clusters centroids (calculated from multi-dimensional space) are indicated by the oversized chocolate and candy emojis. They are computed as the mean of the observations assigned to each cluster.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>March madness</title><link href="https://garrrychan.github.io/blog/ncaa.html" rel="alternate"></link><published>2019-04-18T12:00:00-04:00</published><updated>2019-04-18T12:00:00-04:00</updated><author><name>Garry Chan</name></author><id>tag:garrrychan.github.io,2019-04-18:/blog/ncaa.html</id><summary type="html">&lt;p&gt;How likely is a team to make the Final Four of the NCAA Tournament?&lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Each year, close to $4 billion is wagered on the NCAA Division 1 men's basketball tournament. Most of that money is wagered where the objective is to correctly predict winners of each game, with emphasis …&lt;/p&gt;</summary><content type="html">&lt;p&gt;How likely is a team to make the Final Four of the NCAA Tournament?&lt;/p&gt;
 &lt;h1&gt;Introduction&lt;/h1&gt;
@@ -4013,13 +4013,12 @@ with more signal, via SMOTE (Synthetic Minority Over-Sampling Technique).&lt;/p&
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(1603, 65)
 (1603,)
-
-
-(269, 65)
-(269,)
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;​  &lt;br&gt;
+    (269, 65)
+    (269,)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Baseline logistic &lt;/span&gt;
 
 &lt;span class="c1"&gt;# Step 1: Instantiate our model.&lt;/span&gt;
@@ -5053,15 +5052,14 @@ Logistic Regression Coefficient: [[ 0.00141951 -0.77849273 -0.00025749  0.      
    0.31202959 -0.25130464  0.03259512  0.3092104  -0.21813342  0.12577743
    0.         -8.48018843  0.          0.          0.          0.
    0.          0.          0.          0.        ]]
-
-
-Number of teams making it to final four:829
-
-
-[0.30300043 0.64610282 0.21053469 ... 0.99991704 0.99990243 0.6140518 ]
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;​  &lt;br&gt;
+    Number of teams making it to final four:829&lt;/p&gt;
+&lt;p&gt;​  &lt;br&gt;
+    [0.30300043 0.64610282 0.21053469 ... 0.99991704 0.99990243 0.6140518 ]&lt;/p&gt;
+&lt;p&gt;​    &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%%&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;
 &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="n"&gt;table&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;left&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -5295,15 +5293,13 @@ table {float:left}
 
 
  Logreg train accuracy: 0.9185457783772837
-
-
- Logreg test accuracy: 0.9073070325900513
-
-
- Area under the curve: 0.9681412337662337
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;​  &lt;br&gt;
+     Logreg test accuracy: 0.9073070325900513&lt;/p&gt;
+&lt;p&gt;​  &lt;br&gt;
+     Area under the curve: 0.9681412337662337&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -5545,22 +5541,20 @@ It does not overfit, and even improves the AUC score by 2% points.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Logreg train accuracy: 0.9319095069161205
-
-
-
-
-/Users/gc/anaconda3/lib/python3.6/site-packages/sklearn/svm/base.py:931: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+&lt;p&gt;​  &lt;br&gt;
+     Logreg train accuracy: 0.9319095069161205&lt;/p&gt;
+&lt;p&gt;​    &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/Users/gc/anaconda3/lib/python3.6/site-packages/sklearn/svm/base.py:931: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
   &amp;quot;the number of iterations.&amp;quot;, ConvergenceWarning)
 
 
  Logreg test accuracy: 0.9187650085763295
+&lt;/pre&gt;&lt;/div&gt;
 
 
- Area under the curve: 0.9662472943722944
-
-
-/Users/gc/anaconda3/lib/python3.6/site-packages/sklearn/svm/base.py:931: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+&lt;p&gt;​  &lt;br&gt;
+     Area under the curve: 0.9662472943722944&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/Users/gc/anaconda3/lib/python3.6/site-packages/sklearn/svm/base.py:931: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
   &amp;quot;the number of iterations.&amp;quot;, ConvergenceWarning)
 &lt;/pre&gt;&lt;/div&gt;
 
