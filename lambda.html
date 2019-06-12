@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <!-- mathjax for $ -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <title>
+    Garry's Blog
+&ndash; Lambda function for data wrangling  </title>
+
+    <link rel="canonical" href="https://garrrychan.github.io/blog/lambda.html">
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/gary_snail.png">  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo2.jpg" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science & sports.</p>
+    <p>Completed a full time data science program.</p>
+    <p>Experience as a tech consultant, with a Bachelors in Mathematics from UWaterloo.</p>
+  </div>
+
+  <div id="social">
+    <div>
+      <i class="fas fa-map-marker-alt fa-2x" style="color:#ddd">
+      <span class="location_icon"> <font color=#000> Toronto, Canada </font></span> </i>
+      </div>
+    <br>
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+    <i class="fab fa-linkedin fa-2x"></i></a>
+
+    &nbsp &nbsp;
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+    <i class="fab fa-github fa-2x"></i></a>
+
+    &nbsp &nbsp;
+    <a title="Garry's Email" href="mailto: g33chan@uwaterloo.ca">
+    <i class="fas fa-envelope-square fa-2x"></i>
+    </a>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    28 March 2019
+    <a href="https://garrrychan.github.io/blog">
+      <!--- home icon--->
+      <i class="home fa fa-home fa-2x"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/lambda.html">Lambda function for data wrangling</a></h1>
+
+  <div class="article_text" id="post">
+    <p>Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!</p>
+<p>Whereas in programming, by definition, Lambda is an <em>anonymous</em> function. This means that unlike normal functions definitions, Lambdas do not have a name.  Often, it's used as an argument for a higher-order function, and is lightweight in syntax, allowing your code to be less verbose, and easier to understand. </p>
+<p>For me, I choose to write a Lambda function over a named function, if it's a simple function that will only be used a few times, passed as an argument. 
+<br></p>
+<h3>Lambda functions in Python</h3>
+<hr>
+<p>Here's a simple function:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">f</span><span class="s1">&#39; Hello, my name is {name}&#39;</span>
+</pre></div>
+
+
+<p>And here is its <code>lambda</code> equivalent:</p>
+<div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39; Hello, my name is {name}&#39;</span>
+</pre></div>
+
+
+<p>The primary differences between named and lambda functions are:</p>
+<ol>
+<li>
+<p><code>lambda</code> functions don't have a name</p>
+</li>
+<li>
+<p><code>lambda</code> functions are written on one line</p>
+</li>
+<li>
+<p><code>lambda</code> functions don't require a <code>return</code>. It's implied.
+<br></p>
+</li>
+</ol>
+<h3>Syntax</h3>
+<hr>
+<p><code>lambda</code>   <code>arguments:</code> <code>expression</code> </p>
+<p>Lambda functions can be used wherever function objects are required. A lambda function can take any number of arguments, but can only have one expression.  They can also be used anywhere ordinary functions can! 
+<br></p>
+<h3>Example 1</h3>
+<hr>
+<p><code>lambda</code> is powerful when used in conjunction with a pandas data frame and <code>apply</code>.  Given that we're in the Sweet Sixteen of March madness, let's use NCAA data.
+<br></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;college&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Duke&#39;</span><span class="p">,</span> <span class="s1">&#39;North Carolina&#39;</span><span class="p">,</span> <span class="s1">&#39;Virginia&#39;</span><span class="p">,</span> <span class="s1">&#39;Oregon&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+    <span class="s1">&#39;final_four_%&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="p">})</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let's add a new column, <em>upset</em>, identifying whether or not a college is the favourite or underdog, using a <code>lambda</code> function.</p>
+<p>With <code>lambda</code> , we're able to quickly spin up a function that looks up if a seed is a favourite or an underdog. 
+<br></p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;upset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">lookup</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Favourite&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;Underdog&quot;</span><span class="p">}</span> <span class="p">:</span> <span class="n">lookup</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Sort by probability of reaching final four</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;final_four_%&quot;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-repsponsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-repsponsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>college</th>
+      <th>seed</th>
+      <th>final_four_%</th>
+      <th>upset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duke</td>
+      <td>1</td>
+      <td>55</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Virginia</td>
+      <td>1</td>
+      <td>53</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>North Carolina</td>
+      <td>1</td>
+      <td>38</td>
+      <td>Favourite</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Oregon</td>
+      <td>12</td>
+      <td>3</td>
+      <td>Underdog</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Example 2</h3>
+<hr>
+<p>Here's a sorting example.</p>
+<div class="highlight"><pre><span></span><span class="n">prospects</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Zion Williamson&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">280</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> 
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ja Morant&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">175</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;RJ Barrett&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">210</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;Bol Bol&#39;</span><span class="p">,</span> <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">235</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">:</span><span class="mi">18</span><span class="p">}]</span>
+</pre></div>
+
+
+<p>Let's figure out who the lightest prospect is, using <code>sorted</code> a Python method.</p>
+<div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">prospects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+
+<span class="n">lightest_prospect</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">prospects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">lightest_prospect</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>Ja Morant
+</pre></div>
+
+
+<p>With <code>lambda</code> in our toolbelt, we'll have a function to write elegant and beautiful code for data wrangling. 
+<br></p>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan 2019 &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, built off of the theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+<!-- my kit for font awesome  -->
+<script src="https://kit.fontawesome.com/54282dd713.js"></script>
+</body>
+</html>
