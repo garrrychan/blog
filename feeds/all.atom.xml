@@ -238,10 +238,10 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&amp;l
 &lt;p&gt;In the third graph, the posterior win rate is 1.2% higher when KD plays in the regular season.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Observe that because have less data for when KD is out, our posterior distribution of  $$𝑝_𝐵$$ is wider, implying we are less certain about the true value of $$𝑝_𝐵$$ than we are of $$𝑝_𝐴$$. The 95% credible interval is much wider for $$𝑝_𝐵$$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.&lt;/p&gt;
+&lt;p&gt;Observe that because have less data for when KD is out, our posterior distribution of  $𝑝_𝐵$ is wider, implying we are less certain about the true value of $𝑝_𝐵$ than we are of $𝑝_𝐴$. The 95% credible interval is much wider for $𝑝_𝐵$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The difference in sample sizes ($$N_B$$ &amp;lt; $$N_A$$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!&lt;/p&gt;
+&lt;p&gt;The difference in sample sizes ($N_B$ &amp;lt; $N_A$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Count the number of samples less than 0, i.e. the area under the curve&lt;/span&gt;
@@ -259,7 +259,7 @@ Probability that GSW is better with Kevin Durant in the regular season: 0.55
 
 
 &lt;p&gt;The probabilities are pretty close, so we can chalk this up to the Warriors having a experienced supporting cast. &lt;/p&gt;
-&lt;p&gt;There is significant overlap between the distribution pf posterior $$p_A$$ and posterior of $$p_B$$, so one is not better than the other with high probability. The majority of the distribution of delta is around 0, so there is no statistically difference between the groups in the regular season.&lt;/p&gt;
+&lt;p&gt;There is significant overlap between the distribution pf posterior $p_A$ and posterior of $p_B$, so one is not better than the other with high probability. The majority of the distribution of delta is around 0, so there is no statistically difference between the groups in the regular season.&lt;/p&gt;
 &lt;p&gt;Ideally, we should perform more trials when KD is injured (as each data point for scenario B contributes more inferential power than each additional point for scenario A). One could do a similar analysis for when he played on the Oklahoma City Thunder.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Playoffs&lt;/h3&gt;
@@ -378,7 +378,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:23&amp;l
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;&lt;img src="/images/playoffs.svg" class="img-responsive"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/playoffs.svg" class="img-responsive"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Count the number of samples less than 0, i.e. the area under the curve&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Probability that GSW is worse with Kevin Durant in the playoffs: &lt;/span&gt;&lt;span class="si"&gt;%.2f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; \
     &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;playoff_delta_samples&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -5595,7 +5595,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 &lt;li&gt;This is a common sigmoid curve to use in probabilistic models (approaches 1 and 0, asymptotically)&lt;/li&gt;
 &lt;li&gt;The expected score of team A is given as:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;$$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$$&lt;/h4&gt;
+&lt;h4&gt;$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$&lt;/h4&gt;
 &lt;table class="table"&gt;
  &lt;thead class="table-responsive table-bordered"&gt;
     &lt;tr&gt;
@@ -5635,7 +5635,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 &lt;/table&gt;
 
 &lt;p&gt;&lt;strong&gt;Equation to update a team's elo score after outcome of a game:&lt;/strong&gt;&lt;/p&gt;
-&lt;h4&gt;$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$&lt;/h4&gt;
+&lt;h4&gt;$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$&lt;/h4&gt;
 &lt;p&gt;The Score of A is 1 if the team won, else 0 if the team lost.&lt;/p&gt;
 &lt;h4&gt;Import Libraries&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# data wrangling&lt;/span&gt;
@@ -5929,7 +5929,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 &lt;p&gt;We are 57.5% accurate by just picking the home team to win. Hey, it's better than a coin flip, but can we do better?&lt;/p&gt;
 &lt;hr&gt;
 &lt;h3&gt;Introducing the Brier Score&lt;/h3&gt;
-&lt;h4&gt;$$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$$&lt;/h4&gt;
+&lt;h4&gt;$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$&lt;/h4&gt;
 &lt;p&gt;By definition, the Brier score measures the mean squared difference between the predicted probability $p_i$ assigned to the possible outcomes $o_i$ for all i and the actual outcome. &lt;/p&gt;
 &lt;p&gt;Mathematically, the Brier score always takes on a value between zero and one, since this is the largest possible difference between a predicted probability (which must be between zero and one) and the actual outcome (which can take on values of only 0 and 1). &lt;/p&gt;
 &lt;p&gt;Roughly speaking, the Brief score mimics a MSE for regression problems in the classification case, such as predicting binary outcomes. Therefore, the lower the Brier score is for a set of predictions, the better the predictions are &lt;strong&gt;calibrated.&lt;/strong&gt;&lt;/p&gt;

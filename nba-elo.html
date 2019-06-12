@@ -91,7 +91,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 <li>This is a common sigmoid curve to use in probabilistic models (approaches 1 and 0, asymptotically)</li>
 <li>The expected score of team A is given as:</li>
 </ul>
-<h4>$$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$$</h4>
+<h4>$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$</h4>
 <table class="table">
  <thead class="table-responsive table-bordered">
     <tr>
@@ -131,7 +131,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 </table>
 
 <p><strong>Equation to update a team's elo score after outcome of a game:</strong></p>
-<h4>$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$</h4>
+<h4>$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$</h4>
 <p>The Score of A is 1 if the team won, else 0 if the team lost.</p>
 <h4>Import Libraries</h4>
 <div class="highlight"><pre><span></span><span class="c1"># data wrangling</span>
@@ -425,7 +425,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 <p>We are 57.5% accurate by just picking the home team to win. Hey, it's better than a coin flip, but can we do better?</p>
 <hr>
 <h3>Introducing the Brier Score</h3>
-<h4>$$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$$</h4>
+<h4>$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$</h4>
 <p>By definition, the Brier score measures the mean squared difference between the predicted probability $p_i$ assigned to the possible outcomes $o_i$ for all i and the actual outcome. </p>
 <p>Mathematically, the Brier score always takes on a value between zero and one, since this is the largest possible difference between a predicted probability (which must be between zero and one) and the actual outcome (which can take on values of only 0 and 1). </p>
 <p>Roughly speaking, the Brief score mimics a MSE for regression problems in the classification case, such as predicting binary outcomes. Therefore, the lower the Brier score is for a set of predictions, the better the predictions are <strong>calibrated.</strong></p>
