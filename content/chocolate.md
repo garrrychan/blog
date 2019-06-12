@@ -1,6 +1,6 @@
 Title: Life is like a box of chocolates
 Date: 2019-04-19 12:00
-Tags: python
+Topic: Classification and Regression Trees
 Slug: chocolate
 
 Do you have a sweet tooth, a guilty pleasure, or something that you eat to make you feel _happy_? Given some attributes of a snack, can I classify your favourite snack as a chocolate, or not chocolate (i.e. candy)? 

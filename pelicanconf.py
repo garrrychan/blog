@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 import os
+import time
+
 
 AUTHOR = 'Garry Chan'
+CURRENTYEAR = time.localtime().tm_year
 # literally the site name on the tab
 SITENAME = 'Garry\'s Blog'
 SITEURL = 'https://garrrychan.github.io/blog'

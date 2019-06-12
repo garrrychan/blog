@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Garry Chan">
+  <meta name="description" content="Posts by Garry Chan">
+  <!-- mathjax for $ -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <title>
+    Garry's Blog
+&ndash; Elo & Brier scores in classification problems  </title>
+
+    <link rel="canonical" href="https://garrrychan.github.io/blog/nba_elo.html">
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
+  <!------>
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/gary_snail.png">  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+<nav>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo2.jpg" id="gravatar" alt="photo"/>
+  </a>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
+
+  <div id="bio">
+    <p>I write about data science & sports.</p>
+    <p>Completed a full time data science program.</p>
+    <p>Experience as a tech consultant, with a Bachelors in Mathematics from UWaterloo.</p>
+  </div>
+
+  <div id="social">
+    <div>
+      <i class="fas fa-map-marker-alt fa-2x" style="color:#ddd">
+      <span class="location_icon"> <font color=#000> Toronto, Canada </font></span> </i>
+      </div>
+    <br>
+    <a title="Garry on LinkedIn" href="https://www.linkedin.com/in/garrrychan">
+      <!--- icons from font awesome are really just fonts fa-2x the size--->
+    <i class="fab fa-linkedin fa-2x"></i></a>
+
+    &nbsp &nbsp;
+    <a title="Garry on Github" href="https://github.com/garrrychan">
+    <i class="fab fa-github fa-2x"></i></a>
+
+    &nbsp &nbsp;
+    <a title="Garry's Email" href="mailto: g33chan@uwaterloo.ca">
+    <i class="fas fa-envelope-square fa-2x"></i>
+    </a>
+  </div>
+</nav>    </div>
+
+    <div class="eleven columns content">
+  <p class="meta">
+    13 April 2019
+    <a href="https://garrrychan.github.io/blog">
+      <!--- home icon--->
+      <i class="home fa fa-home fa-2x"></i>
+    </a>
+  </p>
+
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/nba_elo.html">Elo & Brier scores in classification problems</a></h1>
+
+  <div class="article_text" id="post">
+    <p>The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).</p>
+<p>Thanks to my instructor, <a href="https://speakerdeck.com/maxhumber">@MaxHumber</a> for inspiring this post.</p>
+<hr>
+<h3>Elo</h3>
+<h4>Introduction</h4>
+<p>While I was familiar with the concept of Elo given its usage from <a href="https://projects.fivethirtyeight.com/complete-history-of-the-nba/#spurs">FiveThirtyEight</a> to measure a basketball team's strength, relative to its peers, I was surprised to find out it was actually derived from chess!</p>
+<ul>
+<li>The Elo rating system is a method for calculating the relative skill levels of players in zero-sum games such as 
+chess. It is named after its creator Arpad Elo, a Hungarian-American physics professor (Source: Wikipedia).</li>
+</ul>
+<p>Over the years, you can see its extension and adoption to a wide range of use cases, including video games (CounterStrike, League of Legends), and sports (NBA, football, baseball).</p>
+<p><img src="images/elo.svg" alt="elo" class="img-responsive"></p>
+<p>Needless to say, it's a very popular framework! Teams always gain Elo points after winning games and lose ground after losing them, in this zero-sum paradigm. Moreover, if you a play stronger opponent and win, then you should be rewarded more points, than if you play weaker opponents and win, and vice versa. Intuitive, right?</p>
+<hr>
+<h4>Define Elo Model</h4>
+<p>The Elo model calculates expected probability of winning of team A, which follows the logistic function.</p>
+<p><img src="images/logistic_curve.svg" alt="logistic"></p>
+<ul>
+<li>Notice that the curve's maximum value is 1.</li>
+<li>This is a common sigmoid curve to use in probabilistic models (approaches 1 and 0, asymptotically)</li>
+<li>The expected score of team A is given as:</li>
+</ul>
+<h4>$$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$$</h4>
+<table class="table">
+ <thead class="table-responsive table-bordered">
+    <tr>
+      <th scope="col">NBA Elo Model</th>
+      <th scope="col">Description</th>
+      <th scope="col">Parameters</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rating of team A</td>
+      <td>Elo rating of team A. all teams will start at 1500 for the NBA. This is the long term average.</td>
+      <td>$$R_a$$</td>        
+      <td>1500</td>
+    </tr>
+    <tr>
+      <td>Rating of team B</td>
+      <td>Elo rating of team B</td>
+      <td>$$R_b$$</td>
+      <td>1500</td>
+    </tr>
+    <tr>
+      <td>Logistic growth rate</td>
+      <td> This is the steepness of the curve. For each 400 rating points of advantage over the opponent, the expected probability of winning is 10x in comparison to opponent's expected score (assuming log 10 base) Said another way, a higher g, will require a greater delta between winner's and loser's elo to impact the probability. For the NBA, we will keep this at 400, the level as Chess. </td>
+      <td>$$g$$</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <td>K factor</td>
+      <td> The k adjustment factor per game based on a win or loss, to penalize under performance and reward over performance. Note, there needs to be a level of stickiness, as you shouldn't lose all of your elo points with one game, and the score retains some memory. According to FiveThirtyEight, and empirical evidence, the optimal K for the NBA to be 20. This is in the same range as the K used for NFL and international soccer elo ratings even though the NBA plays far more games than those sports. In comparison to baseball, this is much higher. It suggests that you should to give a relatively high weight to a team's recent performance. For reference, it's typically 16 for master chess players.
+</td>
+      <td>$$k$$</td>
+      <td>20</td>
+    </tr>           
+  </tbody>
+</table>
+
+<p><strong>Equation to update a team's elo score after outcome of a game:</strong></p>
+<h4>$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$</h4>
+<p>The Score of A is 1 if the team won, else 0 if the team lost.</p>
+<h4>Import Libraries</h4>
+<div class="highlight"><pre><span></span><span class="c1"># data wrangling</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c1"># plots</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s1">&#39;svg&#39;</span>
+
+<span class="kn">import</span> <span class="nn">altair</span> <span class="kn">as</span> <span class="nn">alt</span>
+<span class="n">alt</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+
+<span class="c1"># model evaluation</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">brier_score_loss</span>
+
+<span class="c1"># scientific notation off</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">&#39;{:.2f}&#39;</span><span class="o">.</span><span class="n">format</span>
+
+<span class="c1"># blog html visualization </span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="c1"># supress warnings for blog</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+</pre></div>
+
+
+<hr>
+<h4>Data</h4>
+<ul>
+<li><a href="https://github.com/fivethirtyeight/data/tree/master/nba-elo">FiveThirtyEight NBA Elo Csv</a></li>
+</ul>
+<p>Let's create a class to define a function, <code>prob</code>, to calculate the probability of a team winning based on elo,
+and define another function, <code>update</code>, to update the Elo after the outcome of the game.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EloTracker</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1500</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">start</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+
+    <span class="c1"># this is the probability of the home team winning</span>
+    <span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="p">):</span>
+        <span class="n">home_elo</span><span class="p">,</span> <span class="n">away_elo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">home</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">away</span><span class="p">]</span>
+        <span class="n">expected_home</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">away_elo</span> <span class="o">-</span> <span class="n">home_elo</span><span class="p">)</span><span class="o">/</span><span class="mi">400</span><span class="p">))</span>
+        <span class="n">expected_away</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">expected_home</span>
+        <span class="k">return</span> <span class="n">expected_home</span><span class="p">,</span> <span class="n">expected_away</span>
+
+    <span class="c1"># update the elo scores</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">winner</span><span class="p">,</span> <span class="n">loser</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">expected_winner</span><span class="p">,</span> <span class="n">expected_loser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prob</span><span class="p">(</span><span class="n">winner</span><span class="p">,</span> <span class="n">loser</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">winner</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">winner</span><span class="p">]</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">expected_winner</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">loser</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">loser</span><span class="p">]</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">expected_loser</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;EloTracker({self.data})&#39;</span>
+</pre></div>
+
+
+<p>Let's walk through a few examples to familiarize ourselves with elo.</p>
+<div class="highlight"><pre><span></span><span class="c1"># instantiate all teams at 1500 elo at the beginning of the season</span>
+<span class="n">teams</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Toronto&#39;</span><span class="p">,</span> <span class="s1">&#39;Boston&#39;</span><span class="p">]</span>
+<span class="n">elo</span> <span class="o">=</span> <span class="n">EloTracker</span><span class="p">(</span><span class="n">teams</span><span class="p">)</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>{&#39;Toronto&#39;: 1500, &#39;Boston&#39;: 1500}
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># By definition, teams with the same elo are equally likely to win.</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">prob</span><span class="p">(</span><span class="s1">&#39;Toronto&#39;</span><span class="p">,</span> <span class="s1">&#39;Boston&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>(0.5, 0.5)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Toronto beats Boston</span>
+<span class="c1"># Update elo</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;Toronto&#39;</span><span class="p">,</span> <span class="s1">&#39;Boston&#39;</span><span class="p">)</span>
+<span class="c1"># Toronto gained 10 elo, and Boston lost 10, since this is a zero sum paradigm</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>{&#39;Toronto&#39;: 1510, &#39;Boston&#39;: 1490}
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Fast forward to the end of the season</span>
+
+<span class="c1"># End of season, let&#39;s assume these elo scores</span>
+<span class="n">teams</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Toronto&#39;</span><span class="p">:</span> <span class="mi">1750</span><span class="p">,</span> <span class="s1">&#39;Boston&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span> <span class="s1">&#39;Cleveland&#39;</span><span class="p">:</span> <span class="mi">1250</span><span class="p">}</span>
+<span class="n">elo</span> <span class="o">=</span> <span class="n">EloTracker</span><span class="p">(</span><span class="n">teams</span><span class="p">)</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">data</span>
+<span class="n">toronto_elo_before</span> <span class="o">=</span> <span class="n">elo</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Toronto&quot;</span><span class="p">]</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;Toronto&quot;</span><span class="p">,</span> <span class="s2">&quot;Cleveland&quot;</span><span class="p">)</span>
+<span class="n">toronto_elo_after</span> <span class="o">=</span> <span class="n">elo</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Toronto&quot;</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Toronto gained {toronto_elo_after - toronto_elo_before} elo points&#39;</span><span class="p">)</span>
+<span class="c1"># Because Toronto won against a worst team, they only gained 1 elo points.</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Toronto gained 1 elo points
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Toronto is favoured since it has a higher elo score. </span>
+<span class="c1"># But, what if Toronto lost?</span>
+<span class="n">teams</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Toronto&#39;</span><span class="p">:</span> <span class="mi">1750</span><span class="p">,</span> <span class="s1">&#39;Boston&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span> <span class="s1">&#39;Cleveland&#39;</span><span class="p">:</span> <span class="mi">1250</span><span class="p">}</span>
+<span class="n">elo</span> <span class="o">=</span> <span class="n">EloTracker</span><span class="p">(</span><span class="n">teams</span><span class="p">)</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">data</span>
+<span class="n">toronto_elo_before</span> <span class="o">=</span> <span class="n">elo</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Toronto&quot;</span><span class="p">]</span>
+<span class="n">elo</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;Cleveland&quot;</span><span class="p">,</span><span class="s2">&quot;Toronto&quot;</span><span class="p">)</span>
+<span class="n">toronto_elo_after</span> <span class="o">=</span> <span class="n">elo</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Toronto&quot;</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Toronto gained {toronto_elo_after - toronto_elo_before} elo points&#39;</span><span class="p">)</span>
+<span class="c1"># Because Toronto lost to a worse team, they lost 19 elo points! They were expected to win!</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span> Toronto gained -19 elo points
+</pre></div>
+
+
+<hr>
+<h3>Graphs</h3>
+<p>Let's create some Elo graphs using NBA data to demonstrate this over a season. </p>
+<p>Note, at the beginning of the 2014 season, Elo does not necessarily start at 1500, because in FiveThirtyEight's modelling, there's an idea of a year over year carry over. Instead of resetting each team’s rating when a new season begins, Elo carries over a portion of a team’s rating from one season to the next. This makes sense as good teams tend to remain good rathe than completely regress to the mean after the off season.</p>
+<p>In NBA Elo ratings, we keep three-quarters of it. The higher fraction reflects the fact that NBA teams are more consistent from year to year compared to other sports like football. For example, if the Toronto Raptors ended the 2018-19 NBA season with an Elo rating of 1700. The team’s Elo rating for the start of the following season is calculated as follows:</p>
+<p>$$0.75 \times 1700 + 0.25 \times 1500 = 1650$$</p>
+<div class="highlight"><pre><span></span><span class="c1"># data for 2014-2015 NBA season</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/nba_elo.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="c1"># 2014-2015, regular season, home games only, no duplicate record</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;year_id==2015 &amp; is_playoffs == 0 &amp; _iscopy == 0&quot;</span><span class="p">)</span>
+
+<span class="c1"># obtain columns of interest</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;date_game&#39;</span><span class="p">,</span><span class="s1">&#39;fran_id&#39;</span><span class="p">,</span> <span class="s1">&#39;pts&#39;</span><span class="p">,</span> <span class="s1">&#39;elo_i&#39;</span><span class="p">,</span> <span class="s1">&#39;opp_fran&#39;</span><span class="p">,</span> <span class="s1">&#39;opp_pts&#39;</span><span class="p">,</span> <span class="s1">&#39;opp_elo_i&#39;</span><span class="p">,</span> <span class="s1">&#39;game_result&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># rename columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;date_game&#39;</span><span class="p">:</span><span class="s1">&#39;date&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;fran_id&quot;</span><span class="p">:</span><span class="s2">&quot;home&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pts&quot;</span><span class="p">:</span> <span class="s2">&quot;pts_home&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;elo_i&quot;</span><span class="p">:</span> <span class="s2">&quot;home_elo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;opp_fran&quot;</span><span class="p">:</span><span class="s2">&quot;visitor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;opp_pts&quot;</span><span class="p">:</span><span class="s2">&quot;pts_visitor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;opp_elo_i&quot;</span><span class="p">:</span><span class="s2">&quot;visitor_elo&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">home</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">game_result</span> <span class="o">==</span> <span class="s2">&quot;W&quot;</span> <span class="k">else</span> <span class="n">row</span><span class="o">.</span><span class="n">visitor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;index&quot;</span><span class="p">,</span><span class="s2">&quot;game_result&quot;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="c1"># 1230 games played in 2014-2015</span>
+<span class="c1"># 30 teams played x 41 home games each </span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>home</th>
+      <th>pts_home</th>
+      <th>home_elo</th>
+      <th>visitor</th>
+      <th>pts_visitor</th>
+      <th>visitor_elo</th>
+      <th>winner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2014-10-28</td>
+      <td>Lakers</td>
+      <td>90</td>
+      <td>1422.00</td>
+      <td>Rockets</td>
+      <td>108</td>
+      <td>1596.46</td>
+      <td>Rockets</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2014-10-28</td>
+      <td>Pelicans</td>
+      <td>101</td>
+      <td>1457.22</td>
+      <td>Magic</td>
+      <td>84</td>
+      <td>1359.43</td>
+      <td>Pelicans</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2014-10-28</td>
+      <td>Spurs</td>
+      <td>101</td>
+      <td>1699.50</td>
+      <td>Mavericks</td>
+      <td>100</td>
+      <td>1592.01</td>
+      <td>Spurs</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2014-10-29</td>
+      <td>Celtics</td>
+      <td>121</td>
+      <td>1378.55</td>
+      <td>Nets</td>
+      <td>105</td>
+      <td>1518.27</td>
+      <td>Celtics</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2014-10-29</td>
+      <td>Hornets</td>
+      <td>108</td>
+      <td>1511.00</td>
+      <td>Bucks</td>
+      <td>106</td>
+      <td>1317.85</td>
+      <td>Hornets</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Great, we have a dataframe for each game played, and the elos for each team and the true target ("winner"). Let's graph a few of my favourite matchups. </p>
+<div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Raptors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Raptors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#CE1141&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Celtics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Celtics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#007A33&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Raptors vs Celtics&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">)</span> 
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Warriors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Warriors&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#FDB927&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Thunder&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;Thunder&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#007AC1&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Warriors vs Thunder&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">)</span> 
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="kn">as</span> <span class="nn">mdates</span>
+<span class="n">myFmt</span> <span class="o">=</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">myFmt</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;elo.svg&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="svg" src="images/nba_elo_30_0.svg"></p>
+<p>Ratings are established on a game-by-game rather than a season-by-season basis. So you can see changes in a team's performance over the course of the year: The Toronto Raptors had a much higher rating early in the 2014-15 season than at the end of it, while the reverse has been true for the Boston Celtics, who gained momentum going into the playoffs.</p>
+<p>Remember teams are average with 1500 Elo (41W and 41L). The Raptors, Celtics and Thunder 1550+ and are playoff bound. With an Elo of 1750+, the Warriors are a true title contender!</p>
+<hr>
+<h3>Establish Baseline</h3>
+<h4>Naive Model</h4>
+<p>Establishing a naive model is important to see how our model improves against a benchmark. 
+Let's create naive model, by predicting that the home team always wins. How accurate are we?</p>
+<div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;winner&#39;</span><span class="p">]</span> <span class="c1"># true y</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;home&#39;</span><span class="p">]</span> <span class="c1"># predict winner based on home team winning</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.5747967479674797
+</pre></div>
+
+
+<p>We are 57.5% accurate by just picking the home team to win. Hey, it's better than a coin flip, but can we do better?</p>
+<hr>
+<h3>Introducing the Brier Score</h3>
+<h4>$$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$$</h4>
+<p>By definition, the Brier score measures the mean squared difference between the predicted probability $p_i$ assigned to the possible outcomes $o_i$ for all i and the actual outcome. </p>
+<p>Mathematically, the Brier score always takes on a value between zero and one, since this is the largest possible difference between a predicted probability (which must be between zero and one) and the actual outcome (which can take on values of only 0 and 1). </p>
+<p>Roughly speaking, the Brief score mimics a MSE for regression problems in the classification case, such as predicting binary outcomes. Therefore, the lower the Brier score is for a set of predictions, the better the predictions are <strong>calibrated.</strong></p>
+<p>Like the Elo, it penalizes wrong predictions heavily when you are sure of an outcome (e.g. upsets in sports). This is not necessarily captured in accuracy, so it is a good supplement metric when evaluating models. </p>
+<p>In other words, it calibrates the predictions. You predicted that good teams when they SHOULD win, and predicted that losses when they SHOULD lose. When you were unsure, it SHOULD be a coin toss! That is a good model.</p>
+<h4>Naive Model: Brier Score</h4>
+<p>To calculate the Brier score we need the true probabilities and the predicted probabilities</p>
+<div class="highlight"><pre><span></span><span class="c1"># true y</span>
+<span class="c1"># 100% for correct prediction</span>
+<span class="c1"># 0% for incorrect prediction</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">home</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">winner</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># y_prob is the probability of winning for home team </span>
+<span class="c1"># probability of winning is 100% if you&#39;re home and if you&#39;re 0% away</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;predict_home_win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">predict_home_win</span>
+
+<span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.42520325203252035
+</pre></div>
+
+
+<hr>
+<h3>Elo Model</h3>
+<p>What if we tried to be smarter? Are we able to create a model with Elo that is more accurate?</p>
+<div class="highlight"><pre><span></span><span class="c1"># calculate the probability of winning for the home team using elo</span>
+<span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">away_elo</span><span class="p">):</span>
+    <span class="n">expected_home</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">away_elo</span> <span class="o">-</span> <span class="n">home_elo</span><span class="p">)</span><span class="o">/</span><span class="mi">400</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">expected_away</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">expected_home</span>
+    <span class="k">return</span> <span class="n">expected_home</span><span class="p">,</span> <span class="n">expected_away</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;predict_home_elo_win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">prob</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">home_elo</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">visitor_elo</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># predict home win if % is greater than 50%</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;predict_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">home</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">visitor</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;winner&#39;</span><span class="p">]</span> <span class="c1"># true y</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">predict_elo</span>  <span class="c1"># predict winner based on home team winning</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="c1"># probability of home team winning</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="c1"># so, predicting on elo, is 67% accurate! This is already better than only predicting the home team.</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.6707317073170732
+</pre></div>
+
+
+<h4>Elo Model: Brier Score</h4>
+<div class="highlight"><pre><span></span><span class="c1"># To calculate the Brier score we need the true probabilities and the predicted probabilities</span>
+<span class="c1"># true y</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+
+<span class="c1"># y_prob is the probability of winning for home team</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;predict_home_elo_win&quot;</span><span class="p">]</span>
+
+<span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.21094193773599698
+</pre></div>
+
+
+<table class="table">
+<thead class="table-responsive table-striped">
+<tr>
+<th>Metric</th>
+<th>Prediction based on Home</th>
+<th>Prediction based on Elo</th>
+<th>Delta</th>
+</tr>
+<tbody>
+<tr>
+<td>Accuracy</td>
+<td>58%</td>
+<td>67%</td>
+<td>+9%</td>
+</tr>
+<tr>
+<td>Brier Score</td>
+<td>43%</td>
+<td>21%</td>
+<td>+22%</td>
+</tr>
+</tbody>
+</table>
+
+<p>Not only was the Elo model more accurate than naive model, it has a lower brier score, which suggests its predictions were better forecast.</p>
+<p>In this particular dataset, accuracy was able to pick up the model improvement, but when I used on a different data set (e.g. NHL), this was not the case. Brier score is able to pick up improvements that may otherwise be masked.</p>
+<p>Along side typical metrics such as accuracy, and area under the curve, now you can be armed with another tool to evaluate your models!</p>
+<hr>
+<h3>Margin of Safety &amp; NBA Upsets</h3>
+<p>Suppose you wanted to only make predictions on games you were certain of the outcome. You could introduce a margin of safety, such that you would only predict wins on games greater than 70%.</p>
+<div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribution of prediction probabilities&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># win probabilities are distributed about 50% but more parity than I expected</span>
+</pre></div>
+
+
+<p><img alt="svg" src="images/nba_elo_51_0.svg"></p>
+<div class="highlight"><pre><span></span><span class="n">margin_of_safety</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="o">&gt;</span> <span class="mf">0.70</span><span class="p">]</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">margin_of_safety</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table border="1" class="dataframe table table-responsive table-striped table-bordered">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>home</th>
+      <th>pts_home</th>
+      <th>home_elo</th>
+      <th>visitor</th>
+      <th>pts_visitor</th>
+      <th>visitor_elo</th>
+      <th>winner</th>
+      <th>y</th>
+      <th>predict_home_win</th>
+      <th>predict_home_elo_win</th>
+      <th>predict_elo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>2014-10-29</td>
+      <td>Hornets</td>
+      <td>108</td>
+      <td>1511.00</td>
+      <td>Bucks</td>
+      <td>106</td>
+      <td>1317.85</td>
+      <td>Hornets</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0.75</td>
+      <td>Hornets</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2014-10-29</td>
+      <td>Pacers</td>
+      <td>103</td>
+      <td>1532.67</td>
+      <td>Sixers</td>
+      <td>91</td>
+      <td>1316.42</td>
+      <td>Pacers</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0.78</td>
+      <td>Pacers</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2014-10-29</td>
+      <td>Suns</td>
+      <td>119</td>
+      <td>1560.12</td>
+      <td>Lakers</td>
+      <td>99</td>
+      <td>1410.66</td>
+      <td>Suns</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0.70</td>
+      <td>Suns</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2014-10-30</td>
+      <td>Mavericks</td>
+      <td>120</td>
+      <td>1590.40</td>
+      <td>Jazz</td>
+      <td>102</td>
+      <td>1367.04</td>
+      <td>Mavericks</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0.78</td>
+      <td>Mavericks</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>2014-11-01</td>
+      <td>Warriors</td>
+      <td>127</td>
+      <td>1602.86</td>
+      <td>Lakers</td>
+      <td>104</td>
+      <td>1400.48</td>
+      <td>Warriors</td>
+      <td>1</td>
+      <td>1.00</td>
+      <td>0.76</td>
+      <td>Warriors</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">margin_of_safety</span><span class="o">.</span><span class="n">winner</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">margin_of_safety</span><span class="o">.</span><span class="n">predict_elo</span>
+<span class="n">y_prob</span> <span class="o">=</span> <span class="n">margin_of_safety</span><span class="o">.</span><span class="n">predict_home_elo_win</span>
+<span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>0.8375
+</pre></div>
+
+
+<p>As you would expect, the accuracy for this model is quite good. Out of these 240 games, with a heavy favourite, only 16.25% of them were upsets. Anything can happen in the NBA! </p>
+<p>Let's plot this relationship, accuracy vs. margin of safety.</p>
+<div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">my_plot</span><span class="p">():</span> 
+    <span class="n">margin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.90</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">my_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">margin</span><span class="p">:</span>
+        <span class="n">safe</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">predict_home_elo_win</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">safe</span><span class="o">.</span><span class="n">winner</span>
+        <span class="n">y_hat</span> <span class="o">=</span> <span class="n">safe</span><span class="o">.</span><span class="n">predict_elo</span>
+        <span class="n">y_prob</span> <span class="o">=</span> <span class="n">safe</span><span class="o">.</span><span class="n">predict_home_elo_win</span>
+        <span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">my_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">my_dict</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">my_plot</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">my_plot</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;How accurate are your predictions?&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;margin of safety&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="svg" src="images/nba_elo_55_0.svg"></p>
+<p>As your margin of safety increases, so does your accuracy %. If you want to be 100% accuracy, then you should only predict on games that are at least 90% probable. However, as you increase this threshold, the number of games you're predicting on becomes smaller. If you were a gambler, that wouldn't be a lot of fun. I guess, that's why there's spreads ;)</p>
+<p>Also, the trend is pretty smooth, so the occurrences of upsets from the Elo model are not clustered around any specific threshold, which is desired.</p>
+<p>In summary, Elo is a fantastic method for calculating the relative skill levels of players in zero-sum games, whereas and brier scores is a metric that measures the accuracy of probabilistic predictions, which accuracy alone may not catch!</p>
+<p>I highly recommend you to explore both, to see how you could incorporate them into your workflow.</p>
+<hr>
+<h3>Reference and Further Reading</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo rating system</a></li>
+<li><a href="https://projects.fivethirtyeight.com/complete-history-of-the-nba/#raptors">Complete history of the NBA - Elo</a></li>
+<li><a href="https://fivethirtyeight.com/features/how-we-calculate-nba-elo-ratings/">How FiveThirtyEight calculates elo ratings</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Brier_score">Brier Score</a></li>
+</ul>
+  </div>
+
+
+
+      <div class="footer">
+<div class="disclaimer">
+
+    <p>
+      © Garry Chan 2019 &mdash; built with <a href="http://getpelican.com" target="_blank">Pelican</a>, built off of the theme <a href="https://github.com/swanson/lagom" target="_blank">Lagom</a>.
+    </p>
+  </div>      </div>
+    </div>
+  </div>
+
+<!-- my kit for font awesome  -->
+<script src="https://kit.fontawesome.com/54282dd713.js"></script>
+</body>
+</html>

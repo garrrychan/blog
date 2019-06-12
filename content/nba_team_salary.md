@@ -1,6 +1,6 @@
 Title: Do NBA teams with greater team salaries win more? 
 Date: 2019-03-30 3:00
-Tags: python
+Topic: Matplotlib Visualization
 Slug: nba_team_salary
 
 FiveThirtyEight is one of my favourite places to read thoughtful analysis, and see data visualizations. I was inspired by one of their posts on ['how your favourite baseball team blows its money'](https://fivethirtyeight.com/features/how-your-favorite-baseball-team-blows-its-money/). As an avid basketball fan, I recreated this graphic with NBA data. 

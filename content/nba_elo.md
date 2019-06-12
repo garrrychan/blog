@@ -1,7 +1,7 @@
 Title: Elo & Brier scores in classification problems
 Date: 2019-04-13 12:00
-Tags: python
-Slug: nba-elo
+Topic: Evaluation Metrics
+Slug: nba_elo
 
 The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).
 

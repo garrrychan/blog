@@ -1,6 +1,6 @@
 Title: Lambda function for data wrangling
 Date: 2019-03-28 3:00
-Tags: python
+Topic: Code Snippet
 Slug: lambda
 
 Coming from a math background, to me, Lambda's represented the parameter in exponential distributions, eigenvalues in linear algebra, or in the context of AWS Lambda, a compute service for managing servers!
