@@ -22,25 +22,25 @@
     Garry's Blog
 &ndash; Elo & Brier scores in classification problems  </title>
 
-    <link rel="canonical" href="./nba-elo.html">
+    <link rel="canonical" href="https://garrrychan.github.io/blog/Evaluation Metrics.html">
 
   <link href="//fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet" type="text/css">
   <!------>
-  <link rel="shortcut icon" href="./theme/images/gary_snail.png">  <link rel="stylesheet" type="text/css" href="./theme/css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/all.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments-monokai.css">
+  <link rel="shortcut icon" href="https://garrrychan.github.io/blog/theme/images/gary_snail.png">  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://garrrychan.github.io/blog/theme/css/pygments-monokai.css">
 </head>
 <body>
   <div class="container">
     <div class="four columns sidebar">
 <nav>
-  <a href="./">
-    <img src="./theme/images/logo2.jpg" id="gravatar" alt="photo"/>
+  <a href="https://garrrychan.github.io/blog/">
+    <img src="https://garrrychan.github.io/blog/theme/images/logo2.jpg" id="gravatar" alt="photo"/>
   </a>
-  <h2><a href="./">Garry Chan</a></h2>
+  <h2><a href="https://garrrychan.github.io/blog/">Garry Chan</a></h2>
 
   <div id="bio">
-    <p>I write about data science, and occasionally sports.</p>
+    <p>I write about data science & sports.</p>
     <p>Completed a full time data science program.</p>
     <p>Experience as a tech consultant, with a Bachelors in Mathematics from UWaterloo.</p>
   </div>
@@ -69,13 +69,13 @@
     <div class="eleven columns content">
   <p class="meta">
     13 April 2019
-    <a href=".">
+    <a href="https://garrrychan.github.io/blog">
       <!--- home icon--->
       <i class="home fa fa-home fa-2x"></i>
     </a>
   </p>
 
-  <h1 class="title"><a href="./nba-elo.html">Elo & Brier scores in classification problems</a></h1>
+  <h1 class="title"><a href="https://garrrychan.github.io/blog/Evaluation Metrics.html">Elo & Brier scores in classification problems</a></h1>
 
   <div class="article_text" id="post">
     <p>The motivation behind this is to discuss the Elo rating system, apply it within an NBA setting, and finally measure the accuracy of predictions (i.e. a team winning a particular regular season game).</p>
@@ -100,7 +100,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 <li>This is a common sigmoid curve to use in probabilistic models (approaches 1 and 0, asymptotically)</li>
 <li>The expected score of team A is given as:</li>
 </ul>
-<h4>$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$</h4>
+<h4>$$E_A = \frac{1}{1+10^{(R_A-R_B)/400}}$$</h4>
 <table class="table">
  <thead class="table-responsive table-bordered">
     <tr>
@@ -140,7 +140,7 @@ chess. It is named after its creator Arpad Elo, a Hungarian-American physics pro
 </table>
 
 <p><strong>Equation to update a team's elo score after outcome of a game:</strong></p>
-<h4>$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$</h4>
+<h4>$$\begin{align}{R'_A = R_A + K(S_A-E_A)}\end{align}$$</h4>
 <p>The Score of A is 1 if the team won, else 0 if the team lost.</p>
 <h4>Import Libraries</h4>
 <div class="highlight"><pre><span></span><span class="c1"># data wrangling</span>
@@ -434,7 +434,7 @@ Let's create naive model, by predicting that the home team always wins. How accu
 <p>We are 57.5% accurate by just picking the home team to win. Hey, it's better than a coin flip, but can we do better?</p>
 <hr>
 <h3>Introducing the Brier Score</h3>
-<h4>$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$</h4>
+<h4>$$\frac{1}{N}\sum\limits _{i=1}^{N}(p_i-o_i)^2$$</h4>
 <p>By definition, the Brier score measures the mean squared difference between the predicted probability $p_i$ assigned to the possible outcomes $o_i$ for all i and the actual outcome. </p>
 <p>Mathematically, the Brier score always takes on a value between zero and one, since this is the largest possible difference between a predicted probability (which must be between zero and one) and the actual outcome (which can take on values of only 0 and 1). </p>
 <p>Roughly speaking, the Brief score mimics a MSE for regression problems in the classification case, such as predicting binary outcomes. Therefore, the lower the Brier score is for a set of predictions, the better the predictions are <strong>calibrated.</strong></p>

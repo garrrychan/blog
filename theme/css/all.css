@@ -376,7 +376,8 @@ legend span {
   .container .eight.columns                   { width: 460px; }
   .container .nine.columns                    { width: 520px; }
   .container .ten.columns                     { width: 580px; }
-  .container .eleven.columns                  { width: 640px; }
+  /* increased from 640 to 700, if too big messes up format */
+  .container .eleven.columns                  { width: 700px; }
   .container .twelve.columns                  { width: 700px; }
   .container .thirteen.columns                { width: 760px; }
   .container .fourteen.columns                { width: 820px; }
