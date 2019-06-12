@@ -75,7 +75,8 @@
 <p>Bayesian statistics are an excellent tool to reach for when sample sizes are small, as we can introduce explicit assumptions into the model, when there aren't thousands of observations. </p>
 <hr>
 <h3>Primer on Bayesian Statistics</h3>
-<p><img src="/images/dists.png" class="img-responsive"></p>
+<p><img src="/images/dists.png" alt="dists.png" class="img-responsive"></p>
+<p><img src="images/candytree.svg" alt="candytree" class="img-responsive"></p>
 <p>$$P\left(model\;|\;data\right) = \frac{P\left(data\;|\;model\right)}{P(data)}\; P\left(model\right)$$</p>
 <p>$$ \text{prior} = P\left(model\right) $$</p>
 <blockquote>
@@ -308,7 +309,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <p>In the third graph, the posterior win rate is 1.2% higher when KD plays in the regular season.</p>
 </li>
 <li>
-<p>Observe that because have less data for when KD is out, our posterior distribution of  $𝑝_𝐵$ is wider, implying we are less certain about the true value of $𝑝_𝐵$ than we are of $𝑝_𝐴$. The 95% credible interval is much wider for $p_B$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.</p>
+<p>Observe that because have less data for when KD is out, our posterior distribution of  $$𝑝_𝐵$$ is wider, implying we are less certain about the true value of $$𝑝_𝐵$$ than we are of $$𝑝_𝐴$$. The 95% credible interval is much wider for $$𝑝_𝐵$$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.</p>
 </li>
 <li>
 <p>The difference in sample sizes ($$N_B$$ &lt; $$N_A$$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!</p>
@@ -329,7 +330,7 @@ Probability that GSW is better with Kevin Durant in the regular season: 0.55
 
 
 <p>The probabilities are pretty close, so we can chalk this up to the Warriors having a experienced supporting cast. </p>
-<p>There is significant overlap between the distribution pf posterior pA and posterior of pB, so one is not better than the other with high probability. The majority of the distribution of delta is around 0, so there is no statistically difference between the groups in the regular season.</p>
+<p>There is significant overlap between the distribution pf posterior $$p_A$$ and posterior of $$p_B$$, so one is not better than the other with high probability. The majority of the distribution of delta is around 0, so there is no statistically difference between the groups in the regular season.</p>
 <p>Ideally, we should perform more trials when KD is injured (as each data point for scenario B contributes more inferential power than each additional point for scenario A). One could do a similar analysis for when he played on the Oklahoma City Thunder.</p>
 <hr>
 <h3>Playoffs</h3>
