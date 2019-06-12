@@ -110,9 +110,11 @@
 <p>Users turn to recommendations for not only recipes that are homogeneous to their preferences, but also for serendipitous recipes they might not immediately think of. In my opinion, it's a strength to make content discovery less algorithmic, and more human-like.</p>
 <p>Hybrid recommenders address this problem by solving the shortcomings of individual recommenders.
 For example:
-* Content-based recommenders address the cold start problem
-* Collaborative filtering is prone to recommending recipes with less ratings, but I see that as a positive to inject new recipes
-* Matrix factorization address curse of dimensionality, when no recipes or users are similar to each other</p>
+<ul>
+  <li>Content-based recommenders address the cold start problem</li>
+  <li>Collaborative filtering is prone to recommending recipes with less ratings, but I see that as a positive to inject new recipes</li>
+  <li>Matrix factorization address curse of dimensionality, when no recipes or users are similar to each other </li>
+</ul></p>
 <p>It's no surprised that the algorithm that won Cinematch (Netflix's challenge), used an ensemble of multiple models. Hybrid recommenders can get very complex, with feature weighted linear stacking of the various recommenders, but that was out of scope for my first recommender system.</p>
 <p><br></p>
 <h4>5. Rank-based evaluation metrics are preferred</h4>
