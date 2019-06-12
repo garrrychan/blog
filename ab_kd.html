@@ -253,7 +253,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <li>Generated 20,000 samples from the posterior distribution (20,000 samples / chain / core)</li>
 </ul>
 <p>Because this algorithm needs to converge, we set a number of tuning steps (1,000) to occur first and where the algorithm should "start exploring." It's good to see the Markov Chains overlap, which suggests convergence.</p>
-<p><img src="./images/trace.svg" class="img-responsive"></p>
+<p><img src="/images/trace.svg" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">burned_trace</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)[[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_97.5&#39;</span><span class="p">]]</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
@@ -299,7 +299,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <li>There is a 95% probability that the true win rate with KD is in the interval (0.68, 0.79).</li>
 <li>There is a 95% probability that the true win rate with no KD is in the interval (0.59, 0.85).</li>
 </ul>
-<p><img src="./images/reg_season.svg" class="img-responsive"></p>
+<p><img src="/images/reg_season.svg" class="img-responsive"></p>
 <p>Note, the 2.5% and 97.5% markers indicate the quantiles for the credible interval, similar to the confidence interval in frequentist statistics.</p>
 <hr>
 <h4>Results</h4>
@@ -308,10 +308,10 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <p>In the third graph, the posterior win rate is 1.2% higher when KD plays in the regular season.</p>
 </li>
 <li>
-<p>Observe that because have less data for when KD is out, our posterior distribution of  𝑝𝐵 is wider, implying we are less certain about the true value of 𝑝𝐵 than we are of 𝑝𝐴. The 95% credible interval is much wider for $p_B$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.</p>
+<p>Observe that because have less data for when KD is out, our posterior distribution of  $𝑝_𝐵$ is wider, implying we are less certain about the true value of $𝑝_𝐵$ than we are of $𝑝_𝐴$. The 95% credible interval is much wider for $p_B$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.</p>
 </li>
 <li>
-<p>The difference in sample sizes ($N_B$ &lt; $N_A$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!</p>
+<p>The difference in sample sizes ($$N_B$$ &lt; $$N_A$$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!</p>
 </li>
 </ul>
 <div class="highlight"><pre><span></span><span class="c1"># Count the number of samples less than 0, i.e. the area under the curve</span>
@@ -448,7 +448,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:23&lt;00
   </tbody>
 </table>
 
-<p><img src="./images/playoffs.svg" class="img-responsive"></p>
+<p><img src="/images/playoffs.svg" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Count the number of samples less than 0, i.e. the area under the curve</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probability that GSW is worse with Kevin Durant in the playoffs: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> \
     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">playoff_delta_samples</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span>

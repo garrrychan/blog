@@ -183,7 +183,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&amp;l
 &lt;li&gt;Generated 20,000 samples from the posterior distribution (20,000 samples / chain / core)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Because this algorithm needs to converge, we set a number of tuning steps (1,000) to occur first and where the algorithm should "start exploring." It's good to see the Markov Chains overlap, which suggests convergence.&lt;/p&gt;
-&lt;p&gt;&lt;img src="./images/trace.svg" class="img-responsive"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/trace.svg" class="img-responsive"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;burned_trace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)[[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sd&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;hpd_2.5&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;hpd_97.5&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
 &lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-responsive table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -229,7 +229,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&amp;l
 &lt;li&gt;There is a 95% probability that the true win rate with KD is in the interval (0.68, 0.79).&lt;/li&gt;
 &lt;li&gt;There is a 95% probability that the true win rate with no KD is in the interval (0.59, 0.85).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src="./images/reg_season.svg" class="img-responsive"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/reg_season.svg" class="img-responsive"&gt;&lt;/p&gt;
 &lt;p&gt;Note, the 2.5% and 97.5% markers indicate the quantiles for the credible interval, similar to the confidence interval in frequentist statistics.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h4&gt;Results&lt;/h4&gt;
@@ -238,10 +238,10 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&amp;l
 &lt;p&gt;In the third graph, the posterior win rate is 1.2% higher when KD plays in the regular season.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Observe that because have less data for when KD is out, our posterior distribution of  𝑝𝐵 is wider, implying we are less certain about the true value of 𝑝𝐵 than we are of 𝑝𝐴. The 95% credible interval is much wider for $p_B$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.&lt;/p&gt;
+&lt;p&gt;Observe that because have less data for when KD is out, our posterior distribution of  $𝑝_𝐵$ is wider, implying we are less certain about the true value of $𝑝_𝐵$ than we are of $𝑝_𝐴$. The 95% credible interval is much wider for $p_B$, as there is a smaller sample size, for when KD did not play. We are less certain that the GSW wins 73% of the time without KD.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The difference in sample sizes ($N_B$ &amp;lt; $N_A$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!&lt;/p&gt;
+&lt;p&gt;The difference in sample sizes ($$N_B$$ &amp;lt; $$N_A$$) naturally fits into Bayesian analysis, whereas you need the same populations for frequentist approach!&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Count the number of samples less than 0, i.e. the area under the curve&lt;/span&gt;
@@ -378,7 +378,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:23&amp;l
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;&lt;img src="./images/playoffs.svg" class="img-responsive"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/playoffs.svg" class="img-responsive"&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Count the number of samples less than 0, i.e. the area under the curve&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Probability that GSW is worse with Kevin Durant in the playoffs: &lt;/span&gt;&lt;span class="si"&gt;%.2f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; \
     &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;playoff_delta_samples&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
