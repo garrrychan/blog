@@ -549,22 +549,22 @@ For example:
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;1002&lt;/th&gt;
-      &lt;td&gt;socialist111&lt;/td&gt;
-      &lt;td&gt;t3_abeced&lt;/td&gt;
-      &lt;td&gt;503&lt;/td&gt;
-      &lt;td&gt;24466&lt;/td&gt;
-      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;ULPT: Give fake money to homeless people. They will thank you for it, but also when they get arrested and taken to jail, it?ll reduce the number of homeless people in your area.&lt;/td&gt;
+      &lt;th&gt;131&lt;/th&gt;
+      &lt;td&gt;cmplctdsmplcty&lt;/td&gt;
+      &lt;td&gt;t3_8t9pd6&lt;/td&gt;
+      &lt;td&gt;1582&lt;/td&gt;
+      &lt;td&gt;43772&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;LPT: If a friend is buying you lunch and you are wondering what price or how much is okay, ask him what he recommends.&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;1375&lt;/th&gt;
-      &lt;td&gt;Aukliminu&lt;/td&gt;
-      &lt;td&gt;t3_ab4d3d&lt;/td&gt;
-      &lt;td&gt;199&lt;/td&gt;
-      &lt;td&gt;7180&lt;/td&gt;
-      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;ULPT: Leave bad Amazon reviews on items you buy or any applicable cheap knockoff brands. They might pay you to delete the review.&lt;/td&gt;
+      &lt;th&gt;641&lt;/th&gt;
+      &lt;td&gt;j0be&lt;/td&gt;
+      &lt;td&gt;t3_38d5tt&lt;/td&gt;
+      &lt;td&gt;982&lt;/td&gt;
+      &lt;td&gt;17099&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;LPT: Testing a battery life&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -586,6 +586,21 @@ For example:
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;title_clean&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;[uU]*[lL][pP][tT]\s*:*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;post_to_words&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/Users/gc/anaconda3/lib/python3.6/site-packages/pandas/core/indexing.py:362: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self.obj[key] = _infer_fill_value(value)
+/Users/gc/anaconda3/lib/python3.6/site-packages/pandas/core/indexing.py:543: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self.obj[item] = s
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -675,7 +690,8 @@ For example:
     &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; Test accuracy: {model.score(Z_test, target_test)}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;predictions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;predictions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;predictions&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;LifeProTips&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;UnethicalLifeProTips&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;predictions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title_read&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_comments&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;prediction&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;num_comments&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;score&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;   
+    &lt;span class="n"&gt;proba_lpt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict_proba&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z_test&lt;/span&gt;&lt;span class="p"&gt;)[:,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;predictions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proba_lpt&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title_read&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_comments&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;prediction&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;label&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;proba_lpt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;num_comments&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;score&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;   
     &lt;span class="n"&gt;wrong&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prediction&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="n"&gt;final&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; 
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wrong&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;table table-responsive table-striped table-bordered&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -696,6 +712,7 @@ For example:
       &lt;th&gt;&lt;/th&gt;
       &lt;th&gt;prediction&lt;/th&gt;
       &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;proba_lpt&lt;/th&gt;
       &lt;th&gt;title&lt;/th&gt;
       &lt;th&gt;num_comments&lt;/th&gt;
       &lt;th&gt;score&lt;/th&gt;
@@ -703,20 +720,22 @@ For example:
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;252&lt;/th&gt;
-      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;th&gt;400&lt;/th&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;If you are a parent, record a video message for your children even if you're perfectly healthy.&lt;/td&gt;
-      &lt;td&gt;824&lt;/td&gt;
-      &lt;td&gt;11279&lt;/td&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;0.939449&lt;/td&gt;
+      &lt;td&gt;As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?&lt;/td&gt;
+      &lt;td&gt;733&lt;/td&gt;
+      &lt;td&gt;38948&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;191&lt;/th&gt;
-      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;th&gt;367&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;Own two guns. A nice one, registered, and a shitty unregistered handgun&lt;/td&gt;
-      &lt;td&gt;1169&lt;/td&gt;
-      &lt;td&gt;7145&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;0.456397&lt;/td&gt;
+      &lt;td&gt;People want someone to tell them what to do in emergency situations. For example while performing CPR on someone don't say "Someone call an ambulance" instead talk to one person and ask him/her to call an ambulance directly.&lt;/td&gt;
+      &lt;td&gt;706&lt;/td&gt;
+      &lt;td&gt;20378&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -906,6 +925,7 @@ Words that occur often in one document but don't occur in many documents are imp
       &lt;th&gt;&lt;/th&gt;
       &lt;th&gt;prediction&lt;/th&gt;
       &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;proba_lpt&lt;/th&gt;
       &lt;th&gt;title&lt;/th&gt;
       &lt;th&gt;num_comments&lt;/th&gt;
       &lt;th&gt;score&lt;/th&gt;
@@ -913,20 +933,22 @@ Words that occur often in one document but don't occur in many documents are imp
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;435&lt;/th&gt;
+      &lt;th&gt;223&lt;/th&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.&lt;/td&gt;
-      &lt;td&gt;637&lt;/td&gt;
-      &lt;td&gt;20447&lt;/td&gt;
+      &lt;td&gt;0.65&lt;/td&gt;
+      &lt;td&gt;If you?re driving next to a cop with drugs in your car and are trying to act normal, pick your nose. Your body language shows you aren?t concerned with anyone around you. The last thing you?d ever do if you were paranoid about a cop next to you is pick you nose.&lt;/td&gt;
+      &lt;td&gt;654&lt;/td&gt;
+      &lt;td&gt;24883&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;241&lt;/th&gt;
+      &lt;th&gt;371&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;Always be gracious when friends or classmates get jobs you both applied to, they might be in a position to hire you in the future&lt;/td&gt;
-      &lt;td&gt;522&lt;/td&gt;
-      &lt;td&gt;17866&lt;/td&gt;
+      &lt;td&gt;0.13&lt;/td&gt;
+      &lt;td&gt;Found a useful Youtube video but no time to watch all of it? Click on the three circles underneath the video and hit 'Open transcript'.&lt;/td&gt;
+      &lt;td&gt;260&lt;/td&gt;
+      &lt;td&gt;10747&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -976,20 +998,20 @@ Words that occur often in one document but don't occur in many documents are imp
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;142&lt;/th&gt;
-      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;th&gt;186&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;Server ignoring you hardcore when you?re trying to get your check and pay the bill? Drop a glass/plate onto the floor, the shattering glass will bring them to your table instantly.&lt;/td&gt;
-      &lt;td&gt;405&lt;/td&gt;
-      &lt;td&gt;9678&lt;/td&gt;
+      &lt;td&gt;LifeProTips&lt;/td&gt;
+      &lt;td&gt;If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.&lt;/td&gt;
+      &lt;td&gt;616&lt;/td&gt;
+      &lt;td&gt;25459&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;183&lt;/th&gt;
+      &lt;th&gt;63&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;when making rice, just throw some broccoli on top when there is like 10mins left, it'll be perfectly steamed at the end and is a super easy way to add some nutrition with virtually zero extra work!&lt;/td&gt;
-      &lt;td&gt;1435&lt;/td&gt;
-      &lt;td&gt;18783&lt;/td&gt;
+      &lt;td&gt;Shipping boxes for the Holiday Season&lt;/td&gt;
+      &lt;td&gt;662&lt;/td&gt;
+      &lt;td&gt;11521&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1028,7 +1050,7 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;span class="n"&gt;target_train&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="n"&gt;target_test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_tuple&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
-&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;probability&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1046,6 +1068,7 @@ Words that occur often in one document but don't occur in many documents are imp
       &lt;th&gt;&lt;/th&gt;
       &lt;th&gt;prediction&lt;/th&gt;
       &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;proba_lpt&lt;/th&gt;
       &lt;th&gt;title&lt;/th&gt;
       &lt;th&gt;num_comments&lt;/th&gt;
       &lt;th&gt;score&lt;/th&gt;
@@ -1053,20 +1076,22 @@ Words that occur often in one document but don't occur in many documents are imp
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;337&lt;/th&gt;
+      &lt;th&gt;388&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.&lt;/td&gt;
-      &lt;td&gt;779&lt;/td&gt;
-      &lt;td&gt;17594&lt;/td&gt;
+      &lt;td&gt;0.36&lt;/td&gt;
+      &lt;td&gt;If you accidentally clicked "Don't Save" when closing a MS Word document, you can manually recover it by going to go to File&amp;amp;gt;Info&amp;amp;gt;Manage Versions&amp;amp;gt;Recover Unsaved Documents&lt;/td&gt;
+      &lt;td&gt;315&lt;/td&gt;
+      &lt;td&gt;23711&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;368&lt;/th&gt;
+      &lt;th&gt;321&lt;/th&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!&lt;/td&gt;
-      &lt;td&gt;715&lt;/td&gt;
-      &lt;td&gt;18413&lt;/td&gt;
+      &lt;td&gt;0.33&lt;/td&gt;
+      &lt;td&gt;after a family member gets married, keep the list of things that they registered for but didn’t get and use it for birthday and Christmas presents. It will save you time wondering what they want especially if they’re difficult to shop for.&lt;/td&gt;
+      &lt;td&gt;365&lt;/td&gt;
+      &lt;td&gt;21039&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1088,12 +1113,12 @@ Words that occur often in one document but don't occur in many documents are imp
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;gamma&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scale&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;svm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;gamma&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scale&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;probability&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Training accuracy: 0.9986043265875785
- Test accuracy: 0.9016736401673641
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; Training accuracy: 1.0
+ Test accuracy: 0.9037656903765691
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1103,6 +1128,7 @@ Words that occur often in one document but don't occur in many documents are imp
       &lt;th&gt;&lt;/th&gt;
       &lt;th&gt;prediction&lt;/th&gt;
       &lt;th&gt;label&lt;/th&gt;
+      &lt;th&gt;proba_lpt&lt;/th&gt;
       &lt;th&gt;title&lt;/th&gt;
       &lt;th&gt;num_comments&lt;/th&gt;
       &lt;th&gt;score&lt;/th&gt;
@@ -1110,20 +1136,22 @@ Words that occur often in one document but don't occur in many documents are imp
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;th&gt;435&lt;/th&gt;
+      &lt;th&gt;419&lt;/th&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
       &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
-      &lt;td&gt;Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.&lt;/td&gt;
-      &lt;td&gt;637&lt;/td&gt;
-      &lt;td&gt;20447&lt;/td&gt;
+      &lt;td&gt;0.70&lt;/td&gt;
+      &lt;td&gt;If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.&lt;/td&gt;
+      &lt;td&gt;469&lt;/td&gt;
+      &lt;td&gt;18511&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;th&gt;84&lt;/th&gt;
-      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;th&gt;454&lt;/th&gt;
       &lt;td&gt;LifeProTips&lt;/td&gt;
-      &lt;td&gt;; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.&lt;/td&gt;
-      &lt;td&gt;250&lt;/td&gt;
-      &lt;td&gt;19586&lt;/td&gt;
+      &lt;td&gt;UnethicalLifeProTips&lt;/td&gt;
+      &lt;td&gt;0.97&lt;/td&gt;
+      &lt;td&gt;As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?&lt;/td&gt;
+      &lt;td&gt;733&lt;/td&gt;
+      &lt;td&gt;38948&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1161,7 +1189,7 @@ Words that occur often in one document but don't occur in many documents are imp
 
 &lt;tr&gt;
 &lt;td&gt;&lt;b&gt;Support Vector Machines &lt;/b&gt;&lt;/td&gt;
-&lt;td&gt; 0.920 &lt;/td&gt;
+&lt;td&gt; 0.999 &lt;/td&gt;
 &lt;td&gt; 0.903 &lt;/td&gt;
 &lt;/tr&gt;   
 

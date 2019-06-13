@@ -177,22 +177,22 @@
   </thead>
   <tbody>
     <tr>
-      <th>1002</th>
-      <td>socialist111</td>
-      <td>t3_abeced</td>
-      <td>503</td>
-      <td>24466</td>
-      <td>UnethicalLifeProTips</td>
-      <td>ULPT: Give fake money to homeless people. They will thank you for it, but also when they get arrested and taken to jail, it?ll reduce the number of homeless people in your area.</td>
+      <th>131</th>
+      <td>cmplctdsmplcty</td>
+      <td>t3_8t9pd6</td>
+      <td>1582</td>
+      <td>43772</td>
+      <td>LifeProTips</td>
+      <td>LPT: If a friend is buying you lunch and you are wondering what price or how much is okay, ask him what he recommends.</td>
     </tr>
     <tr>
-      <th>1375</th>
-      <td>Aukliminu</td>
-      <td>t3_ab4d3d</td>
-      <td>199</td>
-      <td>7180</td>
-      <td>UnethicalLifeProTips</td>
-      <td>ULPT: Leave bad Amazon reviews on items you buy or any applicable cheap knockoff brands. They might pay you to delete the review.</td>
+      <th>641</th>
+      <td>j0be</td>
+      <td>t3_38d5tt</td>
+      <td>982</td>
+      <td>17099</td>
+      <td>LifeProTips</td>
+      <td>LPT: Testing a battery life</td>
     </tr>
   </tbody>
 </table>
@@ -214,6 +214,21 @@
 
 
 <div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;title_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[uU]*[lL][pP][tT]\s*:*&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">post_to_words</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>/Users/gc/anaconda3/lib/python3.6/site-packages/pandas/core/indexing.py:362: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self.obj[key] = _infer_fill_value(value)
+/Users/gc/anaconda3/lib/python3.6/site-packages/pandas/core/indexing.py:543: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self.obj[item] = s
 </pre></div>
 
 
@@ -303,7 +318,8 @@
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39; Test accuracy: {model.score(Z_test, target_test)}&#39;</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">predictions</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;LifeProTips&quot;</span><span class="p">,</span><span class="s2">&quot;UnethicalLifeProTips&quot;</span><span class="p">)</span>
-    <span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title_read</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>   
+    <span class="n">proba_lpt</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Z_test</span><span class="p">)[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">proba_lpt</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">title_read</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">score</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;proba_lpt&#39;</span><span class="p">,</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s2">&quot;num_comments&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">])</span>   
     <span class="n">wrong</span> <span class="o">=</span> <span class="n">final</span><span class="p">[</span><span class="n">final</span><span class="o">.</span><span class="n">prediction</span><span class="o">!=</span><span class="n">final</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> 
     <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">wrong</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
@@ -324,6 +340,7 @@
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -331,20 +348,22 @@
   </thead>
   <tbody>
     <tr>
-      <th>252</th>
-      <td>UnethicalLifeProTips</td>
+      <th>400</th>
       <td>LifeProTips</td>
-      <td>If you are a parent, record a video message for your children even if you're perfectly healthy.</td>
-      <td>824</td>
-      <td>11279</td>
+      <td>UnethicalLifeProTips</td>
+      <td>0.939449</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
     </tr>
     <tr>
-      <th>191</th>
-      <td>LifeProTips</td>
+      <th>367</th>
       <td>UnethicalLifeProTips</td>
-      <td>Own two guns. A nice one, registered, and a shitty unregistered handgun</td>
-      <td>1169</td>
-      <td>7145</td>
+      <td>LifeProTips</td>
+      <td>0.456397</td>
+      <td>People want someone to tell them what to do in emergency situations. For example while performing CPR on someone don't say "Someone call an ambulance" instead talk to one person and ask him/her to call an ambulance directly.</td>
+      <td>706</td>
+      <td>20378</td>
     </tr>
   </tbody>
 </table>
@@ -534,6 +553,7 @@ Words that occur often in one document but don't occur in many documents are imp
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -541,20 +561,22 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>435</th>
+      <th>223</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
-      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
-      <td>637</td>
-      <td>20447</td>
+      <td>0.65</td>
+      <td>If you?re driving next to a cop with drugs in your car and are trying to act normal, pick your nose. Your body language shows you aren?t concerned with anyone around you. The last thing you?d ever do if you were paranoid about a cop next to you is pick you nose.</td>
+      <td>654</td>
+      <td>24883</td>
     </tr>
     <tr>
-      <th>241</th>
+      <th>371</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Always be gracious when friends or classmates get jobs you both applied to, they might be in a position to hire you in the future</td>
-      <td>522</td>
-      <td>17866</td>
+      <td>0.13</td>
+      <td>Found a useful Youtube video but no time to watch all of it? Click on the three circles underneath the video and hit 'Open transcript'.</td>
+      <td>260</td>
+      <td>10747</td>
     </tr>
   </tbody>
 </table>
@@ -604,20 +626,20 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>142</th>
-      <td>LifeProTips</td>
+      <th>186</th>
       <td>UnethicalLifeProTips</td>
-      <td>Server ignoring you hardcore when you?re trying to get your check and pay the bill? Drop a glass/plate onto the floor, the shattering glass will bring them to your table instantly.</td>
-      <td>405</td>
-      <td>9678</td>
+      <td>LifeProTips</td>
+      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
+      <td>616</td>
+      <td>25459</td>
     </tr>
     <tr>
-      <th>183</th>
+      <th>63</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>when making rice, just throw some broccoli on top when there is like 10mins left, it'll be perfectly steamed at the end and is a super easy way to add some nutrition with virtually zero extra work!</td>
-      <td>1435</td>
-      <td>18783</td>
+      <td>Shipping boxes for the Holiday Season</td>
+      <td>662</td>
+      <td>11521</td>
     </tr>
   </tbody>
 </table>
@@ -656,7 +678,7 @@ Words that occur often in one document but don't occur in many documents are imp
 <span class="n">target_train</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">target_test</span> <span class="o">=</span> <span class="n">my_tuple</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 
-<span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">())</span>
+<span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 </pre></div>
 
 
@@ -674,6 +696,7 @@ Words that occur often in one document but don't occur in many documents are imp
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -681,20 +704,22 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>337</th>
+      <th>388</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.</td>
-      <td>779</td>
-      <td>17594</td>
+      <td>0.36</td>
+      <td>If you accidentally clicked "Don't Save" when closing a MS Word document, you can manually recover it by going to go to File&amp;gt;Info&amp;gt;Manage Versions&amp;gt;Recover Unsaved Documents</td>
+      <td>315</td>
+      <td>23711</td>
     </tr>
     <tr>
-      <th>368</th>
+      <th>321</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!</td>
-      <td>715</td>
-      <td>18413</td>
+      <td>0.33</td>
+      <td>after a family member gets married, keep the list of things that they registered for but didn’t get and use it for birthday and Christmas presents. It will save you time wondering what they want especially if they’re difficult to shop for.</td>
+      <td>365</td>
+      <td>21039</td>
     </tr>
   </tbody>
 </table>
@@ -716,12 +741,12 @@ Words that occur often in one document but don't occur in many documents are imp
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">results</span><span class="p">(</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span><span class="n">probability</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span> Training accuracy: 0.9986043265875785
- Test accuracy: 0.9016736401673641
+<div class="highlight"><pre><span></span> Training accuracy: 1.0
+ Test accuracy: 0.9037656903765691
 </pre></div>
 
 
@@ -731,6 +756,7 @@ Words that occur often in one document but don't occur in many documents are imp
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -738,20 +764,22 @@ Words that occur often in one document but don't occur in many documents are imp
   </thead>
   <tbody>
     <tr>
-      <th>435</th>
+      <th>419</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
-      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
-      <td>637</td>
-      <td>20447</td>
+      <td>0.70</td>
+      <td>If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.</td>
+      <td>469</td>
+      <td>18511</td>
     </tr>
     <tr>
-      <th>84</th>
-      <td>UnethicalLifeProTips</td>
+      <th>454</th>
       <td>LifeProTips</td>
-      <td>; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.</td>
-      <td>250</td>
-      <td>19586</td>
+      <td>UnethicalLifeProTips</td>
+      <td>0.97</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
     </tr>
   </tbody>
 </table>
@@ -789,7 +817,7 @@ Words that occur often in one document but don't occur in many documents are imp
 
 <tr>
 <td><b>Support Vector Machines </b></td>
-<td> 0.920 </td>
+<td> 0.999 </td>
 <td> 0.903 </td>
 </tr>   
 
