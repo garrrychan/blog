@@ -262,7 +262,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <li>Generated 20,000 samples from the posterior distribution (20,000 samples / chain / core)</li>
 </ul>
 <p>Because this algorithm needs to converge, we set a number of tuning steps (1,000) to occur first and where the algorithm should "start exploring." It's good to see the Markov Chains overlap, which suggests convergence.</p>
-<p><img src="/images/trace.svg" class="img-responsive"></p>
+<p><img src="images/trace.svg" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">burned_trace</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)[[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_97.5&#39;</span><span class="p">]]</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
