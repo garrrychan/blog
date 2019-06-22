@@ -22,6 +22,8 @@ Let's collect posts (web scrap) from 2 subreddits, and create a machine learning
 
 If you're feeling lucky, visit my app for a [Life Pro Tip](https://nlp-reddit-garry.herokuapp.com)!
 
+<img src='images/nlp.png' class='img-responsive'>
+
 ---
 
 ### Reddit API 
@@ -127,22 +129,22 @@ HTML(df.sample(2).to_html(classes="table table-responsive table-striped table-bo
   </thead>
   <tbody>
     <tr>
-      <th>1002</th>
-      <td>socialist111</td>
-      <td>t3_abeced</td>
-      <td>503</td>
-      <td>24466</td>
-      <td>UnethicalLifeProTips</td>
-      <td>ULPT: Give fake money to homeless people. They will thank you for it, but also when they get arrested and taken to jail, it?ll reduce the number of homeless people in your area.</td>
+      <th>131</th>
+      <td>cmplctdsmplcty</td>
+      <td>t3_8t9pd6</td>
+      <td>1582</td>
+      <td>43772</td>
+      <td>LifeProTips</td>
+      <td>LPT: If a friend is buying you lunch and you are wondering what price or how much is okay, ask him what he recommends.</td>
     </tr>
     <tr>
-      <th>1375</th>
-      <td>Aukliminu</td>
-      <td>t3_ab4d3d</td>
-      <td>199</td>
-      <td>7180</td>
-      <td>UnethicalLifeProTips</td>
-      <td>ULPT: Leave bad Amazon reviews on items you buy or any applicable cheap knockoff brands. They might pay you to delete the review.</td>
+      <th>641</th>
+      <td>j0be</td>
+      <td>t3_38d5tt</td>
+      <td>982</td>
+      <td>17099</td>
+      <td>LifeProTips</td>
+      <td>LPT: Testing a battery life</td>
     </tr>
   </tbody>
 </table>
@@ -268,7 +270,8 @@ def results(model):
     print(f' Test accuracy: {model.score(Z_test, target_test)}')
     predictions = model.predict(Z_test)
     predictions = np.where(predictions==0,"LifeProTips","UnethicalLifeProTips")
-    final = pd.DataFrame(list(zip(predictions, y_test, X_test.title_read, X_test.num_comments, X_test.score)), columns=['prediction', 'label', 'title', "num_comments", "score"])   
+    proba_lpt = model.predict_proba(Z_test)[:,0]
+    final = pd.DataFrame(list(zip(predictions, y_test, proba_lpt, X_test.title_read, X_test.num_comments, X_test.score)), columns=['prediction', 'label', 'proba_lpt','title', "num_comments", "score"])   
     wrong = final[final.prediction!=final.label] 
     return HTML(wrong.sample(2).to_html(classes="table table-responsive table-striped table-bordered"))
 ```
@@ -291,6 +294,7 @@ results(LogisticRegression())
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -298,20 +302,22 @@ results(LogisticRegression())
   </thead>
   <tbody>
     <tr>
-      <th>252</th>
-      <td>UnethicalLifeProTips</td>
+      <th>400</th>
       <td>LifeProTips</td>
-      <td>If you are a parent, record a video message for your children even if you're perfectly healthy.</td>
-      <td>824</td>
-      <td>11279</td>
+      <td>UnethicalLifeProTips</td>
+      <td>0.939449</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
     </tr>
     <tr>
-      <th>191</th>
-      <td>LifeProTips</td>
+      <th>367</th>
       <td>UnethicalLifeProTips</td>
-      <td>Own two guns. A nice one, registered, and a shitty unregistered handgun</td>
-      <td>1169</td>
-      <td>7145</td>
+      <td>LifeProTips</td>
+      <td>0.456397</td>
+      <td>People want someone to tell them what to do in emergency situations. For example while performing CPR on someone don't say "Someone call an ambulance" instead talk to one person and ask him/her to call an ambulance directly.</td>
+      <td>706</td>
+      <td>20378</td>
     </tr>
   </tbody>
 </table>
@@ -531,6 +537,7 @@ results(LogisticRegression())
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -538,20 +545,22 @@ results(LogisticRegression())
   </thead>
   <tbody>
     <tr>
-      <th>435</th>
+      <th>223</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
-      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
-      <td>637</td>
-      <td>20447</td>
+      <td>0.65</td>
+      <td>If you?re driving next to a cop with drugs in your car and are trying to act normal, pick your nose. Your body language shows you aren?t concerned with anyone around you. The last thing you?d ever do if you were paranoid about a cop next to you is pick you nose.</td>
+      <td>654</td>
+      <td>24883</td>
     </tr>
     <tr>
-      <th>241</th>
+      <th>371</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Always be gracious when friends or classmates get jobs you both applied to, they might be in a position to hire you in the future</td>
-      <td>522</td>
-      <td>17866</td>
+      <td>0.13</td>
+      <td>Found a useful Youtube video but no time to watch all of it? Click on the three circles underneath the video and hit 'Open transcript'.</td>
+      <td>260</td>
+      <td>10747</td>
     </tr>
   </tbody>
 </table>
@@ -610,20 +619,20 @@ HTML(wrong.sample(2).to_html(classes="table table-responsive table-striped table
   </thead>
   <tbody>
     <tr>
-      <th>142</th>
-      <td>LifeProTips</td>
+      <th>186</th>
       <td>UnethicalLifeProTips</td>
-      <td>Server ignoring you hardcore when you?re trying to get your check and pay the bill? Drop a glass/plate onto the floor, the shattering glass will bring them to your table instantly.</td>
-      <td>405</td>
-      <td>9678</td>
+      <td>LifeProTips</td>
+      <td>If you want people to leave you alone while you are traveling, just wear a surgical mask and people will give you plenty of space.</td>
+      <td>616</td>
+      <td>25459</td>
     </tr>
     <tr>
-      <th>183</th>
+      <th>63</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>when making rice, just throw some broccoli on top when there is like 10mins left, it'll be perfectly steamed at the end and is a super easy way to add some nutrition with virtually zero extra work!</td>
-      <td>1435</td>
-      <td>18783</td>
+      <td>Shipping boxes for the Holiday Season</td>
+      <td>662</td>
+      <td>11521</td>
     </tr>
   </tbody>
 </table>
@@ -667,7 +676,7 @@ Z_test = my_tuple[1]
 target_train = my_tuple[2]
 target_test = my_tuple[3]
 
-results(svm.SVC())
+results(svm.SVC(probability=True))
 ```
 
      Training set learned 5104 distinct vocabulary
@@ -686,6 +695,7 @@ results(svm.SVC())
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -693,20 +703,22 @@ results(svm.SVC())
   </thead>
   <tbody>
     <tr>
-      <th>337</th>
+      <th>388</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>When taking apart a vehicle to work on it, take pics of ALL the screws and hardware in its original location. It will prevent ending up with hardware left over when it's all back together.</td>
-      <td>779</td>
-      <td>17594</td>
+      <td>0.36</td>
+      <td>If you accidentally clicked "Don't Save" when closing a MS Word document, you can manually recover it by going to go to File&amp;gt;Info&amp;gt;Manage Versions&amp;gt;Recover Unsaved Documents</td>
+      <td>315</td>
+      <td>23711</td>
     </tr>
     <tr>
-      <th>368</th>
+      <th>321</th>
       <td>UnethicalLifeProTips</td>
       <td>LifeProTips</td>
-      <td>Before checking in at the airport, take a photograph of your luggage. A picture is worth a thousand words if your bags get lost!</td>
-      <td>715</td>
-      <td>18413</td>
+      <td>0.33</td>
+      <td>after a family member gets married, keep the list of things that they registered for but didn’t get and use it for birthday and Christmas presents. It will save you time wondering what they want especially if they’re difficult to shop for.</td>
+      <td>365</td>
+      <td>21039</td>
     </tr>
   </tbody>
 </table>
@@ -732,11 +744,11 @@ print(grid_search.score(Z_test,target_test))
 
 
 ```python
-results(svm.SVC(2,gamma="scale"))
+results(svm.SVC(3,gamma="scale",probability=True))
 ```
 
-     Training accuracy: 0.9986043265875785
-     Test accuracy: 0.9016736401673641
+     Training accuracy: 1.0
+     Test accuracy: 0.9037656903765691
 
 
 
@@ -748,6 +760,7 @@ results(svm.SVC(2,gamma="scale"))
       <th></th>
       <th>prediction</th>
       <th>label</th>
+      <th>proba_lpt</th>
       <th>title</th>
       <th>num_comments</th>
       <th>score</th>
@@ -755,20 +768,22 @@ results(svm.SVC(2,gamma="scale"))
   </thead>
   <tbody>
     <tr>
-      <th>435</th>
+      <th>419</th>
       <td>LifeProTips</td>
       <td>UnethicalLifeProTips</td>
-      <td>Having an affair? Change your lover's contact name in your phone to "Scam Likely," so your primary partner won't question why you're getting so many calls.</td>
-      <td>637</td>
-      <td>20447</td>
+      <td>0.70</td>
+      <td>If you are faking injury make sure you fully commit to the role, be hurt and struggle with simple tasks even when there's no doubt that you aren't being watched. It will help you sell it when people are around and security cameras/wondering eyes can make or break your case.</td>
+      <td>469</td>
+      <td>18511</td>
     </tr>
     <tr>
-      <th>84</th>
-      <td>UnethicalLifeProTips</td>
+      <th>454</th>
       <td>LifeProTips</td>
-      <td>; Occasionally walk up to your immediate supervisor and ask for some constructive criticism. Be specific by asking something like "What could I have done better on the Penske files?". Whatever they say, just respond thank you and walk away.</td>
-      <td>250</td>
-      <td>19586</td>
+      <td>UnethicalLifeProTips</td>
+      <td>0.97</td>
+      <td>As a parent of a baby, smell their diaper. If you DON?T smell poop, say, ?Woah, somebody has a poopy diaper. ? Then take them to the other room and pretend to change them. Then the next time they poop tell your spouse, ?It?s your turn. I changed them last time.?</td>
+      <td>733</td>
+      <td>38948</td>
     </tr>
   </tbody>
 </table>
@@ -809,7 +824,7 @@ Out of the box, SVC is not performant. I have to tune hyperparameters to improve
 
 <tr>
 <td><b>Support Vector Machines </b></td>
-<td> 0.920 </td>
+<td> 0.999 </td>
 <td> 0.903 </td>
 </tr>   
 

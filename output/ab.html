@@ -84,7 +84,7 @@
 <p>Bayesian statistics are an excellent tool to reach for when sample sizes are small, as we can introduce explicit assumptions into the model, when there aren't thousands of observations. </p>
 <hr>
 <h3>Primer on Bayesian Statistics</h3>
-<p><img src="../images/dists.png" class="img-responsive"></p>
+<p><img src="images/dists.png" class="img-responsive"></p>
 <p>$$P\left(model\;|\;data\right) = \frac{P\left(data\;|\;model\right)}{P(data)}\; P\left(model\right)$$</p>
 <p>$$ \text{prior} = P\left(model\right) $$</p>
 <blockquote>
@@ -262,7 +262,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:21&lt;00
 <li>Generated 20,000 samples from the posterior distribution (20,000 samples / chain / core)</li>
 </ul>
 <p>Because this algorithm needs to converge, we set a number of tuning steps (1,000) to occur first and where the algorithm should "start exploring." It's good to see the Markov Chains overlap, which suggests convergence.</p>
-<p><img src="../images/trace.svg" class="img-responsive"></p>
+<p><img src="images/trace.svg" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">burned_trace</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)[[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_2.5&#39;</span><span class="p">,</span> <span class="s1">&#39;hpd_97.5&#39;</span><span class="p">]]</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="s2">&quot;table table-responsive table-striped table-bordered&quot;</span><span class="p">))</span>
 </pre></div>
@@ -457,7 +457,7 @@ Sampling 2 chains: 100%|██████████| 41000/41000 [00:23&lt;00
   </tbody>
 </table>
 
-<p><img src="../images/playoffs.svg" class="img-responsive"></p>
+<p><img src="images/playoffs.svg" class="img-responsive"></p>
 <div class="highlight"><pre><span></span><span class="c1"># Count the number of samples less than 0, i.e. the area under the curve</span>
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Probability that GSW is worse with Kevin Durant in the playoffs: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> \
     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">playoff_delta_samples</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span>

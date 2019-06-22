@@ -15,7 +15,7 @@ Bayesian statistics are an excellent tool to reach for when sample sizes are sma
 
 ### Primer on Bayesian Statistics
 
-<img src="../images/dists.png" class="img-responsive">
+<img src="images/dists.png" class="img-responsive">
 
 $$P\left(model\;|\;data\right) = \frac{P\left(data\;|\;model\right)}{P(data)}\; P\left(model\right)$$
 
@@ -192,7 +192,7 @@ with pm.Model() as model:
 
 Because this algorithm needs to converge, we set a number of tuning steps (1,000) to occur first and where the algorithm should "start exploring." It's good to see the Markov Chains overlap, which suggests convergence.
 
-<img src="../images/trace.svg" class="img-responsive">
+<img src="images/trace.svg" class="img-responsive">
 
 
 ```python
@@ -403,7 +403,7 @@ HTML(df2.to_html(classes="table table-responsive table-striped table-bordered"))
 
 
 
-<img src="../images/playoffs.svg" class="img-responsive">
+<img src="images/playoffs.svg" class="img-responsive">
 
 
 ```python
